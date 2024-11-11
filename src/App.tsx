@@ -1,11 +1,9 @@
 import React from 'react';
-import './App.css';
+import { Dashboard } from './components/shared/Dashborad';
 
 function App() {
   return (
-    <div className="App">
-      Hello
-    </div>
+    <Dashboard></Dashboard>
   );
 }
 
