@@ -1,5 +1,5 @@
 import React from 'react';
-import { SignUp } from './components/shared/SignUp';
+import { SignUp } from './components/pages/SignUp';
 
 function App() {
   return (
