@@ -8,21 +8,21 @@ export const DASHBOARD_SIDEBAR_LINKS = [
 		key: 'dashboard',
 		label: 'Dashboard',
 		path: '/',
-		icon: <FaHome className='size-7' />
+		icon: <FaHome className='size-6' />
 	},
 
 	{
 		key: 'subjects',
 		label: 'Subjects',
 		path: '/subjects',
-		icon: <MdSubject className='size-7' />
+		icon: <MdSubject className='size-6' />
 	},
 
 	{
 		key: 'statistics',
 		label: 'Statistics',
 		path: '/statistics',
-		icon: <VscGraph className='size-7' />
+		icon: <VscGraph className='size-6' />
 	}
 
 ]
