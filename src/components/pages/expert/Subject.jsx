@@ -1,20 +1,19 @@
 import { IoIosAddCircle } from "react-icons/io";
 import { FaAngleDown } from "react-icons/fa6";
 import { NewSubject } from "./NewSubject";
-import { useState, createContext } from "react";
+import { useState, createContext, useEffect } from "react";
+import SubjectService from "../../../services/SubjectService";
 
 export const modalContext = createContext();
 
 export const Subject = () => {
 
     const [showModal, setShowModal] = useState(false);
+    const [subjects, setSubjects] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     const handleButton = () => {
         setShowModal(true);
-    };
-
-    const handleCloseModal = () => {
-        setShowModal(false);
     };
 
     const handleClickOutside = (event) => {
@@ -22,6 +21,23 @@ export const Subject = () => {
             setShowModal(false);
         }
     };
+
+    useEffect(() => {
+        const fetchData = async () => {
+            setLoading(true)
+            try {
+                const response = await SubjectService.getAllSubjects();
+                setSubjects(response.data._embedded.subjects);
+            } catch (err) {
+                console.log(err);
+            }
+
+            setLoading(false)
+        };
+
+        fetchData();
+
+    }, [])
 
     return (
         <div className="flex flex-col h-full bg-white m-8 p-3">
@@ -48,33 +64,23 @@ export const Subject = () => {
                 </div>
             </div>
 
-            <div className="flex p-4 ml-7 gap-x-3 mt-3 mr-3 bg-neutral-200 items-center">
-                <FaAngleDown className="-rotate-90"></FaAngleDown>
-                <div className="font-montserrat font-semibold">IELTS 8.0</div>
-            </div>
+            {!loading && (
+                <div>
+                    {subjects.map((subject) => (
+                        <div key={subject.id} className="flex p-4 ml-7 gap-x-3 mt-3 mr-3 bg-neutral-200 items-center">
+                            <FaAngleDown className="-rotate-90" />  
+                            <div className="font-montserrat font-semibold">
+                                {subject.name} 
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            )}
 
-            <div className="flex p-4 ml-7 gap-x-3 mt-3 mr-3 bg-neutral-200 items-center">
-                <FaAngleDown className="-rotate-90"></FaAngleDown>
-                <div className="font-montserrat font-semibold">SAT 1500</div>
-            </div>
 
-            <div className="flex p-4 ml-7 gap-x-3 mt-3 mr-3 bg-neutral-200 items-center">
-                <FaAngleDown className="-rotate-90"></FaAngleDown>
-                <div className="font-montserrat font-semibold">TOEIC 800</div>
-            </div>
-
-            <div className="flex p-4 ml-7 gap-x-3 mt-3 mr-3 bg-neutral-200 items-center">
-                <FaAngleDown className="-rotate-90"></FaAngleDown>
-                <div className="font-montserrat font-semibold">HSK-6</div>
-            </div>
-
-            <div className="flex p-4 ml-7 gap-x-3 mt-3 mr-3 bg-neutral-200 items-center">
-                <FaAngleDown className="-rotate-90"></FaAngleDown>
-                <div className="font-montserrat font-semibold">JLPT-N2</div>
-            </div>
 
             {showModal && (
-                <modalContext.Provider value={{ showModal, setShowModal }}>
+                <modalContext.Provider value={{ showModal, setShowModal, subjects, setSubjects}}>
                     <div onClick={handleClickOutside} className="absolute inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
                         <NewSubject></NewSubject>
                     </div>

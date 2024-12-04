@@ -7,6 +7,10 @@ export const NewSubject = () => {
 
     const { showModal, setShowModal } = useContext(modalContext);
 
+    const {subjects, setSubjects} = useContext(modalContext);
+
+    const [errorMessage, setErrorMessage] = useState("");
+
     const [subject, setSubject] = useState({
         id: "",
         name: "",
@@ -23,9 +27,18 @@ export const NewSubject = () => {
 
     const saveSubject = (e) => {
         e.preventDefault();
+        
+        if (!subject.name) {
+            setErrorMessage("Subject's name is required.");
+            return;
+        }
+
+        setErrorMessage("");
+
         SubjectService.saveSubject(subject)
             .then((response) => {
-                console.log(response);
+                setSubjects((prevSubjects) => [...prevSubjects, response.data]);
+                setShowModal(false);
             })
             .catch((err) => {
                 console.error(err);
@@ -50,8 +63,14 @@ export const NewSubject = () => {
                 onChange={(e) => handleChange(e)}
                 className="border-2 p-2" />
             </div>
+
+            {errorMessage && (
+                <div className="text-red-500 mt-2 text-sm">{errorMessage}</div>
+            )}
+
+
             <div className="flex justify-end">
-                <button onClick={saveSubject} className="bg-lime-300 py-2 px-4 rounded-lg">Create</button>
+                <button onClick={saveSubject} className="bg-gradient-to-l from-[#2bb486] to-[#076546] py-2 px-4 text-white rounded-lg">Create</button>
             </div>
         </div>
     )
