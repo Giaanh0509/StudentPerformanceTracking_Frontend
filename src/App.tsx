@@ -6,20 +6,21 @@ import { Dashboard } from './components/pages/expert/Dashborad';
 import { Layout } from './components/pages/Layout';
 import { Subject } from './components/pages/expert/Subject';
 import { Statistic } from './components/pages/expert/Statistic';
-
+import { SubjectDetail } from './components/pages/expert/SubjectDetail';
 
 function App() {
   return (
-    <Router> 
+    <Router>
       <Routes>
         <Route path='/' element={<Layout></Layout>} >
           <Route index element={<Dashboard />} />
-          <Route path='subjects' element = {<Subject></Subject>} />
-          <Route path='statistics' element = {<Statistic></Statistic>}/>
+          <Route path='subjects' element={<Subject></Subject>} />
+          <Route path='subjects/:subjectName' element={<SubjectDetail></SubjectDetail>} />
+          <Route path='statistics' element={<Statistic></Statistic>} />
         </Route>
       </Routes>
     </Router>
-    
+
   );
 }
 

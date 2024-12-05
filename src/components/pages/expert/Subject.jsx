@@ -2,6 +2,7 @@ import { IoIosAddCircle } from "react-icons/io";
 import { FaAngleDown } from "react-icons/fa6";
 import { NewSubject } from "./NewSubject";
 import { useState, createContext, useEffect } from "react";
+import { Link } from 'react-router-dom';
 import SubjectService from "../../../services/SubjectService";
 
 export const modalContext = createContext();
@@ -67,12 +68,14 @@ export const Subject = () => {
             {!loading && (
                 <div>
                     {subjects.map((subject) => (
-                        <div key={subject.id} className="flex p-4 ml-7 gap-x-3 mt-3 mr-3 bg-neutral-200 items-center">
-                            <FaAngleDown className="-rotate-90" />  
-                            <div className="font-montserrat font-semibold">
-                                {subject.name} 
+                        <Link to={`/subjects/${subject.name}`}>
+                            <div key={subject.id} className="flex p-4 ml-7 gap-x-3 mt-3 mr-3 bg-neutral-200 items-center">
+                                <FaAngleDown className="-rotate-90" />
+                                <div className="font-montserrat font-semibold">
+                                    {subject.name}
+                                </div>
                             </div>
-                        </div>
+                        </Link>
                     ))}
                 </div>
             )}
@@ -80,7 +83,7 @@ export const Subject = () => {
 
 
             {showModal && (
-                <modalContext.Provider value={{ showModal, setShowModal, subjects, setSubjects}}>
+                <modalContext.Provider value={{ showModal, setShowModal, subjects, setSubjects }}>
                     <div onClick={handleClickOutside} className="absolute inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
                         <NewSubject></NewSubject>
                     </div>
