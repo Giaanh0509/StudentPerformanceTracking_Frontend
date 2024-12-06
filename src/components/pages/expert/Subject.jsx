@@ -68,7 +68,7 @@ export const Subject = () => {
             {!loading && (
                 <div>
                     {subjects.map((subject) => (
-                        <Link to={`/subjects/${subject.name}`}>
+                        <Link to={`/subjects/id=${subject.id}?name=${subject.name}`}>
                             <div key={subject.id} className="flex p-4 ml-7 gap-x-3 mt-3 mr-3 bg-neutral-200 items-center">
                                 <FaAngleDown className="-rotate-90" />
                                 <div className="font-montserrat font-semibold">

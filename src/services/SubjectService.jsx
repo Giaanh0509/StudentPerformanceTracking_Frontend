@@ -11,6 +11,10 @@ class SubjectService {
     getAllSubjects() {
         return axios.get(GET_ALL_SUBJECTS_API_URL);
     }
+
+    getSkills() {
+
+    }
 }
 
 export default new SubjectService();

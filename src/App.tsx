@@ -15,7 +15,7 @@ function App() {
         <Route path='/' element={<Layout></Layout>} >
           <Route index element={<Dashboard />} />
           <Route path='subjects' element={<Subject></Subject>} />
-          <Route path='subjects/:subjectName' element={<SubjectDetail></SubjectDetail>} />
+          <Route path='subjects/:id' element={<SubjectDetail></SubjectDetail>} />
           <Route path='statistics' element={<Statistic></Statistic>} />
         </Route>
       </Routes>
