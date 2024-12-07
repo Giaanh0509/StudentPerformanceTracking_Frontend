@@ -2,6 +2,7 @@ import axios from "axios";
 
 const CREATE_SUBJECT_API_URL = "http://localhost:8080/subjects/new";
 const GET_ALL_SUBJECTS_API_URL = "http://localhost:8080/subjects";
+const GET_BY_ID_SUBJECTS_API_URL = "http://localhost:8080/subjects/get";
 
 class SubjectService {
     saveSubject(subject) {
@@ -12,8 +13,8 @@ class SubjectService {
         return axios.get(GET_ALL_SUBJECTS_API_URL);
     }
 
-    getSkills() {
-
+    getSubjectById(id) {
+        return axios.get(GET_BY_ID_SUBJECTS_API_URL, id);
     }
 }
 

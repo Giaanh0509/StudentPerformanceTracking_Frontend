@@ -5,6 +5,9 @@ import { useEffect, useState, createContext } from "react";
 import { Link } from 'react-router-dom';
 import { FaAngleDown } from "react-icons/fa6";
 import { NewSkill } from './NewSkill';
+import { CiEdit } from "react-icons/ci";
+import SubjectService from "../../../services/SubjectService";
+
 
 export const skillContext = createContext();
 
@@ -13,8 +16,13 @@ export const SubjectDetail = () => {
     const { id } = useParams();
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
-    const name = queryParams.get('name');
     const subjectId = id.split('=')[1];
+    const [subject, setSubject] = useState({
+        id: "",
+        name: "",
+        createDate: ""
+    });
+
 
     const [showModal, setShowModal] = useState(false);
 
@@ -31,6 +39,27 @@ export const SubjectDetail = () => {
         }
     };
 
+    useEffect(() => {
+        const fetchData = async () => {
+            axios.get(`http://localhost:8080/subjects`)
+                .then(response => {
+                    {
+                        response.data._embedded.subjects.map(subject => {
+                            if (subject.id == subjectId) {
+                                setSubject(subject)
+                            }
+                        })
+                    }
+                })
+                .catch(error => {
+                    console.error('There was an error!', error);
+                });
+        };
+
+        fetchData();
+
+    }, [])
+
     const [skills, setSkills] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -41,11 +70,11 @@ export const SubjectDetail = () => {
 
             try {
                 const response = await axios.get(`http://localhost:8080/subjects/${subjectId}/skills`);
-                console.log(response.data._embedded.skills);
                 const skillsData = response.data._embedded?.skills || [];
-                console.log(skillsData);
 
                 const parentSkills = skillsData.filter(skill => skill.parentSkill === null);
+
+                console.log(parentSkills);
 
                 setSkills(parentSkills);
             } catch (error) {
@@ -63,30 +92,32 @@ export const SubjectDetail = () => {
         <div className='flex flex-col h-full bg-white m-8 p-3'>
             <div className="flex">
                 <div className="text-3xl px-8 py-4 font-montserrat font-semibold">
-                    Manage Subject / {name}
+                    Manage Subject / {subject.name}
                 </div>
             </div>
 
             <div className='flex justify-between ml-8 mr-3'>
                 <div className='w-80 h-44 bg-neutral-200 my-5'>
                     <div className='flex flex-col my-3 gap-y-3'>
-                    <div className='flex justify-center text-xl font-bold mb-5'>
-                        Number of uses
-                    </div>
-                    <div className='text-6xl flex justify-center'>
-                        5
-                    </div>
+                        <div className='flex justify-center text-xl font-bold mb-5'>
+                            Number of uses
+                        </div>
+                        <div className='text-6xl flex justify-center'>
+                            5
+                        </div>
                     </div>
                 </div>
 
                 <div className='w-3/5 h-44 bg-neutral-200  my-5 py-3 px-4 gap-y-5'>
-                    <div className='text-xl font-montserrat font-bold mb-3'>Infomation</div>
-                    <div className='flex font-medium justify-between mr-16 mb-3'>
+                    <div className='text-xl flex items-center gap-x-4 font-montserrat font-bold mb-3'>Infomation
+                    <CiEdit />
+                    </div>
+                    <div className='flex font-medium justify-between mr-[75px] mb-3'>
                         <div className='flex gap-x-2'>Name:<div className='text-[#348a6c]'>
-                            {name}
+                            {subject.name}
                         </div></div>
                         <div className='flex gap-x-2'>Create date:
-                            <div className='text-[#348a6c]'>20/11/2024</div></div>
+                            <div className='text-[#348a6c]'>{subject.createDate}</div></div>
                     </div>
 
                     <div className='flex font-medium justify-between mr-16'>Description: IELTS is a globally recognized test that evaluates English language skills in listening, reading, writing, and speaking for academic, immigration, or professional purposes.</div>
@@ -108,17 +139,30 @@ export const SubjectDetail = () => {
             </div>
 
             {!loading && (
-                <div>
-                    {skills.map((skill) => (
-                        <div key={skill.id} className="flex p-4 ml-7 gap-x-3 mt-3 mr-3 bg-neutral-200 items-center">
-                            <FaAngleDown className="-rotate-90" />
-                            <div className="font-montserrat font-semibold">
-                                {skill.name}
+            <div>
+                {skills.map((skill) => (
+                    skill.childrenSkill ? (
+                        <Link to={`/subjects/id=${subjectId}/skills/id=${skill.id}`} key={skill.id}>
+                            <div className="flex p-4 ml-7 gap-x-3 mt-3 mr-3 bg-neutral-200 items-center">
+                                <FaAngleDown className="-rotate-90" />
+                                <div className="font-montserrat font-semibold">
+                                    {skill.name}
+                                </div>
                             </div>
-                        </div>
-                    ))}
-                </div>
-            )}
+                        </Link>
+                    ) : (
+                        <Link to={`/subjects/id=${subjectId}/skills/id=${skill.id}`} key={skill.id}>
+                            <div className="flex p-4 ml-7 gap-x-3 mt-3 mr-3 bg-neutral-200 items-center">
+                                <FaAngleDown className="-rotate-90" />
+                                <div className="font-montserrat font-semibold">
+                                    {skill.name}
+                                </div>
+                            </div>
+                        </Link>
+                    )
+                ))}
+            </div>
+        )}
 
             {showModal && (
                 <skillContext.Provider value={{ subjectId, showModal, setShowModal, skills, setSkills, check, setCheck }}>

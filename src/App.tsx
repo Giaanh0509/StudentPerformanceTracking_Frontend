@@ -7,6 +7,7 @@ import { Layout } from './components/pages/Layout';
 import { Subject } from './components/pages/expert/Subject';
 import { Statistic } from './components/pages/expert/Statistic';
 import { SubjectDetail } from './components/pages/expert/SubjectDetail';
+import { SubSkill } from './components/pages/expert/SubSkill';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route index element={<Dashboard />} />
           <Route path='subjects' element={<Subject></Subject>} />
           <Route path='subjects/:id' element={<SubjectDetail></SubjectDetail>} />
+          <Route path='subjects/:subjectId/skills/:skillId' element={<SubSkill />} />
           <Route path='statistics' element={<Statistic></Statistic>} />
         </Route>
       </Routes>

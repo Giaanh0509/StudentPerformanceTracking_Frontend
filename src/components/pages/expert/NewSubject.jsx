@@ -7,13 +7,14 @@ export const NewSubject = () => {
 
     const { showModal, setShowModal } = useContext(modalContext);
 
-    const {subjects, setSubjects} = useContext(modalContext);
+    const { subjects, setSubjects } = useContext(modalContext);
 
     const [errorMessage, setErrorMessage] = useState("");
 
     const [subject, setSubject] = useState({
         id: "",
         name: "",
+        createDate: ""
     });
 
     const handleCloseModal = () => {
@@ -27,17 +28,27 @@ export const NewSubject = () => {
 
     const saveSubject = (e) => {
         e.preventDefault();
-        
+
         if (!subject.name) {
             setErrorMessage("Subject's name is required.");
             return;
         }
 
+        const currentDate = new Date().toISOString().split('T')[0];
+        const newSubject = {
+            ...subject, 
+            createDate: currentDate
+        };
+
+        console.log(newSubject);
+
         setErrorMessage("");
 
-        SubjectService.saveSubject(subject)
+        SubjectService.saveSubject(newSubject)
             .then((response) => {
-                setSubjects((prevSubjects) => [...prevSubjects, response.data]);
+
+                setSubjects((prevSubjects) => [...prevSubjects, response.data]);  
+                console.log(response.data);              
                 setShowModal(false);
             })
             .catch((err) => {
@@ -45,23 +56,21 @@ export const NewSubject = () => {
             })
     }
 
-    console.log(showModal);
-
     return (
         <div className="flex flex-col gap-y-4 bg-white p-4 rounded-lg w-[750px] h-2/3">
             <div className="flex justify-between">
                 <div className="font-bold text-xl">Create new subject</div>
-                <TiDelete onClick={handleCloseModal} className="size-7"/>
+                <TiDelete onClick={handleCloseModal} className="size-7" />
             </div>
             <div className="border-[1px] border-b-gray-400"></div>
             <div className="flex gap-x-5">
-                Subject's name: 
-                <input 
-                type = "text" 
-                name = "name"
-                value= {subject.name}
-                onChange={(e) => handleChange(e)}
-                className="border-2 p-2" />
+                Name:
+                <input
+                    type="text"
+                    name="name"
+                    value={subject.name}
+                    onChange={(e) => handleChange(e)}
+                    className="border-2 p-2" />
             </div>
 
             {errorMessage && (
