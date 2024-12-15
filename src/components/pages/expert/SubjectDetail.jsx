@@ -6,10 +6,13 @@ import { Link } from 'react-router-dom';
 import { FaAngleDown } from "react-icons/fa6";
 import { NewSkill } from './NewSkill';
 import { CiEdit } from "react-icons/ci";
-import SubjectService from "../../../services/SubjectService";
+import { Indicator } from './Indicator';
+import { selectedSkillContext } from "./selectedSkillContext";
 
 
 export const skillContext = createContext();
+export const indicatorContext = createContext();
+
 
 export const SubjectDetail = () => {
 
@@ -25,17 +28,25 @@ export const SubjectDetail = () => {
 
 
     const [showModal, setShowModal] = useState(false);
+    const [popup, setPopup] = useState(false);
 
     const [check, setCheck] = useState(false);
+
+    const [selectedSkillId, setSelectedSkillId] = useState(null);
 
     const handleButton = () => {
         setShowModal(true);
     };
 
+    const handleSkillClick = (skillId) => {
+        setSelectedSkillId(skillId);
+        setPopup(true);
+    };
 
     const handleClickOutside = (event) => {
         if (event.target === event.currentTarget) {
             setShowModal(false);
+            setPopup(false);
         }
     };
 
@@ -74,8 +85,6 @@ export const SubjectDetail = () => {
 
                 const parentSkills = skillsData.filter(skill => skill.parentSkill === null);
 
-                console.log(parentSkills);
-
                 setSkills(parentSkills);
             } catch (error) {
                 console.log(error);
@@ -87,6 +96,8 @@ export const SubjectDetail = () => {
         fetchData();
 
     }, [check])
+
+    console.log(selectedSkillId);
 
     return (
         <div className='flex flex-col h-full bg-white m-8 p-3'>
@@ -110,7 +121,7 @@ export const SubjectDetail = () => {
 
                 <div className='w-3/5 h-44 bg-neutral-200  my-5 py-3 px-4 gap-y-5'>
                     <div className='text-xl flex items-center gap-x-4 font-montserrat font-bold mb-3'>Infomation
-                    <CiEdit />
+                        <CiEdit />
                     </div>
                     <div className='flex font-medium justify-between mr-[75px] mb-3'>
                         <div className='flex gap-x-2'>Name:<div className='text-[#348a6c]'>
@@ -139,30 +150,36 @@ export const SubjectDetail = () => {
             </div>
 
             {!loading && (
-            <div>
-                {skills.map((skill) => (
-                    skill.childrenSkill ? (
-                        <Link to={`/subjects/id=${subjectId}/skills/id=${skill.id}`} key={skill.id}>
-                            <div className="flex p-4 ml-7 gap-x-3 mt-3 mr-3 bg-neutral-200 items-center">
+                <div>
+                    {skills.map((skill) => (
+                        skill.childrenSkill ? (
+                            <Link to={`/subjects/id=${subjectId}/skills/id=${skill.id}`} key={skill.id}>
+                                <div className="flex p-4 ml-7 gap-x-3 mt-3 mr-3 bg-neutral-200 items-center">
+                                    <FaAngleDown className="-rotate-90" />
+                                    <div className="font-montserrat font-semibold">
+                                        {skill.name}
+                                    </div>
+                                </div>
+                            </Link>
+                        ) : (
+                            <div onClick={() => handleSkillClick(skill.id)} className="flex p-4 ml-7 gap-x-3 mt-3 mr-3 bg-neutral-200 items-center">
                                 <FaAngleDown className="-rotate-90" />
                                 <div className="font-montserrat font-semibold">
                                     {skill.name}
                                 </div>
                             </div>
-                        </Link>
-                    ) : (
-                        <Link to={`/subjects/id=${subjectId}/skills/id=${skill.id}`} key={skill.id}>
-                            <div className="flex p-4 ml-7 gap-x-3 mt-3 mr-3 bg-neutral-200 items-center">
-                                <FaAngleDown className="-rotate-90" />
-                                <div className="font-montserrat font-semibold">
-                                    {skill.name}
-                                </div>
-                            </div>
-                        </Link>
-                    )
-                ))}
-            </div>
-        )}
+                        )
+                    ))}
+                </div>
+            )}
+
+            {popup && (
+                <selectedSkillContext.Provider value={{ selectedSkillId }}>
+                    <div onClick={handleClickOutside} className="absolute inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+                        <Indicator></Indicator>
+                    </div>
+                </selectedSkillContext.Provider>
+            )}
 
             {showModal && (
                 <skillContext.Provider value={{ subjectId, showModal, setShowModal, skills, setSkills, check, setCheck }}>

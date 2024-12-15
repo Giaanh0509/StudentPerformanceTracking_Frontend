@@ -9,6 +9,8 @@ import { FaLinkedin } from "react-icons/fa6";
 import { useState } from "react";
 import UserService from "../../services/UserService";
 import { useNavigate } from 'react-router-dom';
+import { PiUserListBold } from "react-icons/pi";
+
 
 
 
@@ -22,6 +24,7 @@ export const SignUp = () => {
         password: "",
         email: "",
         phoneNumber: "",
+        role: ""
     });
 
     const handleChange = (e) => {
@@ -34,6 +37,7 @@ export const SignUp = () => {
         UserService.saveUser(user)
             .then((response) => {
                 console.log(response);
+                navigate('/signin');
             })
             .catch((err) => {
                 console.error(err);
@@ -70,7 +74,7 @@ export const SignUp = () => {
                         <div className="flex items-center gap-x-2 bg-[#F4F8F5] px-2 py-1">
                             <  RiLockPasswordLine className="size-6 ml-2" />
                             <input
-                                type="text"
+                                type="password"
                                 name="password"
                                 value={user.password}
                                 onChange={(e) => handleChange(e)}
@@ -90,14 +94,19 @@ export const SignUp = () => {
                         </div>
 
                         <div className="flex items-center gap-x-2 bg-[#F4F8F5] px-2 py-1">
-                            <MdLocalPhone className="size-6 ml-2" />
-                            <input
-                                type="text"
-                                name="phoneNumber"
-                                value={user.phoneNumber}
+                            <PiUserListBold className="size-6 ml-2"/>
+                            <select
+                                name="role"
+                                value={user.role}
                                 onChange={(e) => handleChange(e)}
-                                className="p-2 bg-[#F4F8F5] focus:outline-none"
-                                placeholder="PhoneNumber" />
+                                className="p-2  bg-[#F4F8F5] focus:outline-none pr-48"
+                                required
+                            >
+                                <option value="">Select a role</option>
+                                <option value="teacher">Teacher</option>
+                                <option value="learner">Learner</option>
+                                <option value="expert">Expert</option>
+                            </select>
                         </div>
                     </div>
 

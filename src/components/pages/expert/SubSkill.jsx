@@ -1,8 +1,15 @@
-import { useParams, useLocation } from 'react-router-dom';
+import { useParams, useLocation, Link } from 'react-router-dom';
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, createContext } from "react";
 import { FaAngleDown } from "react-icons/fa6";
+import { IoIosAddCircle } from "react-icons/io";
+import { NewSkill } from './NewSkill';
+import { NewSubSkill } from './NewSubSkill';
+import { Indicator } from './Indicator';
+import { selectedSkillContext } from "./selectedSkillContext";
 
+export const subSkillContext = createContext();
+export const indicatorSubSkillContext = createContext();
 
 
 export const SubSkill = () => {
@@ -16,6 +23,41 @@ export const SubSkill = () => {
     const [subSkills, setSubSkills] = useState([]);
 
     const [loading, setLoading] = useState(true);
+
+    const [popup, setPopup] = useState(false);
+    const [selectedSkillId, setSelectedSkillId] = useState(null);
+
+    const [showModal, setShowModal] = useState(false);
+
+    const [skills, setSkills] = useState([]);
+
+    const [check, setCheck] = useState(false);
+
+    const handleButton = () => {
+        setShowModal(true);
+    };
+
+    const handleSkillClick = (skillId) => {
+        setSelectedSkillId(skillId);
+        setPopup(true);
+    };
+
+    const handleClickOutside = (event) => {
+        if (event.target === event.currentTarget) {
+            setShowModal(false);
+            setPopup(false);
+        }
+    };
+
+    const [skill, setSkill] = useState({
+        id: "",
+        name: "",
+        description: "",
+        formula: "",
+        createDate: "",
+        subjectId: subId,
+        children: "true"
+    });
 
 
     useEffect(() => {
@@ -68,12 +110,12 @@ export const SubSkill = () => {
                     console.error('There was an error!', error);
                 });
 
-                setLoading(false)
+            setLoading(false)
         };
 
         fetchData();
 
-    }, [])
+    }, [check])
 
 
     return (
@@ -84,20 +126,59 @@ export const SubSkill = () => {
                 </div>
             </div>
 
+            <div className="flex justify-between mb-3">
+                <div className="mt-3 ml-8">
+                    <input className="border-[1px] p-2 rounded-lg w-80 border-[#7fa195]" type="text" placeholder="Search for subskil" />
+                </div>
+                <div className="flex items-center gap-x-2 p-2 bg-gradient-to-t rounded-lg from-[#8dbaaa] to-[#14ce90] m-3 text-white">
+                    <IoIosAddCircle className="size-5" />
+                    <button onClick={handleButton} className="text-base font-montserrat font-medium">
+                        Create New SubSkill
+                    </button>
+                </div>
+            </div>
+
             {!loading && (
                 <div>
                     {subSkills.map((skill) => (
-                            <div key={skill.id} className="flex p-4 ml-7 gap-x-3 mt-3 mr-3 bg-neutral-200 items-center">
+                        skill.childrenSkill ? (
+                            <Link to={`/subjects/id=${subId}/skills/id=${skId}/subskills/id=${skill.id}`} key={skill.id}>
+                                <div key={skill.id} className="flex p-4 ml-7 gap-x-3 mt-3 mr-3 bg-neutral-200 items-center">
+                                    <FaAngleDown className="-rotate-90" />
+                                    <div className="font-montserrat font-semibold">
+                                        {skill.name}
+                                    </div>
+                                </div>
+                            </Link>
+                        ) : (
+                            <div key={skill.id} onClick={() => handleSkillClick(skill.id)} className="flex p-4 ml-7 gap-x-3 mt-3 mr-3 bg-neutral-200 items-center">
                                 <FaAngleDown className="-rotate-90" />
                                 <div className="font-montserrat font-semibold">
-                                    {skill.name}
+                                    Khong co
                                 </div>
                             </div>
+                        )
                     ))}
                 </div>
             )}
+
+            {popup && (
+                <selectedSkillContext.Provider value={{ selectedSkillId }}>
+                    <div onClick={handleClickOutside} className="absolute inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+                        <Indicator></Indicator>
+                    </div>
+                </selectedSkillContext.Provider>
+            )}
+
+            {showModal && (
+                <subSkillContext.Provider value={{ subId, skId, showModal, setShowModal, skills, setSkills, check, setCheck }}>
+                    <div onClick={handleClickOutside} className="absolute inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+                        <NewSubSkill></NewSubSkill>
+                    </div>
+                </subSkillContext.Provider>
+            )}
         </div>
 
-        
+
     )
 }

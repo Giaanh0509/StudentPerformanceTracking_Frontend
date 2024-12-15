@@ -8,18 +8,14 @@ import { Subject } from './components/pages/expert/Subject';
 import { Statistic } from './components/pages/expert/Statistic';
 import { SubjectDetail } from './components/pages/expert/SubjectDetail';
 import { SubSkill } from './components/pages/expert/SubSkill';
+import { SubSubSkill } from './components/pages/expert/SubSubSkill';
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path='/' element={<Layout></Layout>} >
-          <Route index element={<Dashboard />} />
-          <Route path='subjects' element={<Subject></Subject>} />
-          <Route path='subjects/:id' element={<SubjectDetail></SubjectDetail>} />
-          <Route path='subjects/:subjectId/skills/:skillId' element={<SubSkill />} />
-          <Route path='statistics' element={<Statistic></Statistic>} />
-        </Route>
+          <Route path='signin' element={<Login></Login>} />
+          <Route path='signup' element={<SignUp></SignUp>} />
       </Routes>
     </Router>
 

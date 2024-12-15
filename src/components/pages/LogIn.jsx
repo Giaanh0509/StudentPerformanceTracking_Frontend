@@ -4,10 +4,36 @@ import { FaSquareXTwitter } from "react-icons/fa6";
 import { FaSquareFacebook } from "react-icons/fa6";
 import { FaLinkedin } from "react-icons/fa6";
 import { useNavigate } from 'react-router-dom';
+import axios from "axios";
+import { useState } from "react";
 
 
 export const Login = () => {
     const navigate = useNavigate();
+    const [user, setUser] = useState({
+        username: "",
+        password: "",
+    });
+
+    const handleChange = (e) => {
+        const value = e.target.value;
+        setUser({ ...user, [e.target.name]: value });
+    }
+
+    const handleLogin = (e) => {
+        e.preventDefault();
+    
+        axios.post('http://localhost:8080/sessions/login', user)
+            .then((response) => {
+                const token = response.data.token;
+                console.log(response.data);
+                localStorage.setItem('token', token);
+                navigate('/dashboard'); 
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    };
 
     return (
         <div className="w-full h-screen flex items-center justify-center bg-[#F0F4F3]">
@@ -29,6 +55,9 @@ export const Login = () => {
                             <FaRegUser className="size-5 ml-2" />
                             <input
                                 type="text"
+                                name = "username"
+                                value={user.username}
+                                onChange={(e) => handleChange(e)}
                                 className="p-2 bg-[#F4F8F5] focus:outline-none"
                                 placeholder="Username" />
                         </div>
@@ -36,7 +65,10 @@ export const Login = () => {
                         <div className="flex items-center gap-x-2 bg-[#F4F8F5] px-2 py-1">
                             <  RiLockPasswordLine className="size-6 ml-2" />
                             <input
-                                type="text"
+                                type="password"
+                                name = "password"
+                                value={user.password}
+                                onChange={(e) => handleChange(e)}
                                 className="p-2 bg-[#F4F8F5] focus:outline-none"
                                 placeholder="Password" />
                         </div>
@@ -45,7 +77,7 @@ export const Login = () => {
                     <div className="text-base mt-4">Forgot your password?</div>
 
                     <div className="text-white bg-[#1dcc92] py-3 px-20 rounded-full mt-2 hover:bg-[#08ae77] font-semibold">
-                        <button>SIGN IN</button>
+                        <button onClick={handleLogin}>SIGN IN</button>
                     </div>
 
                 </div>

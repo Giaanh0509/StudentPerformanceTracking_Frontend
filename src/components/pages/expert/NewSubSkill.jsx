@@ -1,15 +1,17 @@
 import { useContext, useState } from "react";
 import { TiDelete } from "react-icons/ti";
-import { skillContext } from "./SubjectDetail";
 import SkillService from "../../../services/SkillService";
 import IndicatorService from "../../../services/IndicatorService";
+import { subSkillContext } from "./SubSkill";
 
-export const NewSkill = () => {
+export const NewSubSkill = () => {
 
-    const { subjectId } = useContext(skillContext);
-    const { showModal, setShowModal } = useContext(skillContext);
-    const { skills, setSkills } = useContext(skillContext);
-    const { check, setCheck } = useContext(skillContext);
+    const { subId } = useContext(subSkillContext);
+    const { skId } = useContext(subSkillContext);
+
+    const { showModal, setShowModal } = useContext(subSkillContext);
+    const { skills, setSkills } = useContext(subSkillContext);
+    const { check, setCheck } = useContext(subSkillContext);
 
     const [skill, setSkill] = useState({
         id: "",
@@ -17,8 +19,8 @@ export const NewSkill = () => {
         description: "",
         formula: "",
         createDate: "",
-        subjectId: subjectId,
-        parentSkillId: "",
+        subjectId: subId,
+        parentSkillId: skId,
         children: "true"
     });
 
@@ -62,8 +64,6 @@ export const NewSkill = () => {
             .then((response) => {
                 const createdSkill = response.data;  
                 const newSkillId = createdSkill.id;
-
-                console.log(response.data);
                 
                 setCheck(true);
 
@@ -90,6 +90,7 @@ export const NewSkill = () => {
             .catch((err) => {
                 console.error(err);
             })
+
 
     }
 
