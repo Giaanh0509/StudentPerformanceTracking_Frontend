@@ -7,21 +7,21 @@ export const DASHBOARD_SIDEBAR_LINKS = [
 	{
 		key: 'dashboard',
 		label: 'Dashboard',
-		path: '/',
+		path: '/admin',
 		icon: <FaHome className='size-6' />
 	},
 
 	{
 		key: 'subjects',
 		label: 'Subjects',
-		path: '/subjects',
+		path: '/admin/subjects',
 		icon: <MdSubject className='size-6' />
 	},
 
 	{
 		key: 'statistics',
 		label: 'Statistics',
-		path: '/statistics',
+		path: '/admin/statistics',
 		icon: <VscGraph className='size-6' />
 	}
 

@@ -25,10 +25,14 @@ export const Login = () => {
     
         axios.post('http://localhost:8080/sessions/login', user)
             .then((response) => {
-                const token = response.data.token;
-                console.log(response.data);
-                localStorage.setItem('token', token);
-                navigate('/dashboard'); 
+                const authenticated = response.data.authenticated;
+                const userLoginDTO = response.data.userLoginDTO;
+                
+                localStorage.setItem('authenticated', authenticated);
+                localStorage.setItem('userLoginDTO', JSON.stringify(userLoginDTO));
+
+                console.log(userLoginDTO);
+                navigate('/admin');
             })
             .catch((error) => {
                 console.error(error);

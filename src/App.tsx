@@ -9,13 +9,23 @@ import { Statistic } from './components/pages/expert/Statistic';
 import { SubjectDetail } from './components/pages/expert/SubjectDetail';
 import { SubSkill } from './components/pages/expert/SubSkill';
 import { SubSubSkill } from './components/pages/expert/SubSubSkill';
+import PrivateRoute from './components/pages/expert/PrivateRoute';
 
 function App() {
   return (
     <Router>
       <Routes>
-          <Route path='signin' element={<Login></Login>} />
-          <Route path='signup' element={<SignUp></SignUp>} />
+        <Route path='signin' element={<Login></Login>} />
+        <Route path='signup' element={<SignUp></SignUp>} />
+        <Route path="/admin" element={<PrivateRoute><Layout /></PrivateRoute>}>
+          <Route index element={<Dashboard />} />
+          <Route path="subjects" element={<Subject />} />
+          <Route path="subjects/:id" element={<SubjectDetail />} />
+          <Route path="subjects/:subjectId/skills/:skillId" element={<SubSkill />} />
+          <Route path="subjects/:subjectId/skills/:skillId/subskills/:subSkillId" element={<SubSubSkill />} />
+          <Route path="statistics" element={<Statistic />} />
+        </Route>
+
       </Routes>
     </Router>
 

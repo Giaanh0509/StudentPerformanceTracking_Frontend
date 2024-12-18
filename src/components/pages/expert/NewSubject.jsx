@@ -1,5 +1,5 @@
 import { TiDelete } from "react-icons/ti";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { modalContext } from "./Subject"
 import SubjectService from "../../../services/SubjectService";
 
@@ -14,7 +14,8 @@ export const NewSubject = () => {
     const [subject, setSubject] = useState({
         id: "",
         name: "",
-        createDate: ""
+        createDate: "",
+        userId: ""
     });
 
     const handleCloseModal = () => {
@@ -25,6 +26,21 @@ export const NewSubject = () => {
         const value = e.target.value;
         setSubject({ ...subject, [e.target.name]: value });
     }
+
+    useEffect(() => {
+        const userLoginDTO = localStorage.getItem('userLoginDTO');
+        if (userLoginDTO) {
+            try {
+                const user = JSON.parse(userLoginDTO);
+                setSubject((prevSubject) => ({
+                    ...prevSubject,
+                    userId: user.id
+                }));
+            } catch (error) {
+                console.error("Error parsing userLoginDTO from localStorage:", error);
+            }
+        }
+    }, []);
 
     const saveSubject = (e) => {
         e.preventDefault();

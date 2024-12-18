@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState } from 'react';
-import { DASHBOARD_SIDEBAR_LINKS } from '../../lib/navigation';
+import { DASHBOARD_SIDEBAR_LINKS } from '../../lib/navigationExpert';
 import Logo from "../../assets/logo.png";
 import { Link, useLocation } from 'react-router-dom';
 
@@ -30,7 +30,11 @@ const SideBarLink = ({ SideBar }) => {
   const location = useLocation();
   const pathname = location.pathname;
 
-  const isActive = pathname === SideBar.path || pathname.startsWith(SideBar.path + '/');
+  const isDashboardActive = SideBar.key === 'dashboard' && pathname === '/admin';
+    const isSubjectsActive = SideBar.key === 'subjects' && (pathname === '/admin/subjects' || pathname.startsWith('/admin/subjects/'));
+  const isStatisticsActive = SideBar.key === 'statistics' && pathname === '/admin/statistics';
+
+  const isActive = isDashboardActive || isSubjectsActive || isStatisticsActive;
 
   return (
     <Link
