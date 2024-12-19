@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState } from 'react';
-import { DASHBOARD_SIDEBAR_LINKS } from '../../lib/navigationExpert';
-import Logo from "../../assets/logo.png";
+import { DASHBOARD_SIDEBAR_EXPERT_LINKS } from '../../../lib/navigationExpert';
+import Logo from "../../../assets/logo.png";
 import { Link, useLocation } from 'react-router-dom';
 
 
@@ -16,7 +16,7 @@ export const SideBar = () => {
       </div>
 
       <div className="flex-1 mt-10">
-        {DASHBOARD_SIDEBAR_LINKS.map((SideBar) => (
+        {DASHBOARD_SIDEBAR_EXPERT_LINKS.map((SideBar) => (
           <SideBarLink key={SideBar.key} SideBar={SideBar}>
           </SideBarLink>
         ))}

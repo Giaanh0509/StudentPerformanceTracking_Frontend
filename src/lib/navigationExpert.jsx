@@ -3,7 +3,7 @@ import { MdSubject } from "react-icons/md";
 import { VscGraph } from "react-icons/vsc";
 
 
-export const DASHBOARD_SIDEBAR_LINKS = [
+export const DASHBOARD_SIDEBAR_EXPERT_LINKS = [
 	{
 		key: 'dashboard',
 		label: 'Dashboard',
