@@ -1,17 +1,18 @@
 import { useState, useContext, useEffect } from "react";
 import StudentService from "../../../services/StudentService";
 import { TiDelete } from "react-icons/ti";
-import { modalContext } from "./Student"
+import { modalContext } from "./Group"
+import GroupService from "../../../services/GroupService";
 
-export const NewStudent = () => {
+export const NewGroup = () => {
 
     const { showModal, setShowModal } = useContext(modalContext);
-    const { students, setStudents } = useContext(modalContext);
+    const { groups, setGroups } = useContext(modalContext);
 
-
-    const [student, setStudent] = useState({
+    const [group, setGroup] = useState({
         id: "",
         name: "",
+        description: "",
         userId: ""
     });
 
@@ -21,7 +22,7 @@ export const NewStudent = () => {
 
     const handleChange = (e) => {
         const value = e.target.value;
-        setStudent({ ...student, [e.target.name]: value });
+        setGroup({ ...group, [e.target.name]: value });
     }
 
     useEffect(() => {
@@ -29,8 +30,8 @@ export const NewStudent = () => {
         if (userLoginDTO) {
             try {
                 const user = JSON.parse(userLoginDTO);
-                setStudent((prevStudent) => ({
-                    ...prevStudent,
+                setGroup((prevGroup) => ({
+                    ...prevGroup,
                     userId: user.id
                 }));
             } catch (error) {
@@ -39,12 +40,12 @@ export const NewStudent = () => {
         }
     }, []);
 
-    const saveStudent = (e) => {
+    const saveGroup = (e) => {
         e.preventDefault();
     
-        StudentService.saveStudent(student)
+        GroupService.saveGroup(group)
             .then((response) => {
-                setStudents((prevStudents) => [...prevStudents, response.data]);  
+                setGroups((prevGroups) => [...prevGroups, response.data]);  
                 setShowModal(false);
             })
             .catch((err) => {
@@ -56,22 +57,32 @@ export const NewStudent = () => {
         <div>
             <div className="flex flex-col gap-y-4 bg-white p-4 rounded-lg w-[750px] h-2/3">
                 <div className="flex justify-between">
-                    <div className="font-bold text-xl">Create new student</div>
+                    <div className="font-bold text-xl">Create new group</div>
                     <TiDelete onClick={handleCloseModal} className="size-7" />
                 </div>
                 <div className="border-[1px] border-b-gray-400"></div>
-                <div className="flex gap-x-5">
+                <div className="flex justify-between gap-x-5">
                     Name:
                     <input
                         type="text"
                         name="name"
-                        value={student.name}
+                        value={group.name}
                         onChange={(e) => handleChange(e)}
-                        className="border-2 p-2" />
+                        className="border-2 p-2 w-80 mr-64" />
+                </div>
+
+                <div className="flex justify-between gap-x-5">
+                    Decription:
+                    <input
+                        type="text"
+                        name="description"
+                        value={group.description}
+                        onChange={(e) => handleChange(e)}
+                        className="border-2 p-2 w-80 mr-64" />
                 </div>
 
                 <div className="flex justify-end">
-                    <button onClick={saveStudent} className="bg-gradient-to-l from-[#4df1bb] to-[#1c8764] py-2 px-4 rounded-lg">Create</button>
+                    <button onClick={saveGroup} className="bg-gradient-to-l from-[#4df1bb] to-[#1c8764] py-2 px-4 rounded-lg">Create</button>
                 </div>
             </div>
         </div>
