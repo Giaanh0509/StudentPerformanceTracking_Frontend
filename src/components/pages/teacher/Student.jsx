@@ -50,7 +50,7 @@ export const Student = () => {
             if(userInfo.id != 0) {
                 setLoading(true);
 
-                axios.get(`http://localhost:8080/students/userId=${userInfo.id}`)
+                axios.get(`http://localhost:8080/groupsStudents/groupId=${id}`)
                 .then(response => {
                     {  
                        const fetchedSubjects = response.data || [];
@@ -111,7 +111,7 @@ export const Student = () => {
             )}
 
             {showModal && (
-                <modalContext.Provider value={{showModal, setShowModal, students, setStudents}}>
+                <modalContext.Provider value={{showModal, setShowModal, students, setStudents, id}}>
                     <div onClick={handleClickOutside} className="absolute inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
                         <NewStudent></NewStudent>
                     </div>

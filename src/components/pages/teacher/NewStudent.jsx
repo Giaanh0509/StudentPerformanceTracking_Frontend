@@ -1,19 +1,30 @@
 import { useState, useContext, useEffect } from "react";
 import StudentService from "../../../services/StudentService";
 import { TiDelete } from "react-icons/ti";
-import { modalContext } from "./Student"
+import { modalContext } from "./Student";
 
 export const NewStudent = () => {
 
     const { showModal, setShowModal } = useContext(modalContext);
     const { students, setStudents } = useContext(modalContext);
+    const { id } = useContext(modalContext);
 
 
     const [student, setStudent] = useState({
         id: "",
         name: "",
-        userId: ""
+        userId: "",
+        groupId: ""
     });
+
+    useEffect(() => {
+        if (id) {
+            setStudent(prev => ({
+                ...prev,
+                groupId: id
+            }));
+        }
+    }, [id]);
 
     const handleCloseModal = () => {
         setShowModal(false);
