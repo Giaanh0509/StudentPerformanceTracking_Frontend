@@ -4,7 +4,7 @@ import Logo from "../../../assets/logo.png";
 import { Link, useLocation } from 'react-router-dom';
 
 
-export const SideBar = () => {
+export const SideBarTeacher = () => {
 
   return (
     <div className="flex flex-col w-80 p-4 pt-9 duration-300 h-screen bg-gradient-to-b from-[#58f5c0] to-[#048a5e]">
@@ -30,9 +30,9 @@ const SideBarLink = ({ SideBar }) => {
   const location = useLocation();
   const pathname = location.pathname;
 
-  const isDashboardActive = SideBar.key === 'dashboard' && pathname === '/admin';
-    const isSubjectsActive = SideBar.key === 'subjects' && (pathname === '/admin/subjects' || pathname.startsWith('/admin/subjects/'));
-  const isStatisticsActive = SideBar.key === 'statistics' && pathname === '/admin/statistics';
+  const isDashboardActive = SideBar.key === 'dashboard' && pathname === '/teacher';
+  const isSubjectsActive = SideBar.key === 'groups' && (pathname === '/teacher/groups' || pathname.startsWith('/teacher/groups/'));
+  const isStatisticsActive = SideBar.key === 'objectives' && pathname === '/teacher/objectives';
 
   const isActive = isDashboardActive || isSubjectsActive || isStatisticsActive;
 

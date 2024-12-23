@@ -17,6 +17,7 @@ export const Subject = () => {
     const [userInfo, setUserInfo] = useState({
         id: "",
         name: "",
+        roleId: ""
     }  
     );
 

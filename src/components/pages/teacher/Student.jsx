@@ -16,6 +16,7 @@ export const Student = () => {
     const [userInfo, setUserInfo] = useState({
         id: "",
         name: "",
+        roleId: ""
     }  
     );
 

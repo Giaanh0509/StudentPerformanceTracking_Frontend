@@ -16,6 +16,7 @@ export const Group = () => {
     const [userInfo, setUserInfo] = useState({
         id: "",
         name: "",
+        roleId: ""
     }  
     );
 

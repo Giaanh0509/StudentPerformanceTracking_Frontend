@@ -16,14 +16,14 @@ export const DASHBOARD_SIDEBAR_TEACHER_LINKS = [
 	},
 
     {
-		key: 'subjects',
+		key: 'objectives',
 		label: 'Objectives',
 		path: '/teacher/objectives',
 		icon: <GoGoal className='size-6' />
 	},
 
 	{
-		key: 'subjects',
+		key: 'students',
 		label: 'Students',
 		path: '/teacher/students',
 		icon: <PiStudent className='size-6' />

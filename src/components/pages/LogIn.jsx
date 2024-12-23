@@ -31,8 +31,9 @@ export const Login = () => {
                 localStorage.setItem('authenticated', authenticated);
                 localStorage.setItem('userLoginDTO', JSON.stringify(userLoginDTO));
 
-                console.log(userLoginDTO);
-                navigate('/admin');
+                console.log(userLoginDTO.roleId);
+                if(userLoginDTO.roleId == 3) navigate('/admin');
+                    else navigate('/teacher');
             })
             .catch((error) => {
                 console.error(error);

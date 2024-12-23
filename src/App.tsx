@@ -12,6 +12,7 @@ import { SubSubSkill } from './components/pages/expert/SubSubSkill';
 import PrivateRoute from './components/pages/expert/PrivateRoute';
 import { Student } from './components/pages/teacher/Student';
 import { Group } from './components/pages/teacher/Group';
+import { Objectives } from './components/pages/teacher/Objectives';
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
           <Route path="students" element={<Student />} />
           <Route path="groups" element={<Group />} />
           <Route path="groups/:id" element={<Student />} />
+          <Route path="objectives" element={<Objectives />} />
         </Route>
 
       </Routes>
