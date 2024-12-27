@@ -5,6 +5,8 @@ import { useEffect, useState, createContext } from "react";
 import { Link } from 'react-router-dom';
 import { FaAngleDown } from "react-icons/fa6";
 import { CiEdit } from "react-icons/ci";
+import { Indicator } from '../expert/Indicator';
+import { selectedSkillContext } from "../expert/selectedSkillContext";
 
 export const skillContext = createContext();
 export const indicatorContext = createContext();
@@ -23,7 +25,6 @@ export const SubjectDetailTeacher = () => {
         name: "",
         createDate: ""
     });
-
 
     const [showModal, setShowModal] = useState(false);
     const [popup, setPopup] = useState(false);
@@ -98,7 +99,7 @@ export const SubjectDetailTeacher = () => {
     console.log(selectedSkillId);
 
     return (
-        <div className='flex flex-col h-full bg-white m-8 p-3'>
+        <div className='flex flex-col h-full bg-white border-round m-8 p-3'>
             <div className="flex">
                 <div className="text-3xl px-8 py-4 font-montserrat font-semibold">
                     Subjects / {subject.name}
@@ -155,6 +156,14 @@ export const SubjectDetailTeacher = () => {
                         )
                     ))}
                 </div>
+            )}
+
+            {popup && (
+                <selectedSkillContext.Provider value={{ selectedSkillId }}>
+                    <div onClick={handleClickOutside} className="absolute inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+                        <Indicator></Indicator>
+                    </div>
+                </selectedSkillContext.Provider>
             )}
 
             {showModal && (

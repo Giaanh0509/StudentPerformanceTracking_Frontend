@@ -100,9 +100,9 @@ export const SubjectDetail = () => {
     console.log(selectedSkillId);
 
     return (
-        <div className='flex flex-col h-full bg-white m-8 p-3'>
+        <div className='flex flex-col h-full bg-white rounded-xl m-8 p-1'>
             <div className="flex">
-                <div className="text-3xl px-8 py-4 font-montserrat font-semibold">
+                <div className="text-2xl text-[#046b49] px-8 py-4 font-montserrat font-semibold">
                     Manage Subject / {subject.name}
                 </div>
             </div>

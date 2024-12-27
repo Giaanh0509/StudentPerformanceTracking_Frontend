@@ -11,7 +11,6 @@ import { selectedSkillContext } from "./selectedSkillContext";
 export const subSkillContext = createContext();
 export const indicatorSubSkillContext = createContext();
 
-
 export const SubSkill = () => {
     const { subjectId, skillId } = useParams();
 
