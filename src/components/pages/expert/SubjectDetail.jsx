@@ -1,7 +1,7 @@
 import { useParams, useLocation } from 'react-router-dom';
 import { IoIosAddCircle } from "react-icons/io";
 import axios from "axios";
-import { useEffect, useState, createContext } from "react";
+import { useEffect, useState, createContext, useRef } from "react";
 import { Link } from 'react-router-dom';
 import { FaAngleDown } from "react-icons/fa6";
 import { NewSkill } from './NewSkill';
@@ -97,7 +97,13 @@ export const SubjectDetail = () => {
 
     }, [check])
 
-    console.log(selectedSkillId);
+    const listRef = useRef(null);
+
+    useEffect(() => {
+        if (listRef.current) {
+            listRef.current.scrollTop = listRef.current.scrollHeight;
+        }
+    }, [skills]);
 
     return (
         <div className='flex flex-col h-full bg-white rounded-xl m-8 p-1'>
@@ -149,24 +155,71 @@ export const SubjectDetail = () => {
                 </div>
             </div>
 
+            <div className="px-4 py-3 ml-7 gap-x-3 mt-3 mr-3 rounded-md bg-neutral-200 items-center">
+                <div className="grid grid-cols-4 font-montserrat font-bold ">
+                    <div>
+                        Name
+                    </div>
+                    <div>
+                        Fomula
+                    </div>
+                    <div>
+                        ChildrenSkill
+                    </div>
+                    <div>
+                        Create Date
+                    </div>
+                </div>
+            </div>
+
             {!loading && (
-                <div>
+                <div className="skill-list-container">
                     {skills.map((skill) => (
                         skill.childrenSkill ? (
                             <Link to={`/admin/subjects/id=${subjectId}/skills/id=${skill.id}`} key={skill.id}>
-                                <div className="flex p-4 ml-7 gap-x-3 mt-3 mr-3 bg-neutral-200 items-center">
-                                    <FaAngleDown className="-rotate-90" />
-                                    <div className="font-montserrat font-semibold">
+                                <div className="grid grid-cols-4 p-4 ml-7 gap-x-3 mt-3 mr-3 items-center">
+                                    <div className="font-montserrat font-medium">
                                         {skill.name}
                                     </div>
+
+                                    <div className="font-montserrat font-medium">
+                                        {skill.formula}
+                                    </div>
+
+                                    <div className="font-montserrat font-medium">
+                                        {skill.childrenSkill ? "True" : "False"}
+                                    </div>
+
+                                    <div className="font-montserrat font-medium">
+                                        {skill.createDate}
+                                    </div>
+
                                 </div>
+                                <div className="ml-7 gap-x-3 mr-3 border-[1px] border-b-gray-200"></div>
+
                             </Link>
                         ) : (
-                            <div onClick={() => handleSkillClick(skill.id)} className="flex p-4 ml-7 gap-x-3 mt-3 mr-3 bg-neutral-200 items-center">
-                                <FaAngleDown className="-rotate-90" />
-                                <div className="font-montserrat font-semibold">
-                                    {skill.name}
+                            <div>
+                                <div onClick={() => handleSkillClick(skill.id)} className="grid grid-cols-4 p-4 ml-7 gap-x-3 mt-3 mr-3 items-center cursor-pointer">
+                                    <div className="font-montserrat font-medium">
+                                        {skill.name}
+                                    </div>
+
+                                    <div className="font-montserrat font-medium">
+                                        {skill.formula}
+                                    </div>
+
+                                    <div className="font-montserrat font-medium">
+                                        {skill.childrenSkill ? "True" : "False"}
+                                    </div>
+
+                                    <div className="font-montserrat font-medium">
+                                        {skill.createDate}
+                                    </div>
                                 </div>
+
+                                <div className="ml-7 gap-x-3 mr-3 border-[1px] border-b-gray-200"></div>
+
                             </div>
                         )
                     ))}

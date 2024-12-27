@@ -1,0 +1,27 @@
+.skill-list-container {
+    max-height: 300px; /* Chiều cao tối đa của danh sách */
+    overflow-y: auto; /* Hiển thị thanh cuộn dọc */
+    border: 1px solid #ccc; /* Đường viền để phân cách khung */
+    padding: 10px; /* Khoảng cách bên trong */
+    scrollbar-width: thin; /* Firefox: Hiển thị thanh cuộn mỏng */
+    scrollbar-color: #348a6c #f1f1f1; /* Màu thanh cuộn: xanh lá + nền */
+}
+
+/* Tùy chỉnh thanh cuộn cho Webkit (Chrome, Edge, Safari) */
+.skill-list-container::-webkit-scrollbar {
+    width: 8px; /* Độ rộng thanh cuộn */
+}
+
+.skill-list-container::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Màu nền của track thanh cuộn */
+    border-radius: 4px; /* Bo góc track */
+}
+
+.skill-list-container::-webkit-scrollbar-thumb {
+    background: #348a6c; /* Màu thanh cuộn */
+    border-radius: 4px; /* Bo góc của thanh cuộn */
+}
+
+.skill-list-container::-webkit-scrollbar-thumb:hover {
+    background: #2d6b4d; /* Màu khi hover lên thanh cuộn */
+}

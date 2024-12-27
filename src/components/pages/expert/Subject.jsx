@@ -102,13 +102,13 @@ export const Subject = () => {
                 </div>
             </div>
 
-            <div className="px-4 py-2 ml-7 gap-x-3 mt-3 mr-3 rounded-md bg-neutral-200 items-center">
-                <div className="flex justify-between font-montserrat font-semibold">
+            <div className="px-4 py-3 ml-7 gap-x-3 mt-3 mr-3 rounded-md bg-neutral-200 items-center">
+                <div className="flex justify-between font-montserrat font-bold ">
                     <div>
                         Name
                     </div>
                     <div className="mr-[700px]">
-                        Create date
+                        Create Date
                     </div>
                 </div>
             </div>
@@ -117,11 +117,11 @@ export const Subject = () => {
                 <div>
                     {currentSubjects.map((subject) => (
                         <Link to={`/admin/subjects/id=${subject.id}`} key={subject.id}>
-                            <div className="flex justify-between p-4 ml-7 gap-x-3 mr-3 items-center">
-                                <div className="flex-1 font-montserrat font-semibold">
+                            <div className="flex justify-between px-4 py-4 ml-7 gap-x-3 mr-3 items-center">
+                                <div className="flex-1 font-montserrat font-medium">
                                     {subject.name}
                                 </div>
-                                <div className="font-montserrat font-semibold mr-[677px]">
+                                <div className="font-montserrat font-medium mr-[677px]">
                                     {subject.createDate}
                                 </div>
                                 <FaAngleDown className="-rotate-90" />
@@ -132,7 +132,7 @@ export const Subject = () => {
                 </div>
             )}
 
-            <div className="flex justify-end items-center mt-4 mr-10 gap-x-2">
+            <div className="flex justify-end items-center mt-3 mr-10 gap-x-2">
                 <FaAngleDown className="rotate-90" />
                 {Array.from({ length: Math.ceil(subjects.length / subjectsPerPage) }, (_, index) => (
                     <button
