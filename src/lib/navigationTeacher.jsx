@@ -15,6 +15,13 @@ export const DASHBOARD_SIDEBAR_TEACHER_LINKS = [
 		icon: <FaHome className='size-6' />
 	},
 
+	{
+		key: 'subjects',
+		label: 'Subjects',
+		path: '/teacher/subjects',
+		icon: <MdSubject className='size-6' />
+	},
+
     {
 		key: 'objectives',
 		label: 'Objectives',

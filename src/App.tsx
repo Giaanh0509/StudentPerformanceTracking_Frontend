@@ -13,6 +13,9 @@ import PrivateRoute from './components/pages/expert/PrivateRoute';
 import { Student } from './components/pages/teacher/Student';
 import { Group } from './components/pages/teacher/Group';
 import { Objectives } from './components/pages/teacher/Objectives';
+import { SubjectTeacher } from './components/pages/teacher/SubjectTeacher';
+import { SubjectDetailTeacher } from './components/pages/teacher/SubjectDetailTeacher';
+import { SubSkillTeacher } from './components/pages/teacher/SubSkillTeacher';
 
 function App() {
   return (
@@ -31,6 +34,9 @@ function App() {
 
         <Route path="/teacher" element={<Layout />}>
           <Route index element={<Dashboard />} />
+          <Route path="subjects" element={<SubjectTeacher />} />
+          <Route path="subjects/:id" element={<SubjectDetailTeacher />} />
+          <Route path="subjects/:subjectId/skills/:skillId" element={<SubSkillTeacher />} />
           <Route path="students" element={<Student />} />
           <Route path="groups" element={<Group />} />
           <Route path="groups/:id" element={<Student />} />
