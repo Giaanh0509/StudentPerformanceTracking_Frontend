@@ -13,6 +13,8 @@ export const NewStudent = () => {
     const [student, setStudent] = useState({
         id: "",
         name: "",
+        dateOfBirth: "",
+        email: "",
         userId: "",
         groupId: ""
     });
@@ -71,14 +73,34 @@ export const NewStudent = () => {
                     <TiDelete onClick={handleCloseModal} className="size-7" />
                 </div>
                 <div className="border-[1px] border-b-gray-400"></div>
-                <div className="flex gap-x-5">
+                <div className="flex justify-between gap-x-5">
                     Name:
                     <input
                         type="text"
                         name="name"
                         value={student.name}
                         onChange={(e) => handleChange(e)}
-                        className="border-2 p-2" />
+                        className="border-2 p-2 mr-96" />
+                </div>
+
+                <div className="flex justify-between gap-x-5">
+                    Date of Birth:
+                    <input
+                        type="text"
+                        name="dateOfBirth"
+                        value={student.dateOfBirth}
+                        onChange={(e) => handleChange(e)}
+                        className="border-2 p-2 mr-96" />
+                </div>
+
+                <div className="flex justify-between gap-x-5">
+                    Email:
+                    <input
+                        type="email"
+                        name="email"
+                        value={student.email}
+                        onChange={(e) => handleChange(e)}
+                        className="border-2 p-2 mr-96" />
                 </div>
 
                 <div className="flex justify-end">

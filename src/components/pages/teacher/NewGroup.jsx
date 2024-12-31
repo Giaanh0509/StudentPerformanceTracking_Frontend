@@ -13,6 +13,7 @@ export const NewGroup = () => {
         id: "",
         name: "",
         description: "",
+        currentDate: "",
         userId: ""
     });
 
@@ -30,9 +31,12 @@ export const NewGroup = () => {
         if (userLoginDTO) {
             try {
                 const user = JSON.parse(userLoginDTO);
+
+                const currentDate = new Date().toISOString().split('T')[0];
                 setGroup((prevGroup) => ({
                     ...prevGroup,
-                    userId: user.id
+                    userId: user.id,
+                    createDate: currentDate
                 }));
             } catch (error) {
                 console.error("Error parsing userLoginDTO from localStorage:", error);

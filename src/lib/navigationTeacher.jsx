@@ -30,13 +30,6 @@ export const DASHBOARD_SIDEBAR_TEACHER_LINKS = [
 	},
 
 	{
-		key: 'students',
-		label: 'Students',
-		path: '/teacher/students',
-		icon: <PiStudent className='size-6' />
-	},
-
-	{
 		key: 'groups',
 		label: 'Groups',
 		path: '/teacher/groups',

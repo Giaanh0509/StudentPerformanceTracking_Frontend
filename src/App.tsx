@@ -37,7 +37,6 @@ function App() {
           <Route path="subjects" element={<SubjectTeacher />} />
           <Route path="subjects/:id" element={<SubjectDetailTeacher />} />
           <Route path="subjects/:subjectId/skills/:skillId" element={<SubSkillTeacher />} />
-          <Route path="students" element={<Student />} />
           <Route path="groups" element={<Group />} />
           <Route path="groups/:id" element={<Student />} />
           <Route path="objectives" element={<Objectives />} />
