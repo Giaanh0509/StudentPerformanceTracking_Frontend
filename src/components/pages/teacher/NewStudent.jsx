@@ -80,7 +80,7 @@ export const NewStudent = () => {
                         name="name"
                         value={student.name}
                         onChange={(e) => handleChange(e)}
-                        className="border-2 p-2 mr-96" />
+                        className="border-2 w-72 p-2 mr-72" />
                 </div>
 
                 <div className="flex justify-between gap-x-5">
@@ -90,7 +90,7 @@ export const NewStudent = () => {
                         name="dateOfBirth"
                         value={student.dateOfBirth}
                         onChange={(e) => handleChange(e)}
-                        className="border-2 p-2 mr-96" />
+                        className="border-2 w-72 p-2 mr-72" />
                 </div>
 
                 <div className="flex justify-between gap-x-5">
@@ -100,7 +100,7 @@ export const NewStudent = () => {
                         name="email"
                         value={student.email}
                         onChange={(e) => handleChange(e)}
-                        className="border-2 p-2 mr-96" />
+                        className="border-2 w-72 p-2 mr-72" />
                 </div>
 
                 <div className="flex justify-end">

@@ -1,7 +1,7 @@
 import { IoIosAddCircle } from "react-icons/io";
 import { FaAngleDown } from "react-icons/fa6";
 import { useState, createContext, useEffect } from "react";
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import SubjectService from "../../../services/SubjectService";
 import axios from "axios";
 
@@ -17,8 +17,13 @@ export const SubjectTeacher = () => {
         id: "",
         name: "",
         roleId: ""
-    }  
+    }
     );
+
+    const [subjectsPerPage] = useState(7);
+
+    const [searchParams, setSearchParams] = useSearchParams();
+    const currentPage = parseInt(searchParams.get('page')) || 1;
 
 
     const handleButton = () => {
@@ -33,7 +38,7 @@ export const SubjectTeacher = () => {
 
     useEffect(() => {
         const storedUserLoginDTO = localStorage.getItem('userLoginDTO');
-    
+
         if (storedUserLoginDTO) {
             try {
                 const userLoginDTO = JSON.parse(storedUserLoginDTO);
@@ -45,25 +50,25 @@ export const SubjectTeacher = () => {
         } else {
             console.log('No user info found in localStorage');
         }
-    }, []); 
+    }, []);
 
-    
+
     useEffect(() => {
         const fetchData = async () => {
-            if(userInfo.id != 0) {
+            if (userInfo.id != 0) {
                 setLoading(true);
 
                 axios.get(`http://localhost:8080/subjects/all`)
-                .then(response => {
-                    {  
-                       const fetchedSubjects = response.data || [];
-                       console.log(fetchedSubjects);
-                       setSubjects(response.data);
-                    }
-                })
-                .catch(error => {
-                    console.error('There was an error!', error);
-                });
+                    .then(response => {
+                        {
+                            const fetchedSubjects = response.data || [];
+                            console.log(fetchedSubjects);
+                            setSubjects(response.data);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('There was an error!', error);
+                    });
 
                 setLoading(false)
             }
@@ -72,6 +77,14 @@ export const SubjectTeacher = () => {
         fetchData();
 
     }, [userInfo])
+
+    const indexOfLastSubject = currentPage * subjectsPerPage;
+    const indexOfFirstSubject = indexOfLastSubject - subjectsPerPage;
+    const currentSubjects = subjects.slice(indexOfFirstSubject, indexOfLastSubject);
+
+    const paginate = (pageNumber) => {
+        setSearchParams({ page: pageNumber });
+    };
 
     return (
         <div className="flex flex-col h-full bg-white rounded-xl m-8 p-3">
@@ -90,23 +103,52 @@ export const SubjectTeacher = () => {
                 <div className="mt-3">
                     <input className="border-[1px] p-2 rounded-lg w-80 border-[#7fa195]" type="text" placeholder="Search for subjects" />
                 </div>
-            
+
+            </div>
+
+            <div className="px-4 py-3 ml-7 gap-x-3 mt-3 mr-3 rounded-md bg-neutral-200 items-center">
+                <div className="flex justify-between font-montserrat font-bold ">
+                    <div>
+                        Name
+                    </div>
+                    <div className="mr-[700px]">
+                        Create Date
+                    </div>
+                </div>
             </div>
 
             {!loading && (
                 <div>
-                    {subjects.map((subject) => (
+                    {currentSubjects.map((subject) => (
                         <Link to={`/teacher/subjects/${subject.id}`}>
-                            <div key={subject.id} className="flex p-4 ml-7 gap-x-3 mt-3 mr-3 bg-neutral-200 items-center">
-                                <FaAngleDown className="-rotate-90" />
-                                <div className="font-montserrat font-semibold">
+                            <div className="flex justify-between px-4 py-4 ml-7 gap-x-3 mr-3 items-center">
+                                <div className="flex-1 font-montserrat font-medium">
                                     {subject.name}
                                 </div>
+                                <div className="font-montserrat font-medium mr-[677px]">
+                                    {subject.createDate}
+                                </div>
+                                <FaAngleDown className="-rotate-90" />
                             </div>
+                            <div className="ml-7 gap-x-3 mr-3 border-[1px] border-b-gray-200"></div>
                         </Link>
                     ))}
                 </div>
             )}
+
+            <div className="flex justify-end items-center mt-3 mr-10 gap-x-2">
+                <FaAngleDown className="rotate-90" />
+                {Array.from({ length: Math.ceil(subjects.length / subjectsPerPage) }, (_, index) => (
+                    <button
+                        key={index + 1}
+                        onClick={() => paginate(index + 1)}
+                        className={`px-2 py-1 rounded-full ${currentPage === index + 1 ? 'bg-[#049f6b] text-white' : 'bg-gray-200 text-black'}`}
+                    >
+                        {index + 1}
+                    </button>
+                ))}
+                <FaAngleDown className="-rotate-90" />
+            </div>
 
             {showModal && (
                 <modalContext.Provider value={{ showModal, setShowModal, subjects, setSubjects }}>

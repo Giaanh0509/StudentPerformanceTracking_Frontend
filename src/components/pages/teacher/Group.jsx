@@ -141,20 +141,6 @@ export const Group = () => {
                 </div>
             )}
 
-            <div className="flex justify-end items-center mt-3 mr-10 gap-x-2">
-                <FaAngleDown className="rotate-90" />
-                {Array.from({ length: Math.ceil(groups.length / subjectsPerPage) }, (_, index) => (
-                    <button
-                        key={index + 1}
-                        onClick={() => paginate(index + 1)}
-                        className={`px-2 py-1 rounded-full ${currentPage === index + 1 ? 'bg-[#049f6b] text-white' : 'bg-gray-200 text-black'}`}
-                    >
-                        {index + 1}
-                    </button>
-                ))}
-                <FaAngleDown className="-rotate-90" />
-            </div>
-
             {showModal && (
                 <modalContext.Provider value={{ showModal, setShowModal, groups, setGroups }}>
                     <div onClick={handleClickOutside} className="absolute inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">

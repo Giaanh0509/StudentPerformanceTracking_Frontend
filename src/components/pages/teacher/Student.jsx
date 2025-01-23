@@ -17,6 +17,11 @@ export const Student = () => {
     const [showModal, setShowModal] = useState(false);
     const [loading, setLoading] = useState(true);
 
+    const [subjectsPerPage] = useState(5);
+
+    const [searchParams, setSearchParams] = useSearchParams();
+    const currentPage = parseInt(searchParams.get('page')) || 1;
+
     const [group, setGroup] = useState({
         id: "",
         name: "",
@@ -29,7 +34,7 @@ export const Student = () => {
         id: "",
         name: "",
         roleId: ""
-    }  
+    }
     );
 
     const handleClickOutside = (event) => {
@@ -44,7 +49,7 @@ export const Student = () => {
 
     useEffect(() => {
         const storedUserLoginDTO = localStorage.getItem('userLoginDTO');
-    
+
         if (storedUserLoginDTO) {
             try {
                 const userLoginDTO = JSON.parse(storedUserLoginDTO);
@@ -56,13 +61,14 @@ export const Student = () => {
         } else {
             console.log('No user info found in localStorage');
         }
-    }, []); 
+    }, []);
 
     useEffect(() => {
         const fetchData = async () => {
             axios.get(`http://localhost:8080/groups`)
                 .then(response => {
-                    {   console.log(response);
+                    {
+                        console.log(response);
                         response.data._embedded.groups.map(group => {
                             if (group.id == id) {
                                 setGroup(group)
@@ -81,20 +87,20 @@ export const Student = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            if(userInfo.id != 0) {
+            if (userInfo.id != 0) {
                 setLoading(true);
 
                 axios.get(`http://localhost:8080/groupsStudents/groupId=${id}`)
-                .then(response => {
-                    {  
-                       console.log(response.data);
-                       const fetchedSubjects = response.data || [];
-                       setStudents(response.data);
-                    }
-                })
-                .catch(error => {
-                    console.error('There was an error!', error);
-                });
+                    .then(response => {
+                        {
+                            console.log(response.data);
+                            const fetchedSubjects = response.data || [];
+                            setStudents(response.data);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('There was an error!', error);
+                    });
 
                 setLoading(false)
             }
@@ -104,7 +110,13 @@ export const Student = () => {
 
     }, [userInfo])
 
-    console.log(id);
+    const indexOfLastSubject = currentPage * subjectsPerPage;
+    const indexOfFirstSubject = indexOfLastSubject - subjectsPerPage;
+    const currentSubjects = students.slice(indexOfFirstSubject, indexOfLastSubject);
+
+    const paginate = (pageNumber) => {
+        setSearchParams({ page: pageNumber });
+    };
 
     return (
         <div className="flex flex-col h-full bg-white m-8 p-3">
@@ -153,7 +165,7 @@ export const Student = () => {
 
             {!loading && (
                 <div>
-                    {students.map((student) => (
+                    {currentSubjects.map((student) => (
                         <Link>
                             <div key={student.id} className="grid grid-cols-4 p-4 ml-7 gap-x-3 mt-3 mr-3 items-center">
                                 <div className="font-montserrat font-medium">
@@ -169,18 +181,32 @@ export const Student = () => {
                                 </div>
 
                                 <div className="ml-3 font-montserrat font-medium">
-                                    <AiOutlineExclamationCircle className="size-5"/>
+                                    <AiOutlineExclamationCircle className="size-5" />
                                 </div>
                             </div>
 
                             <div className="ml-7 gap-x-3 mr-3 border-[1px] border-b-gray-200"></div>
-                        </Link>     
+                        </Link>
                     ))}
                 </div>
             )}
 
+            <div className="flex justify-end items-center mt-3 mr-10 gap-x-2">
+                <FaAngleDown className="rotate-90" />
+                {Array.from({ length: Math.ceil(students.length / subjectsPerPage) }, (_, index) => (
+                    <button
+                        key={index + 1}
+                        onClick={() => paginate(index + 1)}
+                        className={`px-2 py-1 rounded-full ${currentPage === index + 1 ? 'bg-[#049f6b] text-white' : 'bg-gray-200 text-black'}`}
+                    >
+                        {index + 1}
+                    </button>
+                ))}
+                <FaAngleDown className="-rotate-90" />
+            </div>
+
             {showModal && (
-                <modalContext.Provider value={{showModal, setShowModal, students, setStudents, id}}>
+                <modalContext.Provider value={{ showModal, setShowModal, students, setStudents, id }}>
                     <div onClick={handleClickOutside} className="absolute inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
                         <NewStudent></NewStudent>
                     </div>
