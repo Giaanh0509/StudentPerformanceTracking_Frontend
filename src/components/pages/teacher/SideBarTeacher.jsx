@@ -31,10 +31,11 @@ const SideBarLink = ({ SideBar }) => {
   const pathname = location.pathname;
 
   const isDashboardActive = SideBar.key === 'dashboard' && pathname === '/teacher';
-  const isSubjectsActive = SideBar.key === 'groups' && (pathname === '/teacher/groups' || pathname.startsWith('/teacher/groups/'));
+  const isSubjectsActive = SideBar.key === 'subjects' && (pathname === '/teacher/subjects' || pathname.startsWith('/teacher/subjects/'));
+  const isGroupsActive = SideBar.key === 'groups' && (pathname === '/teacher/groups' || pathname.startsWith('/teacher/groups/'));
   const isStatisticsActive = SideBar.key === 'objectives' && pathname === '/teacher/objectives';
 
-  const isActive = isDashboardActive || isSubjectsActive || isStatisticsActive;
+  const isActive = isDashboardActive || isSubjectsActive || isStatisticsActive || isGroupsActive;
 
   return (
     <Link

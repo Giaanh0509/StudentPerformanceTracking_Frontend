@@ -31,7 +31,7 @@ const SideBarLink = ({ SideBar }) => {
   const pathname = location.pathname;
 
   const isDashboardActive = SideBar.key === 'dashboard' && pathname === '/admin';
-    const isSubjectsActive = SideBar.key === 'subjects' && (pathname === '/admin/subjects' || pathname.startsWith('/admin/subjects/'));
+  const isSubjectsActive = SideBar.key === 'subjects' && (pathname === '/admin/subjects' || pathname.startsWith('/admin/subjects/'));
   const isStatisticsActive = SideBar.key === 'statistics' && pathname === '/admin/statistics';
 
   const isActive = isDashboardActive || isSubjectsActive || isStatisticsActive;

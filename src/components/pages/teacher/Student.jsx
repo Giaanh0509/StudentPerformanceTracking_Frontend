@@ -126,9 +126,9 @@ export const Student = () => {
                 </div>
             </div>
 
-            <div className="flex justify-between mb-3">
+            <div className="flex justify-between mb-3 text-sm">
                 <div className="mt-3 ml-7 mr-auto">
-                    <div className="flex p-[8px] border-[1px] rounded-lg w-48 border-[#7fa195]" name="" id="">
+                    <div className="flex p-[8px] border-[1px] rounded-lg w-44 border-[#7fa195]" name="" id="">
                         Number of students: <p className="ml-2 font-bold">5</p>
                     </div>
                 </div>

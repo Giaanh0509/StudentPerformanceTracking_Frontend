@@ -94,12 +94,12 @@ export const Group = () => {
 
             <div className="flex justify-between mb-3 text-sm ">
                 <div className="mt-3 ml-7 mr-auto">
-                    <div className="p-[8px] border-[1px] rounded-lg w-44 border-[#7fa195]" name="" id="">
-                        Number of groups: 5
+                    <div className="flex p-[8px] border-[1px] rounded-lg w-44 border-[#7fa195]" name="" id="">
+                        Number of groups: <p className="ml-2 font-bold">5</p>
                     </div>
                 </div>
-                <div className="mt-3">
-                    <input className="border-[1px] p-2 rounded-lg w-80 border-[#7fa195]" type="text" placeholder="Search for students" />
+                <div className="mt-3">-
+                    <input className="border-[1px] p-2 rounded-lg w-80 border-[#7fa195]" type="text" placeholder="Search for groups" />
                 </div>
                 <div className="flex items-center gap-x-2 text-sm p-2 bg-gradient-to-t rounded-lg from-[#8dbaaa] to-[#14ce90] m-3 text-white">
                     <IoIosAddCircle className="size-5" />
@@ -123,7 +123,7 @@ export const Group = () => {
 
             {!loading && (
                 <div>
-                    {groups.map((group) => (
+                    {currentSubjects.map((group) => (
                         <Link to={`/teacher/groups/${group.id}`}>
                             <div key={group.id} className="grid grid-cols-4 p-4 ml-7 gap-x-3 mt-3 mr-3 items-center">
                                 <div className="col-span-2 font-montserrat font-meidum">
@@ -140,6 +140,20 @@ export const Group = () => {
                     ))}
                 </div>
             )}
+
+            <div className="flex justify-end items-center mt-3 mr-10 gap-x-2">
+                <FaAngleDown className="rotate-90" />
+                {Array.from({ length: Math.ceil(groups.length / subjectsPerPage) }, (_, index) => (
+                    <button
+                        key={index + 1}
+                        onClick={() => paginate(index + 1)}
+                        className={`px-2 py-1 rounded-full ${currentPage === index + 1 ? 'bg-[#049f6b] text-white' : 'bg-gray-200 text-black'}`}
+                    >
+                        {index + 1}
+                    </button>
+                ))}
+                <FaAngleDown className="-rotate-90" />
+            </div>
 
             {showModal && (
                 <modalContext.Provider value={{ showModal, setShowModal, groups, setGroups }}>

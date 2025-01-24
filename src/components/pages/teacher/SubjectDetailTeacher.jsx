@@ -134,24 +134,70 @@ export const SubjectDetailTeacher = () => {
                 </div>
             </div>
 
+            <div className="px-4 py-3 ml-7 gap-x-3 mt-3 mr-3 rounded-md bg-neutral-200 items-center">
+                <div className="grid grid-cols-4 font-montserrat font-bold ">
+                    <div>
+                        Name
+                    </div>
+                    <div>
+                        Fomula
+                    </div>
+                    <div>
+                        ChildrenSkill
+                    </div>
+                    <div>
+                        Create Date
+                    </div>
+                </div>
+            </div>
+
             {!loading && (
                 <div>
                     {skills.map((skill) => (
                         skill.childrenSkill ? (
                             <Link to={`/teacher/subjects/${id}/skills/${skill.id}`} key={skill.id}>
-                                <div className="flex p-4 ml-7 gap-x-3 mt-3 mr-3 bg-neutral-200 items-center">
-                                    <FaAngleDown className="-rotate-90" />
-                                    <div className="font-montserrat font-semibold">
+                                <div className="grid grid-cols-4 p-4 ml-7 gap-x-3 mt-3 mr-3 items-center">
+                                    <div className="font-montserrat font-medium">
                                         {skill.name}
                                     </div>
+
+                                    <div className="font-montserrat font-medium">
+                                        {skill.formula}
+                                    </div>
+
+                                    <div className="font-montserrat font-medium">
+                                        {skill.childrenSkill ? "True" : "False"}
+                                    </div>
+
+                                    <div className="font-montserrat font-medium">
+                                        {skill.createDate}
+                                    </div>
+
                                 </div>
+                                <div className="ml-7 gap-x-3 mr-3 border-[1px] border-b-gray-200"></div>
                             </Link>
                         ) : (
-                            <div onClick={() => handleSkillClick(skill.id)} className="flex p-4 ml-7 gap-x-3 mt-3 mr-3 bg-neutral-200 items-center">
-                                <FaAngleDown className="-rotate-90" />
-                                <div className="font-montserrat font-semibold">
-                                    {skill.name}
+                            <div>
+                                <div onClick={() => handleSkillClick(skill.id)} className="grid grid-cols-4 p-4 ml-7 gap-x-3 mt-3 mr-3 items-center cursor-pointer">
+                                    <div className="font-montserrat font-medium">
+                                        {skill.name}
+                                    </div>
+
+                                    <div className="font-montserrat font-medium">
+                                        {skill.formula}
+                                    </div>
+
+                                    <div className="font-montserrat font-medium">
+                                        {skill.childrenSkill ? "True" : "False"}
+                                    </div>
+
+                                    <div className="font-montserrat font-medium">
+                                        {skill.createDate}
+                                    </div>
                                 </div>
+
+                                <div className="ml-7 gap-x-3 mr-3 border-[1px] border-b-gray-200"></div>
+
                             </div>
                         )
                     ))}
