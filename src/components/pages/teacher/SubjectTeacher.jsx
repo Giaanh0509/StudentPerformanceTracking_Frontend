@@ -4,7 +4,7 @@ import { useState, createContext, useEffect } from "react";
 import { Link, useSearchParams } from 'react-router-dom';
 import SubjectService from "../../../services/SubjectService";
 import axios from "axios";
-
+import { SubjectImpl } from "./SubjectImpl";
 
 export const modalContext = createContext();
 
@@ -20,7 +20,7 @@ export const SubjectTeacher = () => {
     }
     );
 
-    const [subjectsPerPage] = useState(7);
+    const [subjectsPerPage] = useState(5);
 
     const [searchParams, setSearchParams] = useSearchParams();
     const currentPage = parseInt(searchParams.get('page')) || 1;
@@ -29,6 +29,13 @@ export const SubjectTeacher = () => {
     const handleButton = () => {
         setShowModal(true);
     };
+
+    const [selectedSubjectId, setSelectedSubjectId] = useState(null);
+
+    const handleSelectedSubjectId = (subjectId) => {
+        setSelectedSubjectId(subjectId);
+    }
+
 
     const handleClickOutside = (event) => {
         if (event.target === event.currentTarget) {
@@ -62,7 +69,6 @@ export const SubjectTeacher = () => {
                     .then(response => {
                         {
                             const fetchedSubjects = response.data || [];
-                            console.log(fetchedSubjects);
                             setSubjects(response.data);
                         }
                     })
@@ -107,11 +113,12 @@ export const SubjectTeacher = () => {
             </div>
 
             <div className="px-4 py-3 ml-7 gap-x-3 mt-3 mr-3 rounded-md bg-neutral-200 items-center">
-                <div className="flex justify-between font-montserrat font-bold ">
-                    <div>
+                <div className="grid grid-cols-3 font-montserrat font-bold ">
+                    <div className="col-span-1">
                         Name
                     </div>
-                    <div className="mr-[700px]">
+
+                    <div>
                         Create Date
                     </div>
                 </div>
@@ -120,18 +127,27 @@ export const SubjectTeacher = () => {
             {!loading && (
                 <div>
                     {currentSubjects.map((subject) => (
-                        <Link to={`/teacher/subjects/${subject.id}`}>
-                            <div className="flex justify-between px-4 py-4 ml-7 gap-x-3 mr-3 items-center">
-                                <div className="flex-1 font-montserrat font-medium">
+                        <div>
+                            <div key={subject.id} className="grid grid-cols-3 p-4 ml-7 gap-x-3 mt-3 mr-3 items-center">
+                                <div className="col-span-1 font-montserrat font-meidum">
                                     {subject.name}
                                 </div>
-                                <div className="font-montserrat font-medium mr-[677px]">
+                                <div className="font-montserrat font-medium">
                                     {subject.createDate}
                                 </div>
-                                <FaAngleDown className="-rotate-90" />
+                                
+                                <div className="flex justify-between items-center">
+                                    <button onClick={() => {
+                                        handleButton();
+                                        handleSelectedSubjectId(subject.id);
+                                    }} className="bg-[#049f6b] py-1 px-3 rounded-md text-white">Implement</button>
+                                    <Link to={`/teacher/subjects/${subject.id}`}>    
+                                    <FaAngleDown className="-rotate-90" />
+                                    </Link>
+                                </div>
                             </div>
                             <div className="ml-7 gap-x-3 mr-3 border-[1px] border-b-gray-200"></div>
-                        </Link>
+                        </div>
                     ))}
                 </div>
             )}
@@ -151,8 +167,9 @@ export const SubjectTeacher = () => {
             </div>
 
             {showModal && (
-                <modalContext.Provider value={{ showModal, setShowModal, subjects, setSubjects }}>
+                <modalContext.Provider value={{ showModal, setShowModal, subjects, setSubjects, selectedSubjectId}}>
                     <div onClick={handleClickOutside} className="absolute inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+                        <SubjectImpl></SubjectImpl>
                     </div>
                 </modalContext.Provider>
             )}

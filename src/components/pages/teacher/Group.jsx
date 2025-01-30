@@ -121,6 +121,7 @@ export const Group = () => {
                 </div>
             </div>
 
+
             {!loading && (
                 <div>
                     {currentSubjects.map((group) => (
@@ -133,6 +134,7 @@ export const Group = () => {
                                 <div className="font-montserrat font-meidum">
                                     {group.createDate}
                                 </div>
+                                
                             </div>
 
                             <div className="ml-7 gap-x-3 mr-3 border-[1px] border-b-gray-200"></div>
