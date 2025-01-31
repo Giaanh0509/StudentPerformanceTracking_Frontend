@@ -7,7 +7,7 @@ export const SubjectImpl = () => {
 
     const { selectedSubjectId } = useContext(modalContext);
 
-
+    const [subject, setSubject] = useState([]);
     const [groups, setGroups] = useState([]);
     const [userInfo, setUserInfo] = useState({
         id: "",
@@ -50,11 +50,30 @@ export const SubjectImpl = () => {
         fetchData();
     }, [userInfo]);
 
+    useEffect(() => {
+        const fetchData = async () => {
+                axios
+                    .get(`http://localhost:8080/subjects/subjectId=${selectedSubjectId}`)
+                    .then((response) => {
+                        const fetchedData = response.data || [];
+                        console.log(fetchedData);
+                        setSubject(fetchedData);
+                    })
+                    .catch((error) => {
+                        console.error("There was an error!", error);
+                    });
+        };
+
+        fetchData();
+    }, []);
+
+    console.log(subject.name);
+
     return (
         <div className="flex flex-col gap-y-4 bg-white p-4 rounded-lg w-[750px] h-3/4">
             <div className="flex text-2xl font-montserrat font-medium">
                 Implement subject:
-                <p className="font-bold ml-3 text-[#4dad8c]">IELTS</p>
+                <p className="font-bold ml-3 text-[#4dad8c]">{subject.name}</p>
                 <TiDelete onClick={handleCloseModal} className="size-7 ml-auto cursor-pointer" />
             </div>
             <div className="border-[1px] border-b-gray-400"></div>
