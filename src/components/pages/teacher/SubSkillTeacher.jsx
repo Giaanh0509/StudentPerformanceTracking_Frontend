@@ -152,7 +152,7 @@ export const SubSkillTeacher = () => {
                             <div key={skill.id} onClick={() => handleSkillClick(skill.id)} className="flex p-4 ml-7 gap-x-3 mt-3 mr-3 bg-neutral-200 items-center">
                                 <FaAngleDown className="-rotate-90" />
                                 <div className="font-montserrat font-semibold">
-                                    Khong co
+                                {skill.name}
                                 </div>
                             </div>
                         )
