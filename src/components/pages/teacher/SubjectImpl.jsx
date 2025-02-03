@@ -7,6 +7,7 @@ export const SubjectImpl = () => {
     const { selectedSubjectId } = useContext(modalContext);
     const [subject, setSubject] = useState([]);
     const [groups, setGroups] = useState([]);
+    const [selectedGroup, setSelectedGroup] = useState("");
     const [userInfo, setUserInfo] = useState({ id: "", name: "", roleId: "" });
     const [skills, setSkills] = useState([]);
     const [skillIndicator, setSkillIndicator] = useState([]);
@@ -33,6 +34,24 @@ export const SubjectImpl = () => {
             }
             return updatedObjectives;
         });
+    };
+
+    const handleGroupChange = (e) => {
+        setSelectedGroup(parseInt(e.target.value, 10));
+    };
+
+    const handleSubmit = async () => {
+        try {
+            const dataToSend = {
+                group_id: selectedGroup,
+                objectives: objectives
+            };
+            await axios.post("http://localhost:8080/objectives/new", dataToSend);
+            alert("Data submitted successfully!");
+        } catch (error) {
+            console.error("Error submitting data:", error);
+            alert("Failed to submit data.");
+        }
     };
 
     useEffect(() => {
@@ -102,11 +121,11 @@ export const SubjectImpl = () => {
                     ) : null)
                 }
             </div>
-            
+
             <div className="flex text-lg font-montserrat font-bold mt-4">
                 Group:
                 <div className="relative ml-5 w-56 font-medium">
-                    <select className="w-full border-2 p-1 border-black max-h-40 overflow-auto">
+                    <select className="w-full border-2 p-1 border-black max-h-40 overflow-auto" value={selectedGroup} onChange={handleGroupChange}>
                         <option value=""></option>
                         {groups.map((group, index) => (
                             <option key={index} value={group.id}>
@@ -179,6 +198,10 @@ export const SubjectImpl = () => {
                         </div>
                     </div>
                 ))}
+            </div>
+
+            <div className="flex justify-end">
+                <button onClick={handleSubmit} className="bg-green-600 text-white p-2 rounded mt-4">Submit</button>
             </div>
         </div>
     );
