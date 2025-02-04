@@ -5,6 +5,7 @@ import { modalContext } from "./SubjectTeacher";
 
 export const SubjectImpl = () => {
     const { selectedSubjectId } = useContext(modalContext);
+    const { showModal, setShowModal } = useContext(modalContext);
     const [subject, setSubject] = useState([]);
     const [groups, setGroups] = useState([]);
     const [selectedGroup, setSelectedGroup] = useState("");
@@ -13,6 +14,8 @@ export const SubjectImpl = () => {
     const [skillIndicator, setSkillIndicator] = useState([]);
     const [indicators, setIndicators] = useState([]);
     const [objectives, setObjectives] = useState([]);
+    const [inputName, setInputName] = useState("");
+
 
     const handleChange = (e, indicatorId) => {
         const { name, value } = e.target;
@@ -36,18 +39,28 @@ export const SubjectImpl = () => {
         });
     };
 
+    const handleCloseModal = () => {
+        setShowModal(false);
+    };
+
     const handleGroupChange = (e) => {
         setSelectedGroup(parseInt(e.target.value, 10));
+    };
+
+    const handleNameChange = (e) => {
+        setInputName(e.target.value);
     };
 
     const handleSubmit = async () => {
         try {
             const dataToSend = {
                 group_id: selectedGroup,
+                objectiveName: inputName,
                 objectives: objectives
             };
             await axios.post("http://localhost:8080/objectives/new", dataToSend);
             alert("Data submitted successfully!");
+            setShowModal(false);
         } catch (error) {
             console.error("Error submitting data:", error);
             alert("Failed to submit data.");
@@ -105,7 +118,7 @@ export const SubjectImpl = () => {
             <div className="flex text-2xl font-montserrat font-medium">
                 Implement subject:
                 <p className="font-bold ml-3 text-[#4dad8c]">{subject.name}</p>
-                <TiDelete className="size-7 ml-auto cursor-pointer" />
+                <TiDelete onClick={handleCloseModal} className="size-7 ml-auto cursor-pointer" />
             </div>
             <div className="border-[1px] border-b-gray-400"></div>
             <div className="flex justify-center text-xl ">
@@ -120,6 +133,11 @@ export const SubjectImpl = () => {
                         </div>
                     ) : null)
                 }
+            </div>
+
+            <div className="flex text-lg font-montserrat mt-4 gap-x-6">
+                <div className="font-bold">Name:</div>
+                <input type="text" className="border-2 p-1 border-black h-8" value={inputName} onChange={handleNameChange}  />
             </div>
 
             <div className="flex text-lg font-montserrat font-bold mt-4">

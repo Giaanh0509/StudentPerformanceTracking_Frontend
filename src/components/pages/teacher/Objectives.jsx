@@ -1,8 +1,44 @@
 import { IoIosAddCircle } from "react-icons/io";
 import { FaAngleDown } from "react-icons/fa6";
 import { useState, createContext, useEffect } from "react";
+import axios from "axios";
 
 export const Objectives = () => {
+
+    const [objectives, setObjectives] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [userInfo, setUserInfo] = useState({
+        id: "",
+        name: "",
+        roleId: ""
+    });
+
+
+    useEffect(() => {
+        const storedUserLoginDTO = localStorage.getItem("userLoginDTO");
+        if (storedUserLoginDTO) {
+            try {
+                const userLoginDTO = JSON.parse(storedUserLoginDTO);
+                setUserInfo(userLoginDTO);
+            } catch (e) {
+                console.error("Error parsing userLoginDTO from localStorage:", e);
+            }
+        }
+    }, []);
+
+    useEffect(() => {
+        if (userInfo.id) {
+            setLoading(true);
+            axios.get(`http://localhost:8080/objectives/userId=${userInfo.id}`)
+                .then(response => setObjectives(response.data || []))
+                .catch(error => console.error("Error fetching objectives:", error));
+
+            setLoading(false);
+        }
+        
+    }, [userInfo]);
+
+
     return(
         <div className="flex flex-col h-full bg-white m-8 p-3">
             <div className="flex">
@@ -21,13 +57,43 @@ export const Objectives = () => {
                 <div className="mt-3">
                     <input className="border-[1px] p-2 rounded-lg w-80 border-[#7fa195]" type="text" placeholder="Search for objectives" />
                 </div>
-                <div className="flex items-center gap-x-2 p-2 bg-gradient-to-t rounded-lg from-[#8dbaaa] to-[#14ce90] m-3 text-white">
-                    <IoIosAddCircle className="size-5" />
-                    <button className="text-base font-montserrat font-medium">
-                        Create New Objectives
-                    </button>
+                
+            </div>
+
+            <div className="px-4 py-3 ml-7 gap-x-3 mt-3 mr-3 rounded-md bg-neutral-200 items-center">
+                <div className="grid grid-cols-5 font-montserrat font-bold ">
+                    <div className="col-span-1">
+                        Name
+                    </div>
+
+                    <div>
+                        Subject
+                    </div>
+
+                    <div>
+                        Group
+                    </div>
+
+                    <div>
+                        Create Date
+                    </div>
                 </div>
             </div>
+
+            {!loading && (
+                <div>
+                    {objectives.map((objective) => (
+                        <div>
+                            <div key={objective.id} className="grid grid-cols-5 p-4 ml-7 gap-x-3 mt-3 mr-3 items-center">
+                                <div className="col-span-1 font-montserrat font-meidum">
+                                    {objective.name}
+                                </div>
+                            </div>
+                            <div className="ml-7 gap-x-3 mr-3 border-[1px] border-b-gray-200"></div>
+                        </div>
+                    ))}
+                </div>
+            )}
 
         </div>
     )
