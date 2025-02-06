@@ -56,6 +56,8 @@ export const SubjectImpl = () => {
             const dataToSend = {
                 group_id: selectedGroup,
                 objectiveName: inputName,
+                user_id: userInfo.id,
+                subject_id: selectedSubjectId,
                 objectives: objectives
             };
             await axios.post("http://localhost:8080/objectives/new", dataToSend);

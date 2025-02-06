@@ -113,13 +113,17 @@ export const SubjectTeacher = () => {
             </div>
 
             <div className="px-4 py-3 ml-7 gap-x-3 mt-3 mr-3 rounded-md bg-neutral-200 items-center">
-                <div className="grid grid-cols-3 font-montserrat font-bold ">
+                <div className="grid grid-cols-4 font-montserrat font-bold ">
                     <div className="col-span-1">
                         Name
                     </div>
 
                     <div>
                         Create Date
+                    </div>
+
+                    <div>
+                        Owner
                     </div>
                 </div>
             </div>
@@ -128,13 +132,15 @@ export const SubjectTeacher = () => {
                 <div>
                     {currentSubjects.map((subject) => (
                         <div>
-                            <div key={subject.id} className="grid grid-cols-3 p-4 ml-7 gap-x-3 mt-3 mr-3 items-center">
+                            <div key={subject.id} className="grid grid-cols-4 p-4 ml-7 gap-x-3 mt-3 mr-3 items-center">
                                 <div className="col-span-1 font-montserrat font-meidum">
                                     {subject.name}
                                 </div>
                                 <div className="font-montserrat font-medium">
                                     {subject.createDate}
                                 </div>
+
+                                <div className="font-montserrat font-medium">{subject.userName}</div>
                                 
                                 <div className="flex justify-between items-center">
                                     <button onClick={() => {

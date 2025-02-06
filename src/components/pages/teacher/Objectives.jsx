@@ -35,11 +35,11 @@ export const Objectives = () => {
 
             setLoading(false);
         }
-        
+
     }, [userInfo]);
 
 
-    return(
+    return (
         <div className="flex flex-col h-full bg-white m-8 p-3">
             <div className="flex">
                 <div className="text-3xl px-8 py-4 font-montserrat font-semibold">
@@ -57,7 +57,7 @@ export const Objectives = () => {
                 <div className="mt-3">
                     <input className="border-[1px] p-2 rounded-lg w-80 border-[#7fa195]" type="text" placeholder="Search for objectives" />
                 </div>
-                
+
             </div>
 
             <div className="px-4 py-3 ml-7 gap-x-3 mt-3 mr-3 rounded-md bg-neutral-200 items-center">
@@ -77,6 +77,10 @@ export const Objectives = () => {
                     <div>
                         Create Date
                     </div>
+
+                    <div>
+
+                    </div>
                 </div>
             </div>
 
@@ -84,9 +88,26 @@ export const Objectives = () => {
                 <div>
                     {objectives.map((objective) => (
                         <div>
-                            <div key={objective.id} className="grid grid-cols-5 p-4 ml-7 gap-x-3 mt-3 mr-3 items-center">
-                                <div className="col-span-1 font-montserrat font-meidum">
+                            <div key={objective.id} className="grid grid-cols-5 p-4 ml-7 gap-x-3 mt-3 mr-3 font-montserrat items-center font-meidum">
+                                <div className="col-span-1">
                                     {objective.name}
+                                </div>
+                                <div>
+                                    {objective.subject}
+                                </div>
+
+                                <div>
+                                    {objective.group}
+                                </div>
+
+                                <div>
+                                    2025-02-05
+                                </div>
+
+                                <div className="flex gap-x-2">
+                                    <button className="bg-[#a39904] py-1 px-3 rounded-md text-white">Edit</button>
+                                    <button className="bg-[#049f6b] py-1 px-3 rounded-md text-white">Tracking</button>
+                                    <button className="bg-[#a30303] py-1 px-3 rounded-md text-white">Delete</button>
                                 </div>
                             </div>
                             <div className="ml-7 gap-x-3 mr-3 border-[1px] border-b-gray-200"></div>
