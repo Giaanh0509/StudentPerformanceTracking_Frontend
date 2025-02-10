@@ -1,5 +1,8 @@
 import { IoIosAddCircle } from "react-icons/io";
 import { FaAngleDown } from "react-icons/fa6";
+import { MdSpatialTracking } from "react-icons/md";
+import { FaEdit } from "react-icons/fa";
+import { MdDelete } from "react-icons/md";
 import { useState, createContext, useEffect } from "react";
 import axios from "axios";
 
@@ -105,9 +108,9 @@ export const Objectives = () => {
                                 </div>
 
                                 <div className="flex gap-x-2">
-                                    <button className="bg-[#a39904] py-1 px-3 rounded-md text-white">Edit</button>
-                                    <button className="bg-[#049f6b] py-1 px-3 rounded-md text-white">Tracking</button>
-                                    <button className="bg-[#a30303] py-1 px-3 rounded-md text-white">Delete</button>
+                                    <button className="bg-[#049f6b] p-2 rounded-md text-white"><MdSpatialTracking /></button>
+                                    <button className="bg-[#a39904] p-2 rounded-md text-white"><FaEdit /></button>
+                                    <button className="bg-[#a30303] p-2 rounded-md text-white"><MdDelete /></button>
                                 </div>
                             </div>
                             <div className="ml-7 gap-x-3 mr-3 border-[1px] border-b-gray-200"></div>

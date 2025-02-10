@@ -100,11 +100,10 @@ export const SubjectTeacher = () => {
                 </div>
             </div>
             <div className="flex justify-between mb-3">
-                <div className="mt-3 ml-7 mr-auto">
-                    <select className="p-[8px] border-[1px] rounded-lg w-44 border-[#7fa195]" name="" id="">
-                        <option value="all">Slect all subjects</option>
-                        <option value="myself">Select my subjects</option>
-                    </select>
+                <div className="mt-3 ml-7 mr-auto border-1 border-black">
+                    <div className="flex p-[8px] border-[1px] rounded-lg w-50 border-[#7fa195]" name="" id="">
+                        Number of subjects: <p className="ml-2 font-bold">{subjects.length}</p>
+                    </div>
                 </div>
                 <div className="mt-3">
                     <input className="border-[1px] p-2 rounded-lg w-80 border-[#7fa195]" type="text" placeholder="Search for subjects" />
@@ -141,14 +140,14 @@ export const SubjectTeacher = () => {
                                 </div>
 
                                 <div className="font-montserrat font-medium">{subject.userName}</div>
-                                
+
                                 <div className="flex justify-between items-center">
                                     <button onClick={() => {
                                         handleButton();
                                         handleSelectedSubjectId(subject.id);
                                     }} className="bg-[#049f6b] py-1 px-3 rounded-md text-white">Implement</button>
-                                    <Link to={`/teacher/subjects/${subject.id}`}>    
-                                    <FaAngleDown className="-rotate-90" />
+                                    <Link to={`/teacher/subjects/${subject.id}`}>
+                                        <FaAngleDown className="-rotate-90" />
                                     </Link>
                                 </div>
                             </div>
@@ -173,7 +172,7 @@ export const SubjectTeacher = () => {
             </div>
 
             {showModal && (
-                <modalContext.Provider value={{ showModal, setShowModal, subjects, setSubjects, selectedSubjectId}}>
+                <modalContext.Provider value={{ showModal, setShowModal, subjects, setSubjects, selectedSubjectId }}>
                     <div onClick={handleClickOutside} className="absolute inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
                         <SubjectImpl></SubjectImpl>
                     </div>
