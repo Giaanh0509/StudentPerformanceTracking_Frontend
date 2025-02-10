@@ -7,7 +7,7 @@ import { Link, useLocation } from 'react-router-dom';
 export const SideBarTeacher = () => {
 
   return (
-    <div className="flex flex-col w-60 p-4 pt-9 duration-300 h-screen bg-gradient-to-b from-[#58f5c0] to-[#048a5e]">
+    <div className="flex flex-col w-56 p-4 pt-9 duration-300 h-screen bg-gradient-to-b from-[#58f5c0] to-[#048a5e]">
       <div className="flex gap-x-8 justify-center">
         <img src={`${Logo}`} alt="" className="w-20 h-20 rounded-full border-4 border-white" />
       </div>
@@ -39,7 +39,7 @@ const SideBarLink = ({ SideBar }) => {
 
   return (
     <Link
-      className={`flex items-center p-1 gap-x-1 text-sm text-white hover:bg-gradient-to-r from-[#e9f2f2] hover:text-black to-[#cfeadf] 
+      className={`flex items-center mb-1 gap-x-1 text-sm rounded-lg text-white hover:bg-gradient-to-r from-[#e9f2f2] hover:text-black to-[#cfeadf] 
         ${isActive ? 'bg-gradient-to-r from-[#4c6363] to-[#dae9e2] text-black' : ''}`}
       to={SideBar.path}
     >
