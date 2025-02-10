@@ -1,6 +1,6 @@
 import { IoIosAddCircle } from "react-icons/io";
 import { FaAngleDown } from "react-icons/fa6";
-import { useState, createContext, useEffect } from "react";
+import { useState, createContext, useEffect, useRef } from "react";
 import { NewStudent } from "./NewStudent";
 import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
@@ -12,8 +12,10 @@ import * as XLSX from 'xlsx';
 import { FaFileUpload } from "react-icons/fa";
 export const modalContext = createContext();
 
+
 export const Student = () => {
     const { id } = useParams();
+    const fileInputRef = useRef(null);
 
     const [students, setStudents] = useState([]);
     const [showModal, setShowModal] = useState(false);
@@ -118,49 +120,95 @@ export const Student = () => {
     }, [userInfo])
 
     const handleUpload = async () => {
-        if (!file) {
-            alert("Please select an Excel file to upload.");
+        if (studentsData.length === 0) {
+            alert("No student data to upload.");
             return;
         }
-
-        const reader = new FileReader();
-
-        reader.onload = async (e) => {
-            const data = new Uint8Array(e.target.result);
-            const workbook = XLSX.read(data, { type: "array" });
-
-            const sheetName = workbook.SheetNames[0];
-            const worksheet = workbook.Sheets[sheetName];
-
-            const studentsData = XLSX.utils.sheet_to_json(worksheet);
-            console.log("Students Data:", studentsData);
-        };
-
-        reader.readAsArrayBuffer(file);
+    
+        const updatedStudentsData = studentsData.map(student => ({
+            ...student,
+            groupId: id,        
+            userId: userInfo.id 
+        }));
+    
+        try {
+            const response = await axios.post("http://localhost:8080/students/newList", updatedStudentsData);
+    
+            if (response.status === 200) {
+                alert("Students uploaded successfully!");
+                setStudents(prevStudents => [...prevStudents, ...updatedStudentsData]);
+    
+                setShowPopup(false);
+            }
+        } catch (error) {
+            console.error("Error uploading students:", error);
+            alert("Failed to upload students.");
+        }
+    };
+    
+    
+    const handleCancel = () => {
+        setShowPopup(false);
+        setFile(null); 
     };
 
     const handleFileChange = (event) => {
         const selectedFile = event.target.files[0];
         setFile(selectedFile);
-
+    
         if (selectedFile) {
             const reader = new FileReader();
-
+    
             reader.onload = (e) => {
                 const data = new Uint8Array(e.target.result);
                 const workbook = XLSX.read(data, { type: "array" });
-
+    
                 const sheetName = workbook.SheetNames[0];
                 const worksheet = workbook.Sheets[sheetName];
-
-                const jsonData = XLSX.utils.sheet_to_json(worksheet);
+    
+                let jsonData = XLSX.utils.sheet_to_json(worksheet, { raw: false });
+    
+                jsonData = jsonData.map(student => {
+                    let parsedDateOfBirth = student.dateOfBirth;
+    
+                    if (!isNaN(parsedDateOfBirth)) {
+                        
+                        const excelDate = XLSX.SSF.parse_date_code(parsedDateOfBirth);
+                        parsedDateOfBirth = `${excelDate.y}-${String(excelDate.m).padStart(2, '0')}-${String(excelDate.d).padStart(2, '0')}`;
+                    } else {
+                        
+                        const dateParts = parsedDateOfBirth.split("/");
+                        if (dateParts.length === 3 && dateParts[2].length === 2) {
+                            let year = parseInt(dateParts[2], 10);
+                            if (year >= 50) {
+                                year = 1900 + year; 
+                            } else {
+                                year = 2000 + year; 
+                            }
+                            dateParts[2] = year.toString();
+                            parsedDateOfBirth = dateParts.join("/");
+                        }
+                    }
+    
+                    return {
+                        ...student,
+                        dateOfBirth: parsedDateOfBirth
+                    };
+                });
+    
                 setStudentsData(jsonData);
                 setShowPopup(true);
+    
+                if (fileInputRef.current) {
+                    fileInputRef.current.value = "";
+                }
             };
-
+    
             reader.readAsArrayBuffer(selectedFile);
         }
     };
+    
+    
 
 
     const indexOfLastSubject = currentPage * subjectsPerPage;
@@ -196,7 +244,7 @@ export const Student = () => {
                 </div>
 
                 <div className="flex items-center gap-x-2">
-                    <input type="file" accept=".xlsx, .xls" onChange={handleFileChange} className="hidden" id="fileUpload" />
+                    <input type="file" accept=".xlsx, .xls" onChange={handleFileChange} className="hidden" ref={fileInputRef} id="fileUpload"/>
                     <label htmlFor="fileUpload" className="p-2 bg-gradient-to-t rounded-lg from-[#f4a261] to-[#e76f51] m-3 text-white cursor-pointer flex items-center gap-x-2">
                         <FaFileUpload className="size-5" />
                         <span>Upload Excel</span>
@@ -268,23 +316,22 @@ export const Student = () => {
 
             {showPopup && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-                    <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+                    <div className="bg-white p-6 rounded-lg shadow-lg w-1/2">
                         <h2 className="text-lg font-bold mb-3">Confirm Upload</h2>
 
                         <p className="text-gray-600">File: <span className="font-semibold">{file?.name}</span></p>
                         <p className="text-gray-600">Total Students: <span className="font-semibold">{studentsData.length}</span></p>
 
-                        <div className="mt-3 max-h-40 overflow-y-auto border p-2 rounded">
-                            {studentsData.slice(0, 5).map((student, index) => (
+                        <div className="mt-3 max-h-60 overflow-y-auto border p-2 rounded">
+                            {studentsData.slice(0, studentsData.length).map((student, index) => (
                                 <div key={index} className="p-1 border-b">
-                                    <span className="font-semibold">{student.Name}</span> - {student.Email}
+                                    <span className="font-semibold">{student.name}</span> - <span>{student.email}</span> - <span>{student.dateOfBirth}</span>
                                 </div>
                             ))}
-                            {studentsData.length > 5 && <p className="text-gray-500">...and more</p>}
                         </div>
 
                         <div className="flex justify-end mt-4">
-                            <button onClick={() => setShowPopup(false)} className="px-4 py-2 bg-gray-400 text-white rounded-lg mr-2">Cancel</button>
+                            <button onClick={handleCancel} className="px-4 py-2 bg-gray-400 text-white rounded-lg mr-2">Cancel</button>
                             <button onClick={handleUpload} className="px-4 py-2 bg-green-500 text-white rounded-lg">Submit</button>
                         </div>
                     </div>
