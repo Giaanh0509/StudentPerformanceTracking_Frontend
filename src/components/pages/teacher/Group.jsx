@@ -27,6 +27,8 @@ export const Group = () => {
     const [searchParams, setSearchParams] = useSearchParams();
     const currentPage = parseInt(searchParams.get('page')) || 1;
 
+    const [selectedGroupId, setSelectedGroupId] = useState(null);
+
     const handleClickOutside = (event) => {
         if (event.target === event.currentTarget) {
             setShowModal(false);
@@ -76,7 +78,39 @@ export const Group = () => {
 
         fetchData();
 
-    }, [userInfo])
+    }, [groups, userInfo])
+
+
+    const deleteGroup = (groupId) => {
+            if (userInfo.id != 0) {
+                axios.get(`http://localhost:8080/groups/delete/${groupId}`)
+                    .then(response => {})
+                    .catch(error => {
+                        console.error('There was an error!', error);
+                    });
+            }
+    }
+
+    useEffect(() => {
+        const fetchData = async () => {
+            if (userInfo.id != 0) {
+
+                axios.get(`http://localhost:8080/groups/delete/`)
+                    .then(response => {
+                        {
+                        }
+                    })
+                    .catch(error => {
+                        console.error('There was an error!', error);
+                    });
+            }
+        };
+
+        fetchData();
+
+    }, [groups, userInfo])
+
+
 
     const indexOfLastSubject = currentPage * subjectsPerPage;
     const indexOfFirstSubject = indexOfLastSubject - subjectsPerPage;
@@ -149,8 +183,8 @@ export const Group = () => {
                                 </div>
 
                                 <div className="flex gap-x-2 ml-6 font-monts1 px-2rrat font-meidum">
-                                    <button className="bg-[#a39904] p-2 rounded-lg text-white"><FaEdit /></button>
-                                    <button className="bg-[#a30303] p-2 rounded-lg text-white"><MdDelete /></button>
+                                    <button  className="bg-[#a39904] p-2 rounded-lg text-white"><FaEdit /></button>
+                                    <button onClick={() => {deleteGroup(group.id)}} className="bg-[#a30303] p-2 rounded-lg text-white"><MdDelete /></button>
 
                                     <Link to={`/teacher/groups/${group.id}`}>
                                         <div className="flex items-center">
