@@ -32,7 +32,7 @@ export const Login = () => {
                 localStorage.setItem('userLoginDTO', JSON.stringify(userLoginDTO));
 
                 console.log(userLoginDTO.roleId);
-                if(userLoginDTO.roleId == 3) navigate('/admin');
+                if(userLoginDTO.roleId == 3) navigate('/expert');
                     else navigate('/teacher');
             })
             .catch((error) => {

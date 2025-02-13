@@ -7,21 +7,21 @@ export const DASHBOARD_SIDEBAR_EXPERT_LINKS = [
 	{
 		key: 'dashboard',
 		label: 'Dashboard',
-		path: '/admin',
+		path: '/expert',
 		icon: <FaHome className='size-6' />
 	},
 
 	{
 		key: 'subjects',
 		label: 'Subjects',
-		path: '/admin/subjects',
+		path: '/expert/subjects',
 		icon: <MdSubject className='size-6' />
 	},
 
 	{
 		key: 'statistics',
 		label: 'Statistics',
-		path: '/admin/statistics',
+		path: '/expert/statistics',
 		icon: <VscGraph className='size-6' />
 	}
 

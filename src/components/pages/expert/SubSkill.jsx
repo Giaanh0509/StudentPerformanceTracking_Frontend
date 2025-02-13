@@ -14,8 +14,8 @@ export const indicatorSubSkillContext = createContext();
 export const SubSkill = () => {
     const { subjectId, skillId } = useParams();
 
-    const subId = subjectId.split('=')[1];
-    const skId = skillId.split('=')[1];
+    const subId = subjectId;
+    const skId = skillId;
 
     const [subjectName, setSubjectName] = useState(null);
     const [subSkillName, setSubSkillName] = useState(null);
@@ -141,7 +141,7 @@ export const SubSkill = () => {
                 <div>
                     {subSkills.map((skill) => (
                         skill.childrenSkill ? (
-                            <Link to={`/admin/subjects/id=${subId}/skills/id=${skId}/subskills/id=${skill.id}`} key={skill.id}>
+                            <Link to={`/expert/subjects/id=${subId}/skills/id=${skId}/subskills/id=${skill.id}`} key={skill.id}>
                                 <div key={skill.id} className="flex p-4 ml-7 gap-x-3 mt-3 mr-3 bg-neutral-200 items-center">
                                     <FaAngleDown className="-rotate-90" />
                                     <div className="font-montserrat font-semibold">

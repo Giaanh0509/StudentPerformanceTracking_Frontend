@@ -64,7 +64,6 @@ export const Group = () => {
                     .then(response => {
                         {
                             const fetchedSubjects = response.data || [];
-                            console.log(fetchedSubjects);
                             setGroups(response.data);
                         }
                     })
@@ -90,27 +89,6 @@ export const Group = () => {
                     });
             }
     }
-
-    useEffect(() => {
-        const fetchData = async () => {
-            if (userInfo.id != 0) {
-
-                axios.get(`http://localhost:8080/groups/delete/`)
-                    .then(response => {
-                        {
-                        }
-                    })
-                    .catch(error => {
-                        console.error('There was an error!', error);
-                    });
-            }
-        };
-
-        fetchData();
-
-    }, [groups, userInfo])
-
-
 
     const indexOfLastSubject = currentPage * subjectsPerPage;
     const indexOfFirstSubject = indexOfLastSubject - subjectsPerPage;

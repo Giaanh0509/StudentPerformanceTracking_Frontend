@@ -19,7 +19,7 @@ export const SubjectDetail = () => {
     const { id } = useParams();
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
-    const subjectId = id.split('=')[1];
+    const subjectId = id;
     const [subject, setSubject] = useState({
         id: "",
         name: "",
@@ -114,7 +114,7 @@ export const SubjectDetail = () => {
             </div>
 
             <div className='flex justify-between ml-8 mr-3'>
-                <div className='w-80 h-44 bg-neutral-200 my-5'>
+                <div className='w-80 h-44 bg-neutral-200 my-5 rounded-xl'>
                     <div className='flex flex-col my-3 gap-y-3'>
                         <div className='flex justify-center text-xl font-bold mb-5'>
                             Number of uses
@@ -125,20 +125,21 @@ export const SubjectDetail = () => {
                     </div>
                 </div>
 
-                <div className='w-3/5 h-44 bg-neutral-200  my-5 py-3 px-4 gap-y-5'>
+                <div className='w-3/5 h-44 bg-neutral-200  my-5 py-3 px-4 gap-y-5 rounded-xl'>
                     <div className='text-xl flex items-center gap-x-4 font-montserrat font-bold mb-3'>Infomation
-                        <CiEdit />
                     </div>
                     <div className='flex font-medium justify-between mr-[75px] mb-3'>
-                        <div className='flex gap-x-2'>Name:<div className='text-[#348a6c]'>
+                        <div className='flex gap-x-12'>Name:<div className='text-[#348a6c]'>
                             {subject.name}
                         </div></div>
                         <div className='flex gap-x-2'>Create date:
                             <div className='text-[#348a6c]'>{subject.createDate}</div></div>
                     </div>
 
-                    <div className='flex font-medium justify-between mr-16'>Description: IELTS is a globally recognized test that evaluates English language skills in listening, reading, writing, and speaking for academic, immigration, or professional purposes.</div>
-
+                    <div className="flex font-medium justify-between mr-16 gap-x-2">
+                        <span className="text-black">Description:</span>
+                        <span className="text-[#348a6c]"> IELTS is a globally recognized test that evaluates English language skills in listening, reading, writing, and speaking for academic, immigration, or professional purposes.</span>
+                    </div>
                 </div>
             </div>
 
@@ -173,10 +174,10 @@ export const SubjectDetail = () => {
             </div>
 
             {!loading && (
-                <div className="skill-list-container">
+                <div className="skill-list-container overflow-y-auto max-h-60">
                     {skills.map((skill) => (
                         skill.childrenSkill ? (
-                            <Link to={`/admin/subjects/id=${subjectId}/skills/id=${skill.id}`} key={skill.id}>
+                            <Link to={`/expert/subjects/${subjectId}/skills/${skill.id}`} key={skill.id}>
                                 <div className="grid grid-cols-4 p-4 ml-7 gap-x-3 mt-3 mr-3 items-center">
                                     <div className="font-montserrat font-medium">
                                         {skill.name}

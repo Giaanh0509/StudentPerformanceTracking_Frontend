@@ -95,7 +95,7 @@ export const NewSubject = () => {
 
 
             <div className="flex justify-end">
-                <button onClick={saveSubject} className="bg-gradient-to-l from-[#4df1bb] to-[#1c8764] py-2 px-4 rounded-lg">Create</button>
+                <button onClick={saveSubject} className="bg-gradient-to-l from-[#3ccb9b] to-[#1c8764] py-2 px-4 rounded-lg text-white">Create</button>
             </div>
         </div>
     )

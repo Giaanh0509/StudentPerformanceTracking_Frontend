@@ -86,10 +86,9 @@ export const Subject = () => {
             </div>
             <div className="flex justify-between mb-3 text-sm">
                 <div className=" ml-7 mr-auto">
-                    <select className="p-[8px] border-[1px] rounded-lg w-44 border-[#7fa195]" name="" id="">
-                        <option value="all">Select all subjects</option>
-                        <option value="myself">Select my subjects</option>
-                    </select>
+                    <div className="p-[8px] border-[1px] rounded-lg w-44 border-[#7fa195]" name="" id="">
+                        Number of subjects: <span className="font-bold">{subjects.length}</span>
+                    </div>
                 </div>
                 <div className="">
                     <input className="border-[1px] p-2 rounded-lg w-80 border-[#7fa195]" type="text" placeholder="Search for subjects" />
@@ -116,8 +115,8 @@ export const Subject = () => {
             {!loading && (
                 <div>
                     {currentSubjects.map((subject) => (
-                        <Link to={`/admin/subjects/id=${subject.id}`} key={subject.id}>
-                            <div className="flex justify-between px-4 py-4 ml-7 gap-x-3 mr-3 items-center">
+                        <Link to={`/expert/subjects/${subject.id}`} key={subject.id}>
+                            <div className="flex justify-between px-4 py-4 ml-7 gap-x-3 mr-3 items-center hover:bg-slate-100">
                                 <div className="flex-1 font-montserrat font-medium">
                                     {subject.name}
                                 </div>

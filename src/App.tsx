@@ -23,7 +23,7 @@ function App() {
       <Routes>
         <Route path='signin' element={<Login></Login>} />
         <Route path='signup' element={<SignUp></SignUp>} />
-        <Route path="/admin" element={<PrivateRoute><Layout /></PrivateRoute>}>
+        <Route path="/expert" element={<PrivateRoute><Layout /></PrivateRoute>}>
           <Route index element={<Dashboard />} />
           <Route path="subjects" element={<Subject />} />
           <Route path="subjects/:id" element={<SubjectDetail />} />
