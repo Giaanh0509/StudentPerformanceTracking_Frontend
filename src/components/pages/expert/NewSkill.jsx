@@ -60,22 +60,22 @@ export const NewSkill = () => {
 
         SkillService.saveSkill(newSkill)
             .then((response) => {
-                const createdSkill = response.data;  
+                const createdSkill = response.data;
                 const newSkillId = createdSkill.id;
 
                 console.log(response.data);
-                
+
                 setCheck(true);
 
                 setSkills((prevSkills) => [createdSkill, ...prevSkills]);
                 if (skill.children === false) {
                     const newIndicator = {
                         ...indicator,
-                        skillId: newSkillId 
+                        skillId: newSkillId
                     };
 
                     console.log(newIndicator);
-    
+
                     IndicatorService.saveIndicator(newIndicator)
                         .then((indicatorResponse) => {
                             console.log('Indicator created:', indicatorResponse.data);
@@ -84,7 +84,7 @@ export const NewSkill = () => {
                             console.error('Error creating indicator:', indicatorError);
                         });
                 }
-        
+
                 setShowModal(false);
             })
             .catch((err) => {
@@ -94,12 +94,11 @@ export const NewSkill = () => {
     }
 
     return (
-        <div className="flex flex-col gap-y-4 bg-white p-4 rounded-lg w-[750px] h-3/4">
-            <div className="flex justify-between">
-                <div className="font-bold text-xl text-[#08c891]">Create new skill</div>
+        <div className="flex flex-col gap-y-4 bg-white px-4 pb-4 rounded-lg w-[600px] h-3/4 font-montserrat max-h-[370px] overflow-y-auto">
+            <div className="flex justify-between sticky top-0 bg-white px-2 py-3 z-10 border-b-[1px] border-gray-400">
+                <div className="font-bold text-xl text-[#08c891]">Create New Skill</div>
                 <TiDelete onClick={handleCloseModal} className="size-7" />
             </div>
-            <div className="border-[1px] border-b-gray-400"></div>
             <div className="flex justify-between gap-x-5">
                 <div className="font-semibold">Name:</div>
                 <input
@@ -107,7 +106,7 @@ export const NewSkill = () => {
                     name="name"
                     value={skill.name}
                     onChange={(e) => handleChange(e)}
-                    className="border-2 p-1 w-80 mr-64" />
+                    className="border-2 p-1 w-80 mr-28 rounded-lg" />
             </div>
 
             <div className="flex justify-between gap-x-5">
@@ -118,18 +117,23 @@ export const NewSkill = () => {
                     name="formula"
                     value={skill.formula}
                     onChange={(e) => handleChange(e)}
-                    className="border-2 p-1 w-80 mr-64" />
+                    className="border-2 p-1 w-80 mr-28 rounded-lg" />
             </div>
 
             <div className="flex justify-between gap-x-5">
                 <div className="font-semibold">Description:</div>
 
-                <input
-                    type="text"
+                <textarea
                     name="description"
                     value={skill.description}
                     onChange={(e) => handleChange(e)}
-                    className="border-2 p-1 w-80 mr-64" />
+                    className="border-2 p-1 w-80 mr-28 h-auto min-h-[4rem] rounded-lg resize-none overflow-hidden"
+                    rows="1"
+                    onInput={(e) => {
+                        e.target.style.height = "auto";
+                        e.target.style.height = `${e.target.scrollHeight}px`;
+                    }}
+                ></textarea>
             </div>
 
             <div className="flex justify-between gap-x-5">
@@ -168,7 +172,7 @@ export const NewSkill = () => {
                             name="name"
                             value={indicator.name}
                             onChange={(e) => handleChangeIndicator(e)}
-                            className="border-2 p-1 w-80 mr-64" />
+                            className="border-2 p-1 w-80 mr-28 rounded-lg" />
                     </div>
 
                     <div className="flex justify-between gap-x-5">
@@ -178,36 +182,36 @@ export const NewSkill = () => {
                             name="evaluation_type"
                             value={indicator.evaluation_type}
                             onChange={(e) => handleChangeIndicator(e)}
-                            className="border-2 p-1 w-80 mr-64" />
+                            className="border-2 p-1 w-80 mr-28 rounded-lg" />
                     </div>
 
                     <div className="flex justify-between gap-x-5">
-                        <div className="flex gap-x-16 mr-1">
-                        <div className="font-semibold">Min Scale:</div>
-                        <input
-                            type="number"
-                            name="scale_min"
-                            value={indicator.scale_min}
-                            onChange={(e) => handleChangeIndicator(e)}
-                            className="border-2 p-1 w-20" />
-                        </div>    
+                        <div className="flex gap-x-10 mr-1">
+                            <div className="font-semibold">Min Scale:</div>
+                            <input
+                                type="number"
+                                name="scale_min"
+                                value={indicator.scale_min}
+                                onChange={(e) => handleChangeIndicator(e)}
+                                className="border-2 p-1 w-20 rounded-lg" />
+                        </div>
 
-                        <div className="flex gap-x-16 mr-auto">
-                        <div className="font-semibold">Max Scale:</div>
-                        <input
-                            type="number"
-                            name="scale_max"
-                            value={indicator.scale_max}
-                            onChange={(e) => handleChangeIndicator(e)}
-                            className="border-2 p-1 w-20" />
-                        </div>    
+                        <div className="flex gap-x-14 mr-auto">
+                            <div className="font-semibold">Max Scale:</div>
+                            <input
+                                type="number"
+                                name="scale_max"
+                                value={indicator.scale_max}
+                                onChange={(e) => handleChangeIndicator(e)}
+                                className="border-2 p-1 w-20 rounded-lg" />
+                        </div>
                     </div>
 
                 </div>
             )}
 
-            <div className="flex justify-end">
-                <button onClick={saveSkill} className="bg-gradient-to-l from-[#41c699] to-[#1c8764] py-2 text-white px-4 rounded-lg">Create</button>
+            <div className="flex justify-center bg-gradient-to-l from-[#41c699] to-[#1c8764] rounded-lg mt-4">
+                <button onClick={saveSkill} className="py-2 text-white px-4 rounded-lg">Create</button>
             </div>
         </div>
     )

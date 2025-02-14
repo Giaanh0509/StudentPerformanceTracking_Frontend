@@ -17,7 +17,7 @@ export const Subject = () => {
         roleId: ""
     });
 
-    const [subjectsPerPage] = useState(7);
+    const [subjectsPerPage] = useState(10);
 
     const [searchParams, setSearchParams] = useSearchParams();
     const currentPage = parseInt(searchParams.get('page')) || 1;
@@ -106,14 +106,14 @@ export const Subject = () => {
                     <div>
                         Name
                     </div>
-                    <div className="mr-[700px]">
+                    <div className="mr-[715px]">
                         Create Date
                     </div>
                 </div>
             </div>
 
             {!loading && (
-                <div>
+                <div className="flex flex-col max-h-[400px] overflow-y-auto">
                     {currentSubjects.map((subject) => (
                         <Link to={`/expert/subjects/${subject.id}`} key={subject.id}>
                             <div className="flex justify-between px-4 py-4 ml-7 gap-x-3 mr-3 items-center hover:bg-slate-100">
