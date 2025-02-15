@@ -94,9 +94,9 @@ export const NewSkill = () => {
     }
 
     return (
-        <div className="flex flex-col gap-y-4 bg-white px-4 pb-4 rounded-lg w-[600px] h-3/4 font-montserrat max-h-[370px] overflow-y-auto">
+        <div className="flex flex-col gap-y-4 bg-white px-4 pb-4 rounded-lg w-[600px] h-3/4 font-montserrat max-h-[380px] overflow-y-auto">
             <div className="flex justify-between sticky top-0 bg-white px-2 py-3 z-10 border-b-[1px] border-gray-400">
-                <div className="font-bold text-xl text-[#08c891]">Create New Skill</div>
+                <div className="font-bold text-xl text-[#03966c]">Create New Skill</div>
                 <TiDelete onClick={handleCloseModal} className="size-7" />
             </div>
             <div className="flex justify-between gap-x-5">
@@ -106,7 +106,7 @@ export const NewSkill = () => {
                     name="name"
                     value={skill.name}
                     onChange={(e) => handleChange(e)}
-                    className="border-2 p-1 w-80 mr-28 rounded-lg" />
+                    className="border-2 p-1 border-[#979c9b] w-96 mr-10 rounded-lg" />
             </div>
 
             <div className="flex justify-between gap-x-5">
@@ -117,7 +117,7 @@ export const NewSkill = () => {
                     name="formula"
                     value={skill.formula}
                     onChange={(e) => handleChange(e)}
-                    className="border-2 p-1 w-80 mr-28 rounded-lg" />
+                    className="border-2 border-[#979c9b] p-1 w-96 mr-10 rounded-lg" />
             </div>
 
             <div className="flex justify-between gap-x-5">
@@ -127,7 +127,7 @@ export const NewSkill = () => {
                     name="description"
                     value={skill.description}
                     onChange={(e) => handleChange(e)}
-                    className="border-2 p-1 w-80 mr-28 h-auto min-h-[4rem] rounded-lg resize-none overflow-hidden"
+                    className="border-2 border-[#979c9b] p-1 w-96 mr-10 h-auto min-h-[5rem] rounded-lg resize-none overflow-hidden"
                     rows="1"
                     onInput={(e) => {
                         e.target.style.height = "auto";
@@ -172,7 +172,7 @@ export const NewSkill = () => {
                             name="name"
                             value={indicator.name}
                             onChange={(e) => handleChangeIndicator(e)}
-                            className="border-2 p-1 w-80 mr-28 rounded-lg" />
+                            className="border-2 border-[#979c9b] p-1 w-96 mr-10 rounded-lg" />
                     </div>
 
                     <div className="flex justify-between gap-x-5">
@@ -182,28 +182,28 @@ export const NewSkill = () => {
                             name="evaluation_type"
                             value={indicator.evaluation_type}
                             onChange={(e) => handleChangeIndicator(e)}
-                            className="border-2 p-1 w-80 mr-28 rounded-lg" />
+                            className="border-2 border-[#979c9b] p-1 w-96 mr-10 rounded-lg" />
                     </div>
 
-                    <div className="flex justify-between gap-x-5">
-                        <div className="flex gap-x-10 mr-1">
+                    <div className="flex justify-between gap-x-20">
+                        <div className="flex gap-x-12 mr-1">
                             <div className="font-semibold">Min Scale:</div>
                             <input
                                 type="number"
                                 name="scale_min"
                                 value={indicator.scale_min}
                                 onChange={(e) => handleChangeIndicator(e)}
-                                className="border-2 p-1 w-20 rounded-lg" />
+                                className="border-2 border-[#979c9b] p-1 w-20 rounded-lg" />
                         </div>
 
-                        <div className="flex gap-x-14 mr-auto">
+                        <div className="flex gap-x-12 mr-auto ml-3">
                             <div className="font-semibold">Max Scale:</div>
                             <input
                                 type="number"
                                 name="scale_max"
                                 value={indicator.scale_max}
                                 onChange={(e) => handleChangeIndicator(e)}
-                                className="border-2 p-1 w-20 rounded-lg" />
+                                className="border-2 border-[#979c9b] p-1 w-20 rounded-lg" />
                         </div>
                     </div>
 

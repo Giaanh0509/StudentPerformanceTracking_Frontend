@@ -51,6 +51,11 @@ export const SubjectImpl = () => {
         setInputName(e.target.value);
     };
 
+    const formatDate = () => {
+        const now = new Date();
+        return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+    };
+
     const handleSubmit = async () => {
         try {
             const dataToSend = {
@@ -58,6 +63,7 @@ export const SubjectImpl = () => {
                 objectiveName: inputName,
                 user_id: userInfo.id,
                 subject_id: selectedSubjectId,
+                createDate: formatDate(),
                 objectives: objectives
             };
             await axios.post("http://localhost:8080/objectives/new", dataToSend);
@@ -116,21 +122,21 @@ export const SubjectImpl = () => {
     console.log(objectives);
 
     return (
-        <div className="flex flex-col gap-y-4 bg-white p-4 rounded-lg w-[1200px] h-5/6 overflow-y-auto">
-            <div className="flex text-2xl font-montserrat font-medium">
+        <div className="flex flex-col gap-y-4 bg-white p-4 rounded-lg w-[1200px] h-5/6 overflow-y-auto font-montserrat">
+            <div className="flex text-2xl font-medium">
                 Implement subject:
                 <p className="font-bold ml-3 text-[#4dad8c]">{subject.name}</p>
                 <TiDelete onClick={handleCloseModal} className="size-7 ml-auto cursor-pointer" />
             </div>
             <div className="border-[1px] border-b-gray-400"></div>
             <div className="flex justify-center text-xl ">
-                <p className="p-3 border rounded-lg">{subject.name}</p>
+                <p className="p-3 border border-black rounded-lg">{subject.name}</p>
             </div>
 
             <div className="flex flex-col-4 mx-5 gap-x-5 justify-center">
                 {skills.map((skill) =>
                     skill.parentSkill === null ? (
-                        <div key={skill.id} className="p-3 border rounded-lg">
+                        <div key={skill.id} className="p-3 border border-black rounded-lg">
                             {skill.name}
                         </div>
                     ) : null)
@@ -139,13 +145,13 @@ export const SubjectImpl = () => {
 
             <div className="flex text-lg font-montserrat mt-4 gap-x-6">
                 <div className="font-bold">Name:</div>
-                <input type="text" className="border-2 p-1 border-black h-8" value={inputName} onChange={handleNameChange}  />
+                <input type="text" className="border-2 p-1 border-zinc-300 h-9 rounded-lg" value={inputName} onChange={handleNameChange}  />
             </div>
 
             <div className="flex text-lg font-montserrat font-bold mt-4">
                 Group:
                 <div className="relative ml-5 w-56 font-medium">
-                    <select className="w-full border-2 p-1 border-black max-h-40 overflow-auto" value={selectedGroup} onChange={handleGroupChange}>
+                    <select className="w-full border-2 p-1 rounded-lg h-9 border-zinc-300 max-h-40 overflow-auto" value={selectedGroup} onChange={handleGroupChange}>
                         <option value=""></option>
                         {groups.map((group, index) => (
                             <option key={index} value={group.id}>
@@ -221,7 +227,7 @@ export const SubjectImpl = () => {
             </div>
 
             <div className="flex justify-end">
-                <button onClick={handleSubmit} className="bg-green-600 text-white p-2 rounded mt-4">Submit</button>
+                <button onClick={handleSubmit} className="bg-green-600 text-white p-2 rounded-lg">Submit</button>
             </div>
         </div>
     );

@@ -15,22 +15,17 @@ export const Indicator = () => {
         const fetchData = async () => {
             try {
                 const response = await IndicatorService.getAllIndicators();
-                {response.data.map((indicator) => {
-                    if(indicator.skillId == selectedSkillId) {
-                        setIndicator(indicator);
-                    };
-                })}
+                const matchedIndicator = response.data.find(ind => ind.skillId === selectedSkillId);
+                if (matchedIndicator) {
+                    setIndicator(matchedIndicator);
+                }
             } catch (err) {
-                console.log(err);
+                console.error("Error fetching indicator:", err);
             }
-
         };
 
         fetchData();
-
-    }, [])
-
-    console.log(indicator);
+    }, [selectedSkillId]);
 
     return(
         <div className="flex flex-col gap-y-4 bg-white p-4 rounded-lg w-[350px] h-2/6">

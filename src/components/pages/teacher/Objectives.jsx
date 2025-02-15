@@ -52,10 +52,9 @@ export const Objectives = () => {
 
             <div className="flex justify-between mb-3">
                 <div className="mt-3 ml-7 mr-auto">
-                    <select className="p-[8px] border-[1px] rounded-lg w-44 border-[#7fa195]" name="" id="">
-                        <option value="all">Slect all objectives</option>
-                        <option value="myself">Select my objectives</option>
-                    </select>
+                    <div className="p-[8px] border-[1px] rounded-lg w-52 border-[#7fa195]" name="" id="">
+                        Number of objectives: <span className="font-bold ml-2">{objectives.length}</span>
+                    </div>
                 </div>
                 <div className="mt-3">
                     <input className="border-[1px] p-2 rounded-lg w-80 border-[#7fa195]" type="text" placeholder="Search for objectives" />
@@ -104,7 +103,7 @@ export const Objectives = () => {
                                 </div>
 
                                 <div>
-                                    2025-02-05
+                                    {objective.createDate}
                                 </div>
 
                                 <div className="flex gap-x-2">

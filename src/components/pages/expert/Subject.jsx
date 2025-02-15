@@ -4,6 +4,8 @@ import { NewSubject } from "./NewSubject";
 import { useState, createContext, useEffect } from "react";
 import { Link, useSearchParams } from 'react-router-dom';
 import axios from "axios";
+import { TiDelete } from "react-icons/ti";
+
 
 export const modalContext = createContext();
 
@@ -102,12 +104,17 @@ export const Subject = () => {
             </div>
 
             <div className="px-4 py-3 ml-7 gap-x-3 mt-3 mr-3 rounded-md bg-neutral-200 items-center">
-                <div className="flex justify-between font-montserrat font-bold ">
+                <div className="grid grid-cols-4 font-montserrat font-bold ">
                     <div>
                         Name
                     </div>
-                    <div className="mr-[715px]">
+
+                    <div className="">
                         Create Date
+                    </div>
+
+                    <div className="">
+                        Uses
                     </div>
                 </div>
             </div>
@@ -115,18 +122,24 @@ export const Subject = () => {
             {!loading && (
                 <div className="flex flex-col max-h-[400px] overflow-y-auto">
                     {currentSubjects.map((subject) => (
-                        <Link to={`/expert/subjects/${subject.id}`} key={subject.id}>
-                            <div className="flex justify-between px-4 py-4 ml-7 gap-x-3 mr-3 items-center hover:bg-slate-100">
-                                <div className="flex-1 font-montserrat font-medium">
-                                    {subject.name}
+                            <Link to={`/expert/subjects/${subject.id}`} key={subject.id}>
+                                <div className="grid grid-cols-4 px-4 py-4 ml-7 font-montserrat gap-x-3 items-center hover:bg-slate-100">
+                                    <div className="font-montserrat font-medium">
+                                        {subject.name}
+                                    </div>
+                                    <div className="font-medium">
+                                        {subject.createDate}
+                                    </div>
+
+                                    <div className="font-medium ml-3">3</div>
+
+                                    <div>
+
+                                    </div>
+                                    {/* <FaAngleDown className="-rotate-90" /> */}
                                 </div>
-                                <div className="font-montserrat font-medium mr-[677px]">
-                                    {subject.createDate}
-                                </div>
-                                <FaAngleDown className="-rotate-90" />
-                            </div>
-                            <div className="ml-7 gap-x-3 mr-3 border-[1px] border-b-gray-200"></div>
-                        </Link>
+                                <div className="ml-7 gap-x-3 mr-3 border-[1px] border-b-gray-200"></div>
+                            </Link>
                     ))}
                 </div>
             )}

@@ -20,7 +20,7 @@ export const SubjectTeacher = () => {
     }
     );
 
-    const [subjectsPerPage] = useState(5);
+    const [subjectsPerPage] = useState(8);
 
     const [searchParams, setSearchParams] = useSearchParams();
     const currentPage = parseInt(searchParams.get('page')) || 1;
@@ -128,7 +128,7 @@ export const SubjectTeacher = () => {
             </div>
 
             {!loading && (
-                <div>
+                <div className="flex flex-col max-h-[400px] overflow-y-auto">
                     {currentSubjects.map((subject) => (
                         <div>
                             <div key={subject.id} className="grid grid-cols-4 p-4 ml-7 gap-x-3 mt-3 mr-3 items-center">

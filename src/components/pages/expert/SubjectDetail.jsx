@@ -148,7 +148,7 @@ export const SubjectDetail = () => {
                 <div className="mt-3">
                     <input className="border-[1px] p-2 rounded-lg w-80 border-[#7fa195]" type="text" placeholder="Search for skill" />
                 </div>
-                <div className="flex items-center gap-x-2 p-2 bg-gradient-to-t rounded-lg from-[#8dbaaa] to-[#14ce90] m-3 text-white">
+                <div className="flex items-center gap-x-2 p-2 bg-gradient-to-t rounded-lg from-[#508572] to-[#14ce90] m-3 text-white">
                     <IoIosAddCircle className="size-5" />
                     <button onClick={handleButton} className="text-base font-montserrat font-medium">
                         Create New Skill
@@ -178,7 +178,7 @@ export const SubjectDetail = () => {
                     {skills.map((skill) => (
                         skill.childrenSkill ? (
                             <Link to={`/expert/subjects/${subjectId}/skills/${skill.id}`} key={skill.id}>
-                                <div className="grid grid-cols-4 p-4 ml-7 gap-x-3 mt-3 mr-3 items-center">
+                                <div className="grid grid-cols-4 p-4 ml-7 gap-x-3 mr-3 items-center hover:bg-slate-100">
                                     <div className="font-montserrat font-medium">
                                         {skill.name}
                                     </div>
@@ -201,7 +201,7 @@ export const SubjectDetail = () => {
                             </Link>
                         ) : (
                             <div>
-                                <div onClick={() => handleSkillClick(skill.id)} className="grid grid-cols-4 p-4 ml-7 gap-x-3 mt-3 mr-3 items-center cursor-pointer">
+                                <div onClick={() => handleSkillClick(skill.id)} className="grid grid-cols-4 p-4 ml-7 gap-x-3 mr-3 items-center cursor-pointer hover:bg-slate-100">
                                     <div className="font-montserrat font-medium">
                                         {skill.name}
                                     </div>

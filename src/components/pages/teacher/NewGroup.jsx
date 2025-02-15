@@ -17,13 +17,17 @@ export const NewGroup = () => {
         userId: ""
     });
 
+    const [errors, setErrors] = useState({ name: false, description: false });
+
     const handleCloseModal = () => {
         setShowModal(false);
     };
 
     const handleChange = (e) => {
-        const value = e.target.value;
-        setGroup({ ...group, [e.target.name]: value });
+        const { name, value } = e.target;
+        setGroup({ ...group, [name]: value });
+
+        setErrors((prevErrors) => ({ ...prevErrors, [name]: false }));
     }
 
     useEffect(() => {
@@ -46,10 +50,18 @@ export const NewGroup = () => {
 
     const saveGroup = (e) => {
         e.preventDefault();
-    
+
+        let newErrors = {
+            name: !group.name,
+            description: !group.description
+        };
+        setErrors(newErrors);
+
+        if (newErrors.name || newErrors.description) return;
+
         GroupService.saveGroup(group)
             .then((response) => {
-                setGroups((prevGroups) => [...prevGroups, response.data]);  
+                setGroups((prevGroups) => [...prevGroups, response.data]);
                 setShowModal(false);
             })
             .catch((err) => {
@@ -59,34 +71,40 @@ export const NewGroup = () => {
 
     return (
         <div>
-            <div className="flex flex-col gap-y-4 bg-white p-4 rounded-lg w-[750px] h-2/3">
+            <div className="flex flex-col gap-y-4 bg-white p-4 rounded-lg w-[500px] h-2/3">
                 <div className="flex justify-between">
-                    <div className="font-bold text-xl">Create new group</div>
-                    <TiDelete onClick={handleCloseModal} className="size-7" />
+                    <h2 className="font-bold text-2xl text-[#03966c]">Create New Subject</h2>
+                    <button onClick={handleCloseModal} className="text-gray-600 hover:text-red-500 transition text-2xl">
+                        <TiDelete className="size-7" />
+                    </button>
                 </div>
                 <div className="border-[1px] border-b-gray-400"></div>
-                <div className="flex justify-between gap-x-5">
-                    Name:
+
+                <div className="flex flex-col gap-1">
+                    <span className="font-semibold">Name:</span>
                     <input
                         type="text"
                         name="name"
                         value={group.name}
                         onChange={(e) => handleChange(e)}
-                        className="border-2 p-2 w-80 mr-64" />
+                        placeholder="Enter subject name"
+                        className={`border-2 p-2 w-full rounded-lg ${errors.name ? "border-red-500 focus:ring-red-500" : ""
+                            }`} />
                 </div>
-
-                <div className="flex justify-between gap-x-5">
-                    Decription:
-                    <input
-                        type="text"
+                <div className="flex flex-col gap-1">
+                    <span className="font-semibold">Decription:</span>
+                    <textarea
                         name="description"
                         value={group.description}
-                        onChange={(e) => handleChange(e)}
-                        className="border-2 p-2 w-80 mr-64" />
+                        onChange={handleChange}
+                        placeholder="Enter subject description"
+                        className={`border-2 p-2 w-full rounded-lg resize-none ${errors.description ? "border-red-500 focus:ring-red-500" : ""
+                            }`}
+                        rows="3"
+                    ></textarea>
                 </div>
-
-                <div className="flex justify-end">
-                    <button onClick={saveGroup} className="bg-gradient-to-l from-[#4df1bb] to-[#1c8764] py-2 px-4 rounded-lg">Create</button>
+                <div className="flex justify-center bg-gradient-to-l from-[#4df1bb] to-[#1c8764]  rounded-lg">
+                    <button onClick={saveGroup} className="py-2 px-4 text-white">Create</button>
                 </div>
             </div>
         </div>
