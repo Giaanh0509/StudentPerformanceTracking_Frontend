@@ -164,7 +164,7 @@ export const NewSkill = () => {
 
             {skill.children === false && (
                 <div className="flex flex-col gap-y-5">
-                    <div className="font-bold text-xl text-[#08c891]">Create indicators for skill</div>
+                    <div className="font-bold text-xl text-[#03966c]">Create indicators for skill</div>
                     <div className="flex justify-between gap-x-5">
                         <div className="font-semibold">Name:</div>
                         <input

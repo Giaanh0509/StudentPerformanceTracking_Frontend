@@ -22,7 +22,7 @@ export const Group = () => {
     }
     );
 
-    const [subjectsPerPage] = useState(5);
+    const [subjectsPerPage] = useState(8);
 
     const [searchParams, setSearchParams] = useSearchParams();
     const currentPage = parseInt(searchParams.get('page')) || 1;
@@ -144,7 +144,7 @@ export const Group = () => {
 
 
             {!loading && (
-                <div>
+                <div className="flex flex-col max-h-[400px] overflow-y-auto">
                     {currentSubjects.map((group) => (
                         <div>
                             <div key={group.id} className="grid grid-cols-4 p-4 ml-7 gap-x-3 mt-3 mr-3 items-center">

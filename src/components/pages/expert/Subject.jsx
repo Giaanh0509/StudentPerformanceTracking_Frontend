@@ -4,6 +4,8 @@ import { NewSubject } from "./NewSubject";
 import { useState, createContext, useEffect } from "react";
 import { Link, useSearchParams } from 'react-router-dom';
 import axios from "axios";
+import { FaEdit } from "react-icons/fa";
+import { MdDelete } from "react-icons/md";
 import { TiDelete } from "react-icons/ti";
 
 
@@ -57,7 +59,6 @@ export const Subject = () => {
                 axios.get(`http://localhost:8080/subjects/userId=${userInfo.id}`)
                     .then(response => {
                         const fetchedSubjects = response.data || [];
-                        console.log(fetchedSubjects);
                         setSubjects(response.data);
                     })
                     .catch(error => {
@@ -78,6 +79,16 @@ export const Subject = () => {
     const paginate = (pageNumber) => {
         setSearchParams({ page: pageNumber });
     };
+
+    const deleteSubject = (subjectId) => {
+        if (userInfo.id != 0) {
+            axios.get(`http://localhost:8080/subjects/delete/${subjectId}`)
+                .then(response => { })
+                .catch(error => {
+                    console.error('There was an error!', error);
+                });
+        }
+    }
 
     return (
         <div className="flex flex-col h-full bg-white rounded-xl m-8 p-1">
@@ -116,30 +127,44 @@ export const Subject = () => {
                     <div className="">
                         Uses
                     </div>
+
+                    <div className="">
+                        State
+                    </div>
                 </div>
             </div>
 
             {!loading && (
                 <div className="flex flex-col max-h-[400px] overflow-y-auto">
                     {currentSubjects.map((subject) => (
-                            <Link to={`/expert/subjects/${subject.id}`} key={subject.id}>
-                                <div className="grid grid-cols-4 px-4 py-4 ml-7 font-montserrat gap-x-3 items-center hover:bg-slate-100">
-                                    <div className="font-montserrat font-medium">
-                                        {subject.name}
-                                    </div>
-                                    <div className="font-medium">
-                                        {subject.createDate}
-                                    </div>
-
-                                    <div className="font-medium ml-3">3</div>
-
-                                    <div>
-
-                                    </div>
-                                    {/* <FaAngleDown className="-rotate-90" /> */}
+                        <Link to={`/expert/subjects/${subject.id}`} key={subject.id}>
+                            <div className="grid grid-cols-4 px-4 py-4 ml-7 font-montserrat gap-x-3 items-center hover:bg-slate-100">
+                                <div className="font-montserrat font-medium">
+                                    {subject.name}
                                 </div>
-                                <div className="ml-7 gap-x-3 mr-3 border-[1px] border-b-gray-200"></div>
-                            </Link>
+                                <div className="font-medium">
+                                    {subject.createDate}
+                                </div>
+
+                                <div className="font-medium ml-2">3</div>
+
+                                <div className="flex justify-between">
+                                    Public
+
+                                    <div
+                                        className="cursor-pointer transition-transform duration-300"
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                        }}
+                                    >
+                                        <button onClick={() => {deleteSubject(subject.id)}} className="bg-[#a30303] p-1 rounded-md text-white mr-5"><MdDelete className="size-4" /></button>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div className="ml-7 gap-x-3 mr-3 border-[1px] border-b-gray-200"></div>
+                        </Link>
                     ))}
                 </div>
             )}
