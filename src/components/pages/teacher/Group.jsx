@@ -146,8 +146,8 @@ export const Group = () => {
             {!loading && (
                 <div className="flex flex-col max-h-[400px] overflow-y-auto">
                     {currentSubjects.map((group) => (
-                        <div>
-                            <div key={group.id} className="grid grid-cols-4 p-4 ml-7 gap-x-3 mt-3 mr-3 items-center">
+                        <Link to={`/teacher/groups/${group.id}`}>
+                            <div key={group.id} className="grid grid-cols-4 p-4 ml-7 gap-x-3 mr-3 items-center hover:bg-slate-100">
                                 <div className="col-span-1 font-montserrat font-meidum">
                                     {group.name}
                                 </div>
@@ -160,21 +160,15 @@ export const Group = () => {
                                     5
                                 </div>
 
-                                <div className="flex gap-x-2 ml-6 font-monts1 px-2rrat font-meidum">
-                                    <button  className="bg-[#a39904] p-2 rounded-lg text-white"><FaEdit /></button>
+                                <div className="flex gap-x-2 ml-6 font-monts1 px-2rrat font-meidum" onClick={(e) => {
+                                            e.preventDefault();
+                                    }}>
                                     <button onClick={() => {deleteGroup(group.id)}} className="bg-[#a30303] p-2 rounded-lg text-white"><MdDelete /></button>
-
-                                    <Link to={`/teacher/groups/${group.id}`}>
-                                        <div className="flex items-center">
-                                            <FaAngleDown className="ml-36 mt-2 -rotate-90" />
-                                        </div>
-                                    </Link>
                                 </div>
 
-                            </div>
-
+                            </div>    
                             <div className="ml-7 gap-x-3 mr-3 border-[1px] border-b-gray-200"></div>
-                        </div>
+                        </Link>
                     ))}
                 </div>
             )}

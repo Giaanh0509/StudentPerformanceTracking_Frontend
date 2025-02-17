@@ -8,10 +8,12 @@ import { NewSkill } from './NewSkill';
 import { CiEdit } from "react-icons/ci";
 import { Indicator } from './Indicator';
 import { selectedSkillContext } from "./selectedSkillContext";
+import { EditSubject } from './EditSubject';
 
 
 export const skillContext = createContext();
 export const indicatorContext = createContext();
+export const editSubjectContext = createContext();
 
 
 export const SubjectDetail = () => {
@@ -23,12 +25,15 @@ export const SubjectDetail = () => {
     const [subject, setSubject] = useState({
         id: "",
         name: "",
-        createDate: ""
+        createDate: "",
+        description: ""
     });
 
 
     const [showModal, setShowModal] = useState(false);
     const [popup, setPopup] = useState(false);
+
+    const [editPopup, setEditPopup] = useState(false);
 
     const [check, setCheck] = useState(false);
 
@@ -37,6 +42,10 @@ export const SubjectDetail = () => {
     const handleButton = () => {
         setShowModal(true);
     };
+
+    const handleEditButton = () => {
+        setEditPopup(true);
+    }
 
     const handleSkillClick = (skillId) => {
         setSelectedSkillId(skillId);
@@ -47,6 +56,7 @@ export const SubjectDetail = () => {
         if (event.target === event.currentTarget) {
             setShowModal(false);
             setPopup(false);
+            setEditPopup(false);
         }
     };
 
@@ -127,6 +137,7 @@ export const SubjectDetail = () => {
 
                 <div className='w-3/5 h-44 bg-neutral-200  my-5 py-3 px-4 gap-y-5 rounded-xl'>
                     <div className='text-xl flex items-center gap-x-4 font-montserrat font-bold mb-3'>Infomation
+                        <button onClick={handleEditButton}> <CiEdit></CiEdit> </button>
                     </div>
                     <div className='flex font-medium justify-between mr-[75px] mb-3'>
                         <div className='flex gap-x-12'>Name:<div className='text-[#348a6c]'>
@@ -138,7 +149,7 @@ export const SubjectDetail = () => {
 
                     <div className="flex font-medium justify-between mr-16 gap-x-2">
                         <span className="text-black">Description:</span>
-                        <span className="text-[#348a6c]"> IELTS is a globally recognized test that evaluates English language skills in listening, reading, writing, and speaking for academic, immigration, or professional purposes.</span>
+                        <span className="text-[#348a6c]"> {subject.description} </span>
                     </div>
                 </div>
             </div>
@@ -241,6 +252,14 @@ export const SubjectDetail = () => {
                         <NewSkill></NewSkill>
                     </div>
                 </skillContext.Provider>
+            )}
+
+            {editPopup && (
+                <editSubjectContext.Provider value={{ subject, setSubject, editPopup, setEditPopup }}>
+                <div onClick={handleClickOutside} className="absolute inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+                    <EditSubject></EditSubject>
+                </div>            
+                </editSubjectContext.Provider>
             )}
 
         </div>
