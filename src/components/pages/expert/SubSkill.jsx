@@ -118,43 +118,85 @@ export const SubSkill = () => {
 
 
     return (
-        <div className="flex flex-col h-full bg-white m-8 p-3">
+        <div className="flex flex-col h-full bg-white m-8 p-3 rounded-lg">
             <div className="flex">
-                <div className="text-3xl px-8 py-4 font-montserrat font-semibold">
+                <div className="text-2xl text-[#046b49] px-8 py-4 font-montserrat font-semibold">
                     Manage Subject / {subjectName} / {subSkillName}
                 </div>
             </div>
 
-            <div className="flex justify-between mb-3">
-                <div className="mt-3 ml-8">
-                    <input className="border-[1px] p-2 rounded-lg w-80 border-[#7fa195]" type="text" placeholder="Search for subskil" />
+            <div className="flex justify-between mb-3 text-sm">
+                <div className=" ml-7 mr-auto">
+                    <div className="p-[8px] border-[1px] rounded-lg w-44 border-[#7fa195]" name="" id="">
+                        Number of subjects: <span className="font-bold"></span>
+                    </div>
                 </div>
-                <div className="flex items-center gap-x-2 p-2 bg-gradient-to-t rounded-lg from-[#8dbaaa] to-[#14ce90] m-3 text-white">
+
+                <div className="flex items-center text-sm gap-x-2 p-2 bg-gradient-to-t rounded-lg from-[#8dbaaa] to-[#14ce90] mx-3 text-white">
                     <IoIosAddCircle className="size-5" />
-                    <button onClick={handleButton} className="text-base font-montserrat font-medium">
-                        Create New SubSkill
+                    <button onClick={handleButton} className="text-sm font-montserrat font-medium">
+                        Create New Skill
                     </button>
+                </div>
+            </div>
+
+            <div className="px-4 py-3 ml-7 gap-x-3 mt-3 mr-3 rounded-md bg-neutral-200 items-center">
+                <div className="grid grid-cols-4 font-montserrat font-bold ">
+                    <div>
+                        Name
+                    </div>
+
+                    <div className="">
+                        Fomula
+                    </div>
+
+                    <div className="">
+                        ChildrenSkill
+                    </div>
+
+                    <div className="">
+                        Create Date
+                    </div>
                 </div>
             </div>
 
             {!loading && (
                 <div>
-                    {subSkills.map((skill) => (
-                        skill.childrenSkill ? (
-                            <Link to={`/expert/subjects/id=${subId}/skills/id=${skId}/subskills/id=${skill.id}`} key={skill.id}>
-                                <div key={skill.id} className="flex p-4 ml-7 gap-x-3 mt-3 mr-3 bg-neutral-200 items-center">
-                                    <FaAngleDown className="-rotate-90" />
-                                    <div className="font-montserrat font-semibold">
-                                        {skill.name}
+                    {subSkills.map((subSkill) => (
+                        subSkill.childrenSkill ? (
+                            <Link to={`/expert/subjects/id=${subId}/skills/id=${skId}/subskills/id=${subSkill.id}`} key={subSkill.id}>
+                                <div key={subSkill.id} className="grid grid-cols-4 px-4 py-4 ml-7 font-montserrat font-medium gap-x-3 items-center hover:bg-slate-100">
+                                    <div className="">
+                                        {subSkill.name}
                                     </div>
+
+                                    <div>
+                                    {subSkill.formula}
+                                    </div>
+
+                                    <div>
+                                        {subSkill.childrenSkill ? "True" : "False"}
+                                    </div>
+
+                                    <div>{subSkill.createDate}</div>
                                 </div>
                             </Link>
                         ) : (
-                            <div key={skill.id} onClick={() => handleSkillClick(skill.id)} className="flex p-4 ml-7 gap-x-3 mt-3 mr-3 bg-neutral-200 items-center">
-                                <FaAngleDown className="-rotate-90" />
-                                <div className="font-montserrat font-semibold">
-                                    Khong co
+                            <div key={subSkill.id} onClick={() => handleSkillClick(subSkill.id)} className="grid grid-cols-4 px-4 py-4 ml-7  font-medium font-montserrat gap-x-3 items-center hover:bg-slate-100">
+                                <div className="">
+                                    {subSkill.name}
                                 </div>
+
+                                <div>
+                                    {subSkill.formula}
+                                </div>
+
+                                <div>
+                                    {subSkill.childrenSkill ? "True" : "False"}
+                                </div>
+
+                                <div>{subSkill.createDate}</div>
+
                             </div>
                         )
                     ))}

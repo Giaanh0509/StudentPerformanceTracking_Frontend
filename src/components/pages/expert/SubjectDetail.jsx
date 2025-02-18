@@ -239,7 +239,7 @@ export const SubjectDetail = () => {
             )}
 
             {popup && (
-                <selectedSkillContext.Provider value={{ selectedSkillId }}>
+                <selectedSkillContext.Provider value={{ selectedSkillId, setPopup}}>
                     <div onClick={handleClickOutside} className="absolute inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
                         <Indicator></Indicator>
                     </div>
