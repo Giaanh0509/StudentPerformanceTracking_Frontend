@@ -7,9 +7,11 @@ import axios from "axios";
 import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { TiDelete } from "react-icons/ti";
+import { DeleteSubject } from "./DeleteSubject";
 
 
 export const modalContext = createContext();
+export const deleteSubjectContext = createContext();
 
 export const Subject = () => {
     const [showModal, setShowModal] = useState(false);
@@ -21,6 +23,9 @@ export const Subject = () => {
         roleId: ""
     });
 
+    const [deletePopup, setDeletePopup] = useState(false);
+    const [selectedSubjectId, setSelectedSubjectId] = useState(null);
+
     const [subjectsPerPage] = useState(10);
 
     const [searchParams, setSearchParams] = useSearchParams();
@@ -30,9 +35,15 @@ export const Subject = () => {
         setShowModal(true);
     };
 
+    const handleDeleteButton = (subjectId) => {
+        setSelectedSubjectId(subjectId);
+        setDeletePopup(true);
+    }
+
     const handleClickOutside = (event) => {
         if (event.target === event.currentTarget) {
             setShowModal(false);
+            setDeletePopup(false);
         }
     };
 
@@ -70,7 +81,7 @@ export const Subject = () => {
         };
 
         fetchData();
-    }, [userInfo]);
+    }, [subjects, userInfo]);
 
     const indexOfLastSubject = currentPage * subjectsPerPage;
     const indexOfFirstSubject = indexOfLastSubject - subjectsPerPage;
@@ -79,16 +90,6 @@ export const Subject = () => {
     const paginate = (pageNumber) => {
         setSearchParams({ page: pageNumber });
     };
-
-    const deleteSubject = (subjectId) => {
-        if (userInfo.id != 0) {
-            axios.get(`http://localhost:8080/subjects/delete/${subjectId}`)
-                .then(response => { })
-                .catch(error => {
-                    console.error('There was an error!', error);
-                });
-        }
-    }
 
     return (
         <div className="flex flex-col h-full bg-white rounded-xl m-8 p-1">
@@ -157,7 +158,7 @@ export const Subject = () => {
                                             e.preventDefault();
                                         }}
                                     >
-                                        <button onClick={() => {deleteSubject(subject.id)}} className="bg-[#a30303] p-1 rounded-md text-white mr-5"><MdDelete className="size-4" /></button>
+                                        <button onClick={() => handleDeleteButton(subject.id)} className="bg-[#a30303] p-1 rounded-md text-white mr-5"><MdDelete className="size-4" /></button>
                                     </div>
                                 </div>
 
@@ -182,6 +183,14 @@ export const Subject = () => {
                 ))}
                 <FaAngleDown className="-rotate-90" />
             </div>
+
+            {deletePopup && (
+                    <deleteSubjectContext.Provider value={{ selectedSubjectId, setDeletePopup}}>
+                    <div onClick={handleClickOutside} className="absolute inset-0 flex justify-center items-center z-50">
+                        <DeleteSubject></DeleteSubject>
+                    </div>
+                    </deleteSubjectContext.Provider>
+            )}
 
             {showModal && (
                 <modalContext.Provider value={{ showModal, setShowModal, subjects, setSubjects }}>

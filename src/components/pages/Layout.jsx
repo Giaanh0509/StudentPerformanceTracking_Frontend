@@ -30,8 +30,7 @@ export const Layout = () => {
         }
     }, []); 
 
-    console.log(userInfo.roleId);
-
+    
     return(
         <div className='flex bg-neutral-200 overflow-hidden h-screen'>
             {userInfo.roleId === 1 ? (
