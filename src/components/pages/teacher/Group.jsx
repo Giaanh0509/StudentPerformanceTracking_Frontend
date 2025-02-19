@@ -7,8 +7,10 @@ import { NewStudent } from "./NewStudent";
 import axios from "axios";
 import { Link, useSearchParams } from 'react-router-dom';
 import { NewGroup } from "./NewGroup";
+import { DeleteGroup } from "./DeleteGroup";
 
 export const modalContext = createContext();
+export const deleteGroupContext = createContext();
 
 export const Group = () => {
 
@@ -20,13 +22,14 @@ export const Group = () => {
         name: "",
         roleId: ""
     }
-    );
+    )
 
     const [subjectsPerPage] = useState(8);
 
     const [searchParams, setSearchParams] = useSearchParams();
     const currentPage = parseInt(searchParams.get('page')) || 1;
 
+    const [deletePopup, setDeletePopup] = useState(false);
     const [selectedGroupId, setSelectedGroupId] = useState(null);
 
     const handleClickOutside = (event) => {
@@ -34,6 +37,11 @@ export const Group = () => {
             setShowModal(false);
         }
     };
+
+    const handleDeleteButton = (groupId) => {
+        setSelectedGroupId(groupId);
+        setDeletePopup(true);
+    }
 
     const handleButton = () => {
         setShowModal(true);
@@ -78,17 +86,6 @@ export const Group = () => {
         fetchData();
 
     }, [groups, userInfo])
-
-
-    const deleteGroup = (groupId) => {
-            if (userInfo.id != 0) {
-                axios.get(`http://localhost:8080/groups/delete/${groupId}`)
-                    .then(response => {})
-                    .catch(error => {
-                        console.error('There was an error!', error);
-                    });
-            }
-    }
 
     const indexOfLastSubject = currentPage * subjectsPerPage;
     const indexOfFirstSubject = indexOfLastSubject - subjectsPerPage;
@@ -163,7 +160,7 @@ export const Group = () => {
                                 <div className="flex gap-x-2 ml-6 font-monts1 px-2rrat font-meidum" onClick={(e) => {
                                             e.preventDefault();
                                     }}>
-                                    <button onClick={() => {deleteGroup(group.id)}} className="bg-[#a30303] p-2 rounded-lg text-white"><MdDelete /></button>
+                                    <button onClick={() => handleDeleteButton(group.id)} className="bg-[#a30303] p-2 rounded-lg text-white"><MdDelete /></button>
                                 </div>
 
                             </div>    
@@ -186,6 +183,14 @@ export const Group = () => {
                 ))}
                 <FaAngleDown className="-rotate-90" />
             </div>
+
+            {deletePopup && (
+                    <deleteGroupContext.Provider value={{ selectedGroupId, setDeletePopup}}>
+                    <div onClick={handleClickOutside} className="absolute inset-0 flex justify-center items-center z-50">
+                        <DeleteGroup></DeleteGroup>
+                    </div>
+                    </deleteGroupContext.Provider>
+            )}
 
             {showModal && (
                 <modalContext.Provider value={{ showModal, setShowModal, groups, setGroups }}>
