@@ -52,7 +52,7 @@ export const Navbar = () => {
 
     return (
         <div className="flex items-center justify-end gap-x-5">
-            <img src={`${Expert}`} alt="" className="w-8 h-8 rounded-full border-2 border-black border-white" />
+            <img src={`${Expert}`} alt="" className="w-8 h-8 rounded-full border-2 border-black" />
             <div className="flex flex-col">
                 <div className="text-sm">{userInfo.username}</div>
                 <div className="text-xs">{getRoleName(userInfo.roleId)}</div>

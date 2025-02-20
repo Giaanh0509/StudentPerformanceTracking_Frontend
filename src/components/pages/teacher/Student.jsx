@@ -384,7 +384,7 @@ export const Student = () => {
             )}
 
             {editPopup && (
-                <editGroupContext.Provider value={{ }}>
+                <editGroupContext.Provider value={{ group, setGroup, editPopup, setEditPopup }}>
                     <div onClick={handleClickOutside} className="absolute inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
                         <EditGroup></EditGroup>
                     </div>
