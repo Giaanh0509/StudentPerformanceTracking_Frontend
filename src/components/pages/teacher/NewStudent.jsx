@@ -67,44 +67,51 @@ export const NewStudent = () => {
 
     return (
         <div>
-            <div className="flex flex-col gap-y-4 bg-white p-4 rounded-lg w-[750px] h-2/3">
-                <div className="flex justify-between">
-                    <div className="font-bold text-xl">Create new student</div>
-                    <TiDelete onClick={handleCloseModal} className="size-7" />
+            <div className="flex flex-col gap-y-4 bg-white font-montserrat p-4 rounded-lg w-[500px] h-2/3">
+            <div className="flex justify-between">
+                    <h2 className="font-bold text-2xl text-[#03966c]">Create New Student</h2>
+                    <button onClick={handleCloseModal} className="text-gray-600 hover:text-red-500 transition text-2xl">
+                        <TiDelete className="size-7" />
+                    </button>
                 </div>
+
                 <div className="border-[1px] border-b-gray-400"></div>
-                <div className="flex justify-between gap-x-5">
-                    Name:
+
+                <div className="flex flex-col gap-1">
+                    <span className="font-semibold">Name:</span>
                     <input
                         type="text"
                         name="name"
                         value={student.name}
                         onChange={(e) => handleChange(e)}
-                        className="border-2 w-72 p-2 mr-72" />
+                        placeholder="Enter subject name"
+                        className={`border-2 p-2 w-full rounded-lg`} />
                 </div>
 
-                <div className="flex justify-between gap-x-5">
-                    Date of Birth:
-                    <input
-                        type="text"
-                        name="dateOfBirth"
-                        value={student.dateOfBirth}
-                        onChange={(e) => handleChange(e)}
-                        className="border-2 w-72 p-2 mr-72" />
-                </div>
-
-                <div className="flex justify-between gap-x-5">
-                    Email:
+                <div className="flex flex-col gap-1">
+                    <span className="font-semibold">Email:</span>
                     <input
                         type="email"
                         name="email"
                         value={student.email}
                         onChange={(e) => handleChange(e)}
-                        className="border-2 w-72 p-2 mr-72" />
+                        placeholder="Enter subject email"
+                        className={`border-2 p-2 w-full rounded-lg`} />
                 </div>
 
-                <div className="flex justify-end">
-                    <button onClick={saveStudent} className="bg-gradient-to-l from-[#4df1bb] to-[#1c8764] py-2 px-4 rounded-lg">Create</button>
+                <div className="flex flex-col gap-1">
+                    <span className="font-semibold">Date of birth:</span>
+                    <input
+                        type="text"
+                        name="dateOfBirth"
+                        value={student.dateOfBirth}
+                        onChange={(e) => handleChange(e)}
+                        placeholder="Enter subject dateOfBirth"
+                        className={`border-2 p-2 w-full rounded-lg`} />
+                </div>
+
+                <div className="flex justify-center bg-gradient-to-l from-[#4df1bb] to-[#1c8764] rounded-lg text-white">
+                    <button onClick={saveStudent} className=" py-2 px-4 rounded-lg">Create</button>
                 </div>
             </div>
         </div>

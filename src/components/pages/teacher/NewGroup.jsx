@@ -71,9 +71,9 @@ export const NewGroup = () => {
 
     return (
         <div>
-            <div className="flex flex-col gap-y-4 bg-white p-4 rounded-lg w-[500px] h-2/3">
+            <div className="flex flex-col gap-y-4 bg-white font-montserrat p-4 rounded-lg w-[500px] h-2/3">
                 <div className="flex justify-between">
-                    <h2 className="font-bold text-2xl text-[#03966c]">Create New Subject</h2>
+                    <h2 className="font-bold text-2xl text-[#03966c]">Create New Group</h2>
                     <button onClick={handleCloseModal} className="text-gray-600 hover:text-red-500 transition text-2xl">
                         <TiDelete className="size-7" />
                     </button>
@@ -91,6 +91,7 @@ export const NewGroup = () => {
                         className={`border-2 p-2 w-full rounded-lg ${errors.name ? "border-red-500 focus:ring-red-500" : ""
                             }`} />
                 </div>
+
                 <div className="flex flex-col gap-1">
                     <span className="font-semibold">Decription:</span>
                     <textarea
@@ -103,6 +104,7 @@ export const NewGroup = () => {
                         rows="3"
                     ></textarea>
                 </div>
+                
                 <div className="flex justify-center bg-gradient-to-l from-[#4df1bb] to-[#1c8764]  rounded-lg">
                     <button onClick={saveGroup} className="py-2 px-4 text-white">Create</button>
                 </div>

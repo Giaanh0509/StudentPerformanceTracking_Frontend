@@ -5,12 +5,16 @@ import { NewStudent } from "./NewStudent";
 import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import axios from "axios";
+import { CiEdit } from "react-icons/ci";
 import { useParams, useLocation } from 'react-router-dom';
 import { Link, useSearchParams } from 'react-router-dom';
 import { AiOutlineExclamationCircle } from "react-icons/ai";
 import * as XLSX from 'xlsx';
 import { FaFileUpload } from "react-icons/fa";
+import { EditGroup } from "./EditGroup";
+
 export const modalContext = createContext();
+export const editGroupContext = createContext();
 
 
 export const Student = () => {
@@ -25,8 +29,9 @@ export const Student = () => {
     const [studentsData, setStudentsData] = useState([]);
     const [showPopup, setShowPopup] = useState(false);
 
+    const [editPopup, setEditPopup] = useState(false);
 
-    const [subjectsPerPage] = useState(5);
+    const [subjectsPerPage] = useState(7);
 
     const [searchParams, setSearchParams] = useSearchParams();
     const currentPage = parseInt(searchParams.get('page')) || 1;
@@ -55,6 +60,10 @@ export const Student = () => {
     const handleButton = () => {
         setShowModal(true);
     };
+
+    const handleEditButton = () => {
+        setEditPopup(true);
+    }
 
     useEffect(() => {
         const storedUserLoginDTO = localStorage.getItem('userLoginDTO');
@@ -124,20 +133,20 @@ export const Student = () => {
             alert("No student data to upload.");
             return;
         }
-    
+
         const updatedStudentsData = studentsData.map(student => ({
             ...student,
-            groupId: id,        
-            userId: userInfo.id 
+            groupId: id,
+            userId: userInfo.id
         }));
-    
+
         try {
             const response = await axios.post("http://localhost:8080/students/newList", updatedStudentsData);
-    
+
             if (response.status === 200) {
                 alert("Students uploaded successfully!");
                 setStudents(prevStudents => [...prevStudents, ...updatedStudentsData]);
-    
+
                 setShowPopup(false);
             }
         } catch (error) {
@@ -145,70 +154,70 @@ export const Student = () => {
             alert("Failed to upload students.");
         }
     };
-    
-    
+
+
     const handleCancel = () => {
         setShowPopup(false);
-        setFile(null); 
+        setFile(null);
     };
 
     const handleFileChange = (event) => {
         const selectedFile = event.target.files[0];
         setFile(selectedFile);
-    
+
         if (selectedFile) {
             const reader = new FileReader();
-    
+
             reader.onload = (e) => {
                 const data = new Uint8Array(e.target.result);
                 const workbook = XLSX.read(data, { type: "array" });
-    
+
                 const sheetName = workbook.SheetNames[0];
                 const worksheet = workbook.Sheets[sheetName];
-    
+
                 let jsonData = XLSX.utils.sheet_to_json(worksheet, { raw: false });
-    
+
                 jsonData = jsonData.map(student => {
                     let parsedDateOfBirth = student.dateOfBirth;
-    
+
                     if (!isNaN(parsedDateOfBirth)) {
-                        
+
                         const excelDate = XLSX.SSF.parse_date_code(parsedDateOfBirth);
                         parsedDateOfBirth = `${excelDate.y}-${String(excelDate.m).padStart(2, '0')}-${String(excelDate.d).padStart(2, '0')}`;
                     } else {
-                        
+
                         const dateParts = parsedDateOfBirth.split("/");
                         if (dateParts.length === 3 && dateParts[2].length === 2) {
                             let year = parseInt(dateParts[2], 10);
                             if (year >= 50) {
-                                year = 1900 + year; 
+                                year = 1900 + year;
                             } else {
-                                year = 2000 + year; 
+                                year = 2000 + year;
                             }
                             dateParts[2] = year.toString();
                             parsedDateOfBirth = dateParts.join("/");
                         }
                     }
-    
+
                     return {
                         ...student,
                         dateOfBirth: parsedDateOfBirth
                     };
                 });
-    
+
                 setStudentsData(jsonData);
                 setShowPopup(true);
-    
+
                 if (fileInputRef.current) {
                     fileInputRef.current.value = "";
                 }
             };
-    
+
             reader.readAsArrayBuffer(selectedFile);
         }
     };
-    
-    
+
+
 
 
     const indexOfLastSubject = currentPage * subjectsPerPage;
@@ -220,10 +229,38 @@ export const Student = () => {
     };
 
     return (
-        <div className="flex flex-col h-full bg-white m-8 p-3">
+        <div className="flex flex-col h-[1000px] bg-white ml-8 mt-8 p-3 overflow-y-auto rounded-t-lg shadow-lg">
             <div className="flex">
-                <div className="text-2xl px-8 py-4 font-montserrat font-semibold">
+                <div className="text-2xl px-8 py-4 font-montserrat font-semibold text-[#046b49]">
                     Manage Groups / {group.name}
+                </div>
+            </div>
+
+            <div className='flex justify-between ml-8 mr-3'>
+                <div className='w-1/2 h-auto bg-neutral-200 my-5 py-3 px-4 gap-y-5 rounded-xl'>
+                    <div className='text-xl flex items-center gap-x-4 font-montserrat font-bold mb-3'>Infomation
+                        <button onClick={handleEditButton}> <CiEdit></CiEdit> </button>
+                    </div>
+
+                    <div className='flex font-medium justify-between mr-[70px] mb-3'>
+                        <div className='flex gap-x-16'>Name:<div className='text-[#348a6c]'>
+                            {group.name}
+                        </div>
+                        </div>
+
+                        <div className='flex gap-x-3'>Create Date:<div className='text-[#348a6c]'>
+                            {group.createDate}
+                        </div>
+                        </div>
+                    </div>
+
+                    <div className='flex font-medium justify-between mr-[75px] mb-3'>
+                        <div className='flex gap-x-6'>Description:<div className='text-[#348a6c]'>
+                            {group.description}
+                        </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
@@ -244,7 +281,7 @@ export const Student = () => {
                 </div>
 
                 <div className="flex items-center gap-x-2">
-                    <input type="file" accept=".xlsx, .xls" onChange={handleFileChange} className="hidden" ref={fileInputRef} id="fileUpload"/>
+                    <input type="file" accept=".xlsx, .xls" onChange={handleFileChange} className="hidden" ref={fileInputRef} id="fileUpload" />
                     <label htmlFor="fileUpload" className="p-2 bg-gradient-to-t rounded-lg from-[#f4a261] to-[#e76f51] m-3 text-white cursor-pointer flex items-center gap-x-2">
                         <FaFileUpload className="size-5" />
                         <span>Upload Excel</span>
@@ -275,8 +312,8 @@ export const Student = () => {
             {!loading && (
                 <div>
                     {currentSubjects.map((student) => (
-                        <Link>
-                            <div key={student.id} className="grid grid-cols-4 p-4 ml-7 gap-x-3 mt-3 mr-3 items-center">
+                        <Link className="flex flex-col">
+                            <div key={student.id} className="grid grid-cols-4 p-4 ml-7 gap-x-3 mr-3 items-center hover:bg-slate-100">
                                 <div className="font-montserrat font-medium">
                                     {student.name}
                                 </div>
@@ -331,7 +368,7 @@ export const Student = () => {
                         </div>
 
                         <div className="flex justify-end mt-4">
-                            <button onClick={handleCancel} className="px-4 py-2 bg-gray-400 text-white rounded-lg mr-2">Cancel</button>
+                            <button onClick={handleCancel} className="px-4 py-2 bg-red-600 text-white rounded-lg mr-2">Cancel</button>
                             <button onClick={handleUpload} className="px-4 py-2 bg-green-500 text-white rounded-lg">Submit</button>
                         </div>
                     </div>
@@ -344,6 +381,14 @@ export const Student = () => {
                         <NewStudent></NewStudent>
                     </div>
                 </modalContext.Provider>
+            )}
+
+            {editPopup && (
+                <editGroupContext.Provider value={{ }}>
+                    <div onClick={handleClickOutside} className="absolute inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+                        <EditGroup></EditGroup>
+                    </div>
+                </editGroupContext.Provider>
             )}
         </div>
     )
