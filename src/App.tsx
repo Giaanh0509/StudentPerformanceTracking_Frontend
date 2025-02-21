@@ -40,6 +40,7 @@ function App() {
           <Route path="groups" element={<Group />} />
           <Route path="groups/:id" element={<Student />} />
           <Route path="objectives" element={<Objectives />} />
+          <Route path="objectives/:id" />
         </Route>
 
       </Routes>

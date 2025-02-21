@@ -54,6 +54,7 @@ export const Student = () => {
     const handleClickOutside = (event) => {
         if (event.target === event.currentTarget) {
             setShowModal(false);
+            setEditPopup(false);
         }
     };
 
