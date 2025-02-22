@@ -61,7 +61,7 @@ export const Objectives = () => {
     return (
         <div className="flex flex-col h-full bg-white m-8 p-3 rounded-lg">
             <div className="flex">
-                <div className="text-3xl px-8 py-4 font-montserrat font-semibold">
+                <div className="text-2xl px-8 py-4 font-montserrat font-semibold">
                     Manage Objectives
                 </div>
             </div>

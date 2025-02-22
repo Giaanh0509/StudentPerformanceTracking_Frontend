@@ -2,6 +2,9 @@ import { TiDelete } from "react-icons/ti";
 import axios from "axios";
 import { useEffect, useState, useContext } from "react";
 import { modalContext } from "./SubjectTeacher";
+import ReactFlow, { MiniMap, Controls, Background } from "reactflow";
+import "reactflow/dist/style.css";
+import { CustomDropdown } from "./CustomDropdown";
 
 export const SubjectImpl = () => {
     const { selectedSubjectId } = useContext(modalContext);
@@ -109,7 +112,72 @@ export const SubjectImpl = () => {
                 setSkills(skillsData);
             })
             .catch(error => console.log(error));
-    }, []);
+    }, [selectedSubjectId]);
+
+    const calculateSkillLevels = (skills) => {
+        const levels = {};
+        const maxLevel = 5;
+
+        for (let level = 0; level < maxLevel; level++) {
+            skills.forEach(skill => {
+                if (skill.parentSkill === null) {
+                    levels[skill.id] = 0;
+                } else if (levels[skill.parentSkill.id] !== undefined) {
+                    levels[skill.id] = levels[skill.parentSkill.id] + 1;
+                }
+            });
+        }
+
+        return levels;
+    };
+
+    const generateNodesAndEdges = () => {
+        const nodes = [];
+        const edges = [];
+        const skillLevels = calculateSkillLevels(skills);
+
+        const levelColumns = {};
+
+        nodes.push({
+            id: `subject-${selectedSubjectId}`,
+            type: "input",
+            data: { label: subject.name },
+            position: { x: 400, y: 50 }
+        });
+
+        skills.forEach((skill) => {
+            const level = skillLevels[skill.id] || 0;
+            if (!levelColumns[level]) levelColumns[level] = 0;
+
+            nodes.push({
+                id: `skill-${skill.id}`,
+                data: { label: skill.name },
+                position: { x: 200 + levelColumns[level] * 200, y: 150 + level * 150 }
+            });
+
+            levelColumns[level] += 1;
+
+            if (skill.parentSkill) {
+                edges.push({
+                    id: `edge-${skill.parentSkill.id}-${skill.id}`,
+                    source: `skill-${skill.parentSkill.id}`,
+                    target: `skill-${skill.id}`,
+                    animated: true,
+                });
+            } else {
+                edges.push({
+                    id: `edge-${selectedSubjectId}-${skill.id}`,
+                    source: `subject-${selectedSubjectId}`,
+                    target: `skill-${skill.id}`,
+                    animated: true,
+                });
+            }
+        });
+
+        return { nodes, edges };
+    };
+
+    const { nodes, edges } = generateNodesAndEdges();
 
     useEffect(() => {
         if (skillIndicator.length > 0) {
@@ -123,112 +191,125 @@ export const SubjectImpl = () => {
 
     return (
         <div className="flex flex-col gap-y-4 bg-white p-4 rounded-lg w-[1200px] h-5/6 overflow-y-auto font-montserrat">
-            <div className="flex text-2xl font-medium">
+            <div className="flex text-xl font-medium">
                 Implement subject:
                 <p className="font-bold ml-3 text-[#4dad8c]">{subject.name}</p>
                 <TiDelete onClick={handleCloseModal} className="size-7 ml-auto cursor-pointer" />
             </div>
             <div className="border-[1px] border-b-gray-400"></div>
-            <div className="flex justify-center text-xl ">
-                <p className="p-3 border border-black rounded-lg">{subject.name}</p>
-            </div>
 
-            <div className="flex flex-col-4 mx-5 gap-x-5 justify-center">
-                {skills.map((skill) =>
-                    skill.parentSkill === null ? (
-                        <div key={skill.id} className="p-3 border border-black rounded-lg">
-                            {skill.name}
+            <div className="flex flex-col w-full">
+                <div className="relative w-full h-[300px] overflow-hidden border-2 border-gray-400 rounded-lg">
+                    <ReactFlow
+                        nodes={nodes}
+                        edges={edges}
+                        nodesConnectable={false}
+                        nodesDraggable={false}
+                        fitView
+                        fitViewOptions={{ padding: 0.2 }}
+                        minZoom={0.2}
+                        maxZoom={1.5}
+                        style={{ width: '100%', height: '100%' }}
+                    >
+                        <MiniMap />
+                        <Controls />
+                        <Background />
+                    </ReactFlow>
+                </div>
+
+                <div className="overflow-auto mt-8">
+                    <div className="flex text-lg font-montserrat gap-x-6 justify-between">
+                        <div>
+                        <div className="font-bold">Name:</div>
+                        <input type="text" className="border-2 p-1 w-72 border-zinc-300 h-9 rounded-lg" value={inputName} onChange={handleNameChange} />
                         </div>
-                    ) : null)
-                }
-            </div>
+                        
+                        <CustomDropdown
+                            groups={groups}
+                            selectedGroup={selectedGroup}
+                            setSelectedGroup={setSelectedGroup}
+                        />
 
-            <div className="flex text-lg font-montserrat mt-4 gap-x-6">
-                <div className="font-bold">Name:</div>
-                <input type="text" className="border-2 p-1 border-zinc-300 h-9 rounded-lg" value={inputName} onChange={handleNameChange}  />
-            </div>
+                    </div>
 
-            <div className="flex text-lg font-montserrat font-bold mt-4">
-                Group:
-                <div className="relative ml-5 w-56 font-medium">
-                    <select className="w-full border-2 p-1 rounded-lg h-9 border-zinc-300 max-h-40 overflow-auto" value={selectedGroup} onChange={handleGroupChange}>
-                        <option value=""></option>
-                        {groups.map((group, index) => (
-                            <option key={index} value={group.id}>
-                                {group.name}
-                            </option>
+
+
+                    <table className="w-full font-montserrat font-bold border-collapse border-b border-gray-300 mt-4">
+                        <thead>
+                            <tr className="text-left">
+                                <th className="py-2 pr-14">Skill</th>
+                                <th className="px-4 py-2">Indicator</th>
+                                <th className="px-4 py-2">Scale_min</th>
+                                <th className="px-4 py-2">Scale_max</th>
+                                <th className="px-4 py-2">Evaluation_type</th>
+                                <th className="px-4 py-2">Start_value</th>
+                                <th className="px-4 py-2">Objective_value</th>
+                                <th className="px-4 py-2">Start_date</th>
+                                <th className="px-4 py-2">End_date</th>
+                            </tr>
+                        </thead>
+                    </table>
+
+                    <div>
+                        {indicators.map(indicator => (
+                            <div key={indicator.id} className="grid grid-cols-9 font-montserrat mb-3 mt-4">
+                                <div>{indicator.skillName}</div>
+                                <div>{indicator.name}</div>
+                                <div>{indicator.scale_min}</div>
+                                <div>{indicator.scale_max}</div>
+                                <div>{indicator.evaluation_type}</div>
+                                <div>
+                                    <input
+                                        type="number"
+                                        className="border border-black p-1 w-20"
+                                        name="start_value"
+                                        value={objectives.find(obj => obj.indicator_id === indicator.id)?.start_value || ""}
+                                        onChange={(e) => handleChange(e, indicator.id)}
+                                    />
+                                </div>
+                                <div>
+                                    <input
+                                        type="number"
+                                        className="border border-black p-1 w-20"
+                                        name="objective_value"
+                                        value={objectives.find(obj => obj.indicator_id === indicator.id)?.objective_value || ""}
+                                        onChange={(e) => handleChange(e, indicator.id)}
+                                    />
+                                </div>
+                                <div>
+                                    <input
+                                        type="date"
+                                        className="border border-black p-1 w-[120px]"
+                                        name="start_date"
+                                        value={objectives.find(obj => obj.indicator_id === indicator.id)?.start_date || ""}
+                                        onChange={(e) => handleChange(e, indicator.id)}
+                                    />
+                                </div>
+                                <div>
+                                    <input
+                                        type="date"
+                                        className="border border-black p-1 w-[120px]"
+                                        name="end_date"
+                                        value={objectives.find(obj => obj.indicator_id === indicator.id)?.end_date || ""}
+                                        onChange={(e) => handleChange(e, indicator.id)}
+                                    />
+                                </div>
+                            </div>
                         ))}
-                    </select>
+                    </div>
                 </div>
             </div>
 
-            <table className="w-full font-montserrat font-bold border-collapse border-b border-gray-300">
-                <thead>
-                    <tr className="text-left">
-                        <th className="py-2 pr-14">Skill</th>
-                        <th className="px-4 py-2">Indicator</th>
-                        <th className="px-4 py-2">Scale_min</th>
-                        <th className="px-4 py-2">Scale_max</th>
-                        <th className="px-4 py-2">Evaluation_type</th>
-                        <th className="px-4 py-2">Start_value</th>
-                        <th className="px-4 py-2">Objective_value</th>
-                        <th className="px-4 py-2">Start_date</th>
-                        <th className="px-4 py-2">End_date</th>
-                    </tr>
-                </thead>
-            </table>
 
-            <div>
-                {indicators.map(indicator => (
-                    <div key={indicator.id} className="grid grid-cols-9 font-montserrat mb-3">
-                        <div>{indicator.skillName}</div>
-                        <div>{indicator.name}</div>
-                        <div>{indicator.scale_min}</div>
-                        <div>{indicator.scale_max}</div>
-                        <div>{indicator.evaluation_type}</div>
-                        <div>
-                            <input
-                                type="number"
-                                className="border border-black p-1 w-20"
-                                name="start_value"
-                                value={objectives.find(obj => obj.indicator_id === indicator.id)?.start_value || ""}
-                                onChange={(e) => handleChange(e, indicator.id)}
-                            />
-                        </div>
-                        <div>
-                            <input
-                                type="number"
-                                className="border border-black p-1 w-20"
-                                name="objective_value"
-                                value={objectives.find(obj => obj.indicator_id === indicator.id)?.objective_value || ""}
-                                onChange={(e) => handleChange(e, indicator.id)}
-                            />
-                        </div>
-                        <div>
-                            <input
-                                type="date"
-                                className="border border-black p-1 w-[120px]"
-                                name="start_date"
-                                value={objectives.find(obj => obj.indicator_id === indicator.id)?.start_date || ""}
-                                onChange={(e) => handleChange(e, indicator.id)}
-                            />
-                        </div>
-                        <div>
-                            <input
-                                type="date"
-                                className="border border-black p-1 w-[120px]"
-                                name="end_date"
-                                value={objectives.find(obj => obj.indicator_id === indicator.id)?.end_date || ""}
-                                onChange={(e) => handleChange(e, indicator.id)}
-                            />
-                        </div>
-                    </div>
-                ))}
-            </div>
+
 
             <div className="flex justify-end">
                 <button onClick={handleSubmit} className="bg-green-600 text-white p-2 rounded-lg">Submit</button>
             </div>
+
+            {/* Sửa lại phần ReactFlow */}
+
         </div>
+
     );
 };

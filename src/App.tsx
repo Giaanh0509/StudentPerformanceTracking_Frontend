@@ -16,6 +16,7 @@ import { Objectives } from './components/pages/teacher/Objectives';
 import { SubjectTeacher } from './components/pages/teacher/SubjectTeacher';
 import { SubjectDetailTeacher } from './components/pages/teacher/SubjectDetailTeacher';
 import { SubSkillTeacher } from './components/pages/teacher/SubSkillTeacher';
+import { ObjectiveDetails } from './components/pages/teacher/ObjectiveDetails';
 
 function App() {
   return (
@@ -40,7 +41,7 @@ function App() {
           <Route path="groups" element={<Group />} />
           <Route path="groups/:id" element={<Student />} />
           <Route path="objectives" element={<Objectives />} />
-          <Route path="objectives/:id" />
+          <Route path="objectives/:id" element={<ObjectiveDetails />}  />
         </Route>
 
       </Routes>
