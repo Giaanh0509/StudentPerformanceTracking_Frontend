@@ -10,11 +10,11 @@ export const CustomDropdown = ({ groups, selectedGroup, setSelectedGroup }) => {
     };
 
     return (
-        <div className="flex flex-col text-lg font-montserrat font-bold">
+        <div className="flex flex-col text-lg font-montserrat font-bold gap-y-3">
             <div>Group: </div>
             <div className="relative w-52 font-medium">
                 <div 
-                    className="flex  justify-between w-full border-2 py-1 px-1 rounded-lg h-9 border-zinc-300 cursor-pointer bg-white"
+                    className="flex  justify-between w-full border-2 py-1 px-1 rounded-lg h-10 border-zinc-300 cursor-pointer bg-white"
                     onClick={() => setIsOpen(!isOpen)}
                 >    
                         <div className='ml-1'>

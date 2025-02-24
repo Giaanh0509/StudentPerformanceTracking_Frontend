@@ -219,9 +219,9 @@ export const SubjectImpl = () => {
 
                 <div className="overflow-auto mt-8">
                     <div className="flex text-lg font-montserrat gap-x-6 justify-between">
-                        <div>
+                        <div className="flex flex-col gap-y-3">
                         <div className="font-bold">Name:</div>
-                        <input type="text" className="border-2 p-1 w-72 border-zinc-300 h-9 rounded-lg" value={inputName} onChange={handleNameChange} />
+                        <input type="text" className="border-2 p-1 w-72 border-zinc-300 h-10 rounded-lg" value={inputName} onChange={handleNameChange} />
                         </div>
                         
                         <CustomDropdown

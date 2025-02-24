@@ -8,7 +8,7 @@ import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { TiDelete } from "react-icons/ti";
 import { DeleteSubject } from "./DeleteSubject";
-
+import { FaSort } from "react-icons/fa";
 
 export const modalContext = createContext();
 export const deleteSubjectContext = createContext();
@@ -117,26 +117,26 @@ export const Subject = () => {
 
             <div className="px-4 py-3 ml-7 gap-x-3 mt-3 mr-3 rounded-md bg-neutral-200 items-center">
                 <div className="grid grid-cols-4 font-montserrat font-bold ">
-                    <div>
-                        Name
+                    <div className="flex gap-x-1 items-center">
+                        Name <FaSort />
                     </div>
 
-                    <div className="">
-                        Create Date
+                    <div className="flex gap-x-1 items-center">
+                        Create Date <FaSort />
                     </div>
 
-                    <div className="">
-                        Uses
+                    <div className="flex gap-x-1 items-center">
+                        Uses <FaSort />
                     </div>
 
-                    <div className="">
-                        State
+                    <div className="flex gap-x-1 items-center">
+                        State <FaSort />
                     </div>
                 </div>
             </div>
 
             {!loading && (
-                <div className="flex flex-col max-h-[400px] overflow-y-auto">
+                <div className="flex flex-col max-h-[380px] overflow-y-auto">
                     {currentSubjects.map((subject) => (
                         <Link to={`/expert/subjects/${subject.id}`} key={subject.id}>
                             <div className="grid grid-cols-4 px-4 py-4 ml-7 font-montserrat gap-x-3 items-center hover:bg-slate-100">

@@ -101,13 +101,13 @@ export const SubjectDetailTeacher = () => {
     return (
         <div className='flex flex-col h-full bg-white border-round m-8 p-3'>
             <div className="flex">
-                <div className="text-3xl px-8 py-4 font-montserrat font-semibold">
+                <div className="text-2xl px-8 py-4 font-montserrat font-semibold text-[#046b49]">
                     Subjects / {subject.name}
                 </div>
             </div>
 
             <div className='flex justify-between ml-8 mr-3'>
-                <div className='w-80 h-44 bg-neutral-200 my-5'>
+                <div className='w-80 h-44 bg-neutral-200 my-5 rounded-lg'>
                     <div className='flex flex-col my-3 gap-y-3'>
                         <div className='flex justify-center text-xl font-bold mb-5'>
                             Number of uses
@@ -118,18 +118,21 @@ export const SubjectDetailTeacher = () => {
                     </div>
                 </div>
 
-                <div className='w-3/5 h-44 bg-neutral-200  my-5 py-3 px-4 gap-y-5'>
+                <div className='w-3/5 h-44 bg-neutral-200  my-5 py-3 px-4 gap-y-5 rounded-lg'>
                     <div className='text-xl flex items-center gap-x-4 font-montserrat font-bold mb-3'>Infomation
                     </div>
                     <div className='flex font-medium justify-between mr-[75px] mb-3'>
-                        <div className='flex gap-x-2'>Name:<div className='text-[#348a6c]'>
+                        <div className='flex gap-x-12'>Name:<div className='text-[#348a6c]'>
                             {subject.name}
                         </div></div>
                         <div className='flex gap-x-2'>Create date:
                             <div className='text-[#348a6c]'>{subject.createDate}</div></div>
                     </div>
 
-                    <div className='flex font-medium justify-between mr-16'>Description: IELTS is a globally recognized test that evaluates English language skills in listening, reading, writing, and speaking for academic, immigration, or professional purposes.</div>
+                    <div className="flex font-medium justify-between mr-16 gap-x-2">
+                        <span className="text-black">Description:</span>
+                        <span className="text-[#348a6c]"> {subject.description} </span>
+                    </div>
 
                 </div>
             </div>

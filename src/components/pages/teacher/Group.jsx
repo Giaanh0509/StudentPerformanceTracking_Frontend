@@ -105,7 +105,7 @@ export const Group = () => {
 
             <div className="flex justify-between mb-3 text-sm ">
                 <div className="mt-3 ml-7 mr-auto">
-                    <div className="flex p-[8px] border-[1px] rounded-lg w-44 border-[#7fa195]" name="" id="">
+                    <div className="flex p-[8px] border-[1px] rounded-lg w-auto border-[#7fa195]" name="" id="">
                         Number of groups: <p className="ml-2 font-bold">{groups.length}</p>
                     </div>
                 </div>
@@ -157,7 +157,7 @@ export const Group = () => {
                                     5
                                 </div>
 
-                                <div className="flex gap-x-2 ml-6 font-monts1 px-2rrat font-meidum" onClick={(e) => {
+                                <div className="flex gap-x-2 ml-16 font-monts1 px-2rrat font-meidum" onClick={(e) => {
                                             e.preventDefault();
                                     }}>
                                     <button onClick={() => handleDeleteButton(group.id)} className="bg-[#a30303] p-2 rounded-lg text-white"><MdDelete /></button>

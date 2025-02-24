@@ -12,6 +12,8 @@ import { AiOutlineExclamationCircle } from "react-icons/ai";
 import * as XLSX from 'xlsx';
 import { FaFileUpload } from "react-icons/fa";
 import { EditGroup } from "./EditGroup";
+import { AiOutlineArrowLeft } from "react-icons/ai";
+import { useNavigate } from 'react-router-dom';
 
 export const modalContext = createContext();
 export const editGroupContext = createContext();
@@ -218,7 +220,11 @@ export const Student = () => {
         }
     };
 
+    const navigate = useNavigate();
 
+    const handleGoBack = () => {
+        navigate('/teacher/groups');
+    };
 
 
     const indexOfLastSubject = currentPage * subjectsPerPage;
@@ -231,15 +237,21 @@ export const Student = () => {
 
     return (
         <div className="flex flex-col h-[1000px] bg-white ml-8 mt-8 p-3 overflow-y-auto rounded-t-lg shadow-lg">
-            <div className="flex">
-                <div className="text-2xl px-8 py-4 font-montserrat font-semibold text-[#046b49]">
+            <div className="flex items-center">
+                <button
+                    onClick={handleGoBack}
+                    className="flex items-center text-[#046b49] hover:text-[#034d36]"
+                >
+                    <AiOutlineArrowLeft className="text-2xl" />
+                </button>
+                <div className="text-xl px-3 py-2 font-montserrat font-semibold text-[#046b49]">
                     Manage Groups / {group.name}
                 </div>
             </div>
 
             <div className='flex justify-between ml-8 mr-3'>
                 <div className='w-1/2 h-auto bg-neutral-200 my-5 py-3 px-4 gap-y-5 rounded-xl'>
-                    <div className='text-xl flex items-center gap-x-4 font-montserrat font-bold mb-3'>Infomation
+                    <div className='text-lg flex items-center gap-x-4 font-montserrat font-bold mb-3'>Infomation
                         <button onClick={handleEditButton}> <CiEdit></CiEdit> </button>
                     </div>
 

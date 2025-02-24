@@ -147,7 +147,7 @@ export const SubjectDetail = () => {
                             <div className='text-[#348a6c]'>{subject.createDate}</div></div>
                     </div>
 
-                    <div className="flex font-medium justify-between mr-16 gap-x-2">
+                    <div className="flex font-medium mr-16 gap-x-2">
                         <span className="text-black">Description:</span>
                         <span className="text-[#348a6c]"> {subject.description} </span>
                     </div>

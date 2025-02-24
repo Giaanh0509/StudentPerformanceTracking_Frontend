@@ -130,8 +130,8 @@ export const SubjectTeacher = () => {
             {!loading && (
                 <div className="flex flex-col max-h-[400px] overflow-y-auto">
                     {currentSubjects.map((subject) => (
-                        <div>
-                            <div key={subject.id} className="grid grid-cols-4 p-4 ml-7 gap-x-3 mt-3 mr-3 items-center">
+                        <Link to={`/teacher/subjects/${subject.id}`}>
+                            <div key={subject.id} className="grid grid-cols-4 p-4 ml-7 gap-x-3 mr-3 items-center hover:bg-slate-100">
                                 <div className="col-span-1 font-montserrat font-meidum">
                                     {subject.name}
                                 </div>
@@ -141,18 +141,19 @@ export const SubjectTeacher = () => {
 
                                 <div className="font-montserrat font-medium">{subject.userName}</div>
 
-                                <div className="flex justify-between items-center">
+                                <div className="flex justify-between items-center"
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                    }}
+                                >
                                     <button onClick={() => {
                                         handleButton();
                                         handleSelectedSubjectId(subject.id);
                                     }} className="bg-[#049f6b] py-1 px-3 rounded-md text-white">Implement</button>
-                                    <Link to={`/teacher/subjects/${subject.id}`}>
-                                        <FaAngleDown className="-rotate-90" />
-                                    </Link>
                                 </div>
                             </div>
                             <div className="ml-7 gap-x-3 mr-3 border-[1px] border-b-gray-200"></div>
-                        </div>
+                        </Link>
                     ))}
                 </div>
             )}
