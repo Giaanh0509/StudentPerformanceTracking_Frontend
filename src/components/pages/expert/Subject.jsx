@@ -110,7 +110,7 @@ export const Subject = () => {
                 <div className="flex items-center text-sm gap-x-2 p-2 bg-gradient-to-t rounded-lg from-[#8dbaaa] to-[#14ce90] mx-3 text-white">
                     <IoIosAddCircle className="size-5" />
                     <button onClick={handleButton} className="text-sm font-montserrat font-medium">
-                        Create New Subject
+                        New Subject
                     </button>
                 </div>
             </div>

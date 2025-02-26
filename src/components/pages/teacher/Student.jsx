@@ -289,7 +289,7 @@ export const Student = () => {
                 <div className="flex items-center gap-x-2 p-2 bg-gradient-to-t rounded-lg from-[#8dbaaa] to-[#14ce90] ml-3 my-3 text-white">
                     <IoIosAddCircle className="size-5" />
                     <button onClick={handleButton} className="font-montserrat font-medium">
-                        Create New Student
+                        New Student
                     </button>
                 </div>
 

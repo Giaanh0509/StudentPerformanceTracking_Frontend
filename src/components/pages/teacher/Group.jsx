@@ -115,7 +115,7 @@ export const Group = () => {
                 <div className="flex items-center gap-x-2 text-sm p-2 bg-gradient-to-t rounded-lg from-[#8dbaaa] to-[#14ce90] m-3 text-white">
                     <IoIosAddCircle className="size-5" />
                     <button onClick={handleButton} className="font-montserrat font-medium">
-                        Create New Group
+                        New Group
                     </button>
                 </div>
             </div>
