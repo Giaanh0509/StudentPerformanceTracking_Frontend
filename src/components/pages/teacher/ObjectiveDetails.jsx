@@ -13,6 +13,8 @@ import { AiOutlineArrowLeft } from "react-icons/ai";
 import { useNavigate } from 'react-router-dom';
 import { Tracking } from "./Tracking";
 
+export const trackingContext = createContext();
+
 export const ObjectiveDetails = () => {
 
     const { id } = useParams();
@@ -23,7 +25,7 @@ export const ObjectiveDetails = () => {
         roleId: ""
     });
 
-    const [indicators, setIndicators] = useState();
+    const [indicator, setIndicator] = useState();
     const [trackingPopup, setTrackingPopup] = useState(false);
 
     const handleTrackingPopup = () => {
@@ -50,6 +52,11 @@ export const ObjectiveDetails = () => {
         if (event.target === event.currentTarget) {
             setTrackingPopup(false);
         }
+    }
+
+    const seletedSkill = (indicator) => {
+        setIndicator(indicator);
+        setTrackingPopup(true);
     }
 
     useEffect(() => {
@@ -183,7 +190,7 @@ export const ObjectiveDetails = () => {
                     <div className="" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
                         <div className="flex flex-col h-auto gap-y-2 py-2 px-4 pb-3 bg-neutral-200">
                             {objective.indicatorDTOList.map((indicator) => (
-                                <div className="text-lg">{indicator.skillName}</div>
+                                <div onClick={() => {seletedSkill(indicator)}} className="text-lg">{indicator.skillName}</div>
                             )
                             )}
                         </div>
@@ -192,9 +199,11 @@ export const ObjectiveDetails = () => {
             </div>
 
             { trackingPopup && (
+                <trackingContext.Provider value={{id, setTrackingPopup, indicator}}>
                 <div onClick={handleClickOutside} className="absolute inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
                     <Tracking></Tracking>
                 </div>
+                </trackingContext.Provider>
             )}
 
 

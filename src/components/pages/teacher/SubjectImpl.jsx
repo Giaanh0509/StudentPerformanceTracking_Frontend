@@ -303,8 +303,8 @@ export const SubjectImpl = () => {
 
 
 
-            <div className="flex justify-end">
-                <button onClick={handleSubmit} className="bg-green-600 text-white p-2 rounded-lg">Submit</button>
+            <div className="flex  p-2 mt-5 text-white justify-center bg-gradient-to-l from-[#4df1bb] to-[#1c8764]  rounded-lg">
+                <button onClick={handleSubmit}>Submit</button>
             </div>
 
             {/* Sửa lại phần ReactFlow */}
