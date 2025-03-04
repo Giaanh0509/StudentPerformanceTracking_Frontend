@@ -12,8 +12,10 @@ import { FaChevronDown } from 'react-icons/fa';
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import { useNavigate } from 'react-router-dom';
 import { Tracking } from "./Tracking";
+import { NewTracking } from "./NewTracking";
 
 export const trackingContext = createContext();
+export const createTrackingContext = createContext();
 
 export const ObjectiveDetails = () => {
 
@@ -26,10 +28,11 @@ export const ObjectiveDetails = () => {
     });
 
     const [indicator, setIndicator] = useState();
+    const [createTrackingPopup, setCreateTrackingPopup] = useState(false);
     const [trackingPopup, setTrackingPopup] = useState(false);
 
-    const handleTrackingPopup = () => {
-        setTrackingPopup(true);
+    const handleCreateTrackingPopup = () => {
+        setCreateTrackingPopup(true);
     }
 
     const [isOpen, setIsOpen] = useState(false);
@@ -86,7 +89,7 @@ export const ObjectiveDetails = () => {
 
         fetchData();
 
-    }, [])
+    }, [id])
 
     const navigate = useNavigate();
 
@@ -154,7 +157,7 @@ export const ObjectiveDetails = () => {
                 </div>
                 <div className="flex items-center gap-x-2 p-2 bg-gradient-to-t rounded-lg from-[#8dbaaa] to-[#14ce90] ml-3 my-3 text-white">
                     <IoIosAddCircle className="size-5" />
-                    <button onClick={handleTrackingPopup} className="font-montserrat font-medium">
+                    <button onClick={handleCreateTrackingPopup} className="font-montserrat font-medium">
                         New Tracking
                     </button>
                 </div>
@@ -190,7 +193,7 @@ export const ObjectiveDetails = () => {
                     <div className="" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
                         <div className="flex flex-col h-auto gap-y-2 py-2 px-4 pb-3 bg-neutral-200">
                             {objective.indicatorDTOList.map((indicator) => (
-                                <div onClick={() => {seletedSkill(indicator)}} className="text-lg">{indicator.skillName}</div>
+                                <div onClick={() => { seletedSkill(indicator) }} className="text-lg">{indicator.skillName}</div>
                             )
                             )}
                         </div>
@@ -198,14 +201,21 @@ export const ObjectiveDetails = () => {
                 </div>
             </div>
 
-            { trackingPopup && (
-                <trackingContext.Provider value={{id, setTrackingPopup, indicator}}>
-                <div onClick={handleClickOutside} className="absolute inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-                    <Tracking></Tracking>
-                </div>
+            {trackingPopup && (
+                <trackingContext.Provider value={{ id, setTrackingPopup, indicator }}>
+                    <div onClick={handleClickOutside} className="absolute inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+                        <Tracking></Tracking>
+                    </div>
                 </trackingContext.Provider>
             )}
 
+            {createTrackingPopup && (
+                <createTrackingContext.Provider value={{ setCreateTrackingPopup }}>
+                    <div onClick={handleClickOutside} className="absolute inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+                        <NewTracking></NewTracking>
+                    </div>
+                </createTrackingContext.Provider>
+            )}
 
         </div>
     )
