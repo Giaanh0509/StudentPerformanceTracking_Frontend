@@ -93,7 +93,7 @@ export const SubjectTeacher = () => {
     };
 
     return (
-        <div className="flex flex-col h-full bg-white rounded-xl m-8 p-3">
+        <div className="flex flex-col h-[630px] bg-white rounded-xl m-8 p-3 shadow-lg">
             <div className="flex">
                 <div className="text-2xl px-8 py-4 font-montserrat font-semibold">
                     Subjects

@@ -99,7 +99,7 @@ export const SubjectDetailTeacher = () => {
     console.log(selectedSkillId);
 
     return (
-        <div className='flex flex-col h-full bg-white border-round m-8 p-3'>
+        <div className='flex flex-col h-full bg-white border-round m-8 p-3 shadow-lg rounded-lg'>
             <div className="flex">
                 <div className="text-2xl px-8 py-4 font-montserrat font-semibold text-[#046b49]">
                     Subjects / {subject.name}

@@ -239,8 +239,7 @@ export const SubjectImpl = () => {
                             <tr className="text-left">
                                 <th className="py-2 pr-14">Skill</th>
                                 <th className="px-4 py-2">Indicator</th>
-                                <th className="px-4 py-2">Scale_min</th>
-                                <th className="px-4 py-2">Scale_max</th>
+                                <th className="px-4 py-2">Range</th>
                                 <th className="px-4 py-2">Evaluation_type</th>
                                 <th className="px-4 py-2">Start_value</th>
                                 <th className="px-4 py-2">Objective_value</th>
@@ -252,11 +251,10 @@ export const SubjectImpl = () => {
 
                     <div>
                         {indicators.map(indicator => (
-                            <div key={indicator.id} className="grid grid-cols-9 font-montserrat mb-3 mt-4">
+                            <div key={indicator.id} className="grid grid-cols-8 font-montserrat mb-3 mt-4">
                                 <div>{indicator.skillName}</div>
                                 <div>{indicator.name}</div>
-                                <div>{indicator.scale_min}</div>
-                                <div>{indicator.scale_max}</div>
+                                <div>{indicator.scale_min} - {indicator.scale_max}</div>
                                 <div>{indicator.evaluation_type}</div>
                                 <div>
                                     <input

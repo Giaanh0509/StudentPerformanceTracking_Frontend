@@ -1,14 +1,44 @@
 import { useState, useContext, useEffect } from "react";
 import { TiDelete } from "react-icons/ti";
 import { createTrackingContext } from "./ObjectiveDetails";
+import TrackingService from "../../../services/TrackingService";
 
 export const NewTracking = () => {
 
+    const { id }  = useContext(createTrackingContext);
     const { setCreateTrackingPopup }  = useContext(createTrackingContext);
+    const { setTrackings }  = useContext(createTrackingContext);
+
+    const currentDate = new Date().toISOString().split('T')[0];
+
+    const [tracking, setTracking] = useState({
+        id: "",
+        name: "",
+        createDate: currentDate,
+        objectiveId: id
+    });
+
+    const handleChange = (e) => {
+        const value = e.target.value;
+        setTracking({ ...tracking, [e.target.name]: value });
+    }
 
     const handleCloseModal = () => {
         setCreateTrackingPopup(false);
     };
+
+    const saveTracking = (e) => {
+        e.preventDefault();
+    
+        TrackingService.saveTracking(tracking)
+            .then((response) => {
+                setTrackings((prevTracking) => [...prevTracking, response.data]);  
+                setCreateTrackingPopup(false);
+            })
+            .catch((err) => {
+                console.error(err);
+            })
+    }
 
     return(
         <div className="flex flex-col gap-y-4 bg-white font-montserrat p-4 rounded-lg w-[500px] h-auto">
@@ -25,6 +55,8 @@ export const NewTracking = () => {
                     <input
                         type="text"
                         name="name"
+                        value={tracking.name}
+                        onChange={(e) => handleChange(e)}
                         placeholder="Enter tracking name"
                         className={`border-2 p-2 w-full rounded-lg`} />
                 </div>
@@ -40,7 +72,7 @@ export const NewTracking = () => {
                 </div>
                 
                 <div className="flex justify-center bg-gradient-to-l from-[#4df1bb] to-[#1c8764]  rounded-lg">
-                    <button className="py-2 px-4 text-white">Create</button>
+                    <button onClick={saveTracking} className="py-2 px-4 text-white">Create</button>
                 </div>
         </div>
     )

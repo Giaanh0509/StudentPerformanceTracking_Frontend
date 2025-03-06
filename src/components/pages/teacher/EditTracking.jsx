@@ -1,32 +1,20 @@
 import { TiDelete } from "react-icons/ti";
 import axios from "axios";
 import { useEffect, useState, useContext } from "react";
-import { modalContext } from "./SubjectTeacher";
 import { trackingContext } from "./ObjectiveDetails";
-import TrackingService from "../../../services/TrackingService";
 
-export const Tracking = () => {
+export const EditTracking = () => {
 
     const { id } = useContext(trackingContext);
     const { setTrackingPopup } = useContext(trackingContext);
     const { indicator } = useContext(trackingContext);
     const { trackingId } = useContext(trackingContext);
 
+    const [students, setStudents] = useState([]);
+
     const handleCloseModal = () => {
         setTrackingPopup(false);
     }
-
-    const currentDateTime = new Date().toISOString().split('T')[0] + ' ' + new Date().toISOString().split('T')[1].substring(0, 5);
-
-    const [trackingDetails, setTrackingDetails] = useState({
-        id: "",
-        trackingDate: currentDateTime,
-        indicatorId: indicator.id,
-        trackingId: trackingId,
-        studentTracking: [] 
-    })
-
-    const [students, setStudents] = useState([]);
 
     useEffect(() => {
         if (id) {
@@ -44,40 +32,12 @@ export const Tracking = () => {
         }
     }, [id]);
 
-    const handleInputChange = (studentId, value) => {
-        setTrackingDetails(prevDetails => {
-            const updatedStudentTracking = prevDetails.studentTracking.map(item => 
-                item.studentId === studentId ? { ...item, trackingValue: value } : item
-            );
-            
-            if (!updatedStudentTracking.some(item => item.studentId === studentId)) {
-                updatedStudentTracking.push({ studentId, trackingValue: value });
-            }
 
-            return {
-                ...prevDetails,
-                studentTracking: updatedStudentTracking
-            };
-        });
-    };
-
-    const saveTrackingDetails = (e) => {
-        e.preventDefault();
-    
-        TrackingService.saveTrackingDetails(trackingDetails)
-            .then((response) => {
-                setTrackingPopup(false);
-            })
-            .catch((err) => {
-                console.error(err);
-            })
-    }
-
-    return (
+    return(
         <div className="flex flex-col bg-white font-montserrat p-4 rounded-lg w-[1100px] max-h-4/5 overflow-y-auto">
             <div className="flex justify-between text-xl font-medium mb-4">
                 <div className="text-xl">
-                    Tracking:
+                    Edit Tracking:
                     <p className="font-bold ml-3 text-[#4dad8c]"></p>
                 </div>
                 <button onClick={handleCloseModal} className="text-gray-600 hover:text-red-500 transition text-2xl">
@@ -138,8 +98,6 @@ export const Tracking = () => {
                                     <input
                                         className="border-2 rounded-md w-14 px-1 h-9 border-gray-300"
                                         type="number"
-                                        value={trackingDetails.studentTracking.find(item => item.studentId === student.id)?.trackingValue || ''}
-                                        onChange={(e) => handleInputChange(student.id, e.target.value)}
                                     />
                                 </div>
                                 <div className="ml-20"> {indicator.evaluation_type}</div>
@@ -150,8 +108,8 @@ export const Tracking = () => {
             </div>
 
             <div className="flex mt-5 justify-center bg-gradient-to-l from-[#4df1bb] to-[#1c8764]  rounded-lg">
-                <button onClick={saveTrackingDetails} className="py-2 px-4 text-white font-semibold">Submit</button>
+                <button className="py-2 px-4 text-white font-semibold">Submit</button>
             </div>
         </div>
-    );
-};
+    )
+}

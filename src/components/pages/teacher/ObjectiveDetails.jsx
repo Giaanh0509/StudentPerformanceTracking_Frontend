@@ -3,7 +3,7 @@ import { FaAngleDown } from "react-icons/fa6";
 import { MdSpatialTracking } from "react-icons/md";
 import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
-import { useState, createContext, useEffect } from "react";
+import { useState, createContext, useEffect, useRef } from "react";
 import { useParams, useLocation } from 'react-router-dom';
 import axios from "axios";
 import { Link, useSearchParams } from 'react-router-dom';
@@ -13,11 +13,18 @@ import { AiOutlineArrowLeft } from "react-icons/ai";
 import { useNavigate } from 'react-router-dom';
 import { Tracking } from "./Tracking";
 import { NewTracking } from "./NewTracking";
+import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
+import { RiArrowRightWideFill, RiArrowLeftWideFill } from "react-icons/ri";
+import { TiDeleteOutline } from "react-icons/ti";
+import { useSpring, animated } from 'react-spring';
+import { EditTracking } from "./EditTracking";
 
 export const trackingContext = createContext();
 export const createTrackingContext = createContext();
 
 export const ObjectiveDetails = () => {
+
+    const containerRef = useRef(null);
 
     const { id } = useParams();
 
@@ -27,15 +34,19 @@ export const ObjectiveDetails = () => {
         roleId: ""
     });
 
+    const [loading, setLoading] = useState(true);
+
+
     const [indicator, setIndicator] = useState();
     const [createTrackingPopup, setCreateTrackingPopup] = useState(false);
     const [trackingPopup, setTrackingPopup] = useState(false);
+    const [trackings, setTrackings] = useState([]);
 
     const handleCreateTrackingPopup = () => {
         setCreateTrackingPopup(true);
     }
 
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(true);
 
     const toggleDropdown = () => {
         setIsOpen(!isOpen);
@@ -51,14 +62,18 @@ export const ObjectiveDetails = () => {
     }
     );
 
+    const [trackingId, setTrackingId] = useState(0);
+
     const handleClickOutside = (event) => {
         if (event.target === event.currentTarget) {
             setTrackingPopup(false);
+            setCreateTrackingPopup(false);
         }
     }
 
-    const seletedSkill = (indicator) => {
+    const seletedSkill = (indicator, trackingId) => {
         setIndicator(indicator);
+        setTrackingId(trackingId);
         setTrackingPopup(true);
     }
 
@@ -91,16 +106,75 @@ export const ObjectiveDetails = () => {
 
     }, [id])
 
+    useEffect(() => {
+        const fetchData = async () => {
+            if (id != 0) {
+                setLoading(true);
+                axios.get(`http://localhost:8080/trackings/objectiveId=${id}`)
+                    .then(response => {
+                        {
+                            const fetchedSubjects = response.data || [];
+                            setTrackings(fetchedSubjects);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('There was an error!', error);
+                    });
+
+                setLoading(false)
+            }
+
+
+        };
+
+        fetchData();
+
+    }, [trackings, id])
+
     const navigate = useNavigate();
 
     const handleGoBack = () => {
         navigate('/teacher/objectives');
     };
 
-    console.log(objective.indicatorDTOList);
+    const truncateText = (text, maxLength) => {
+        if (!text || typeof text !== 'string') return '';
+        return text.length > maxLength ? text.substring(0, maxLength) + "..." : text;
+    };
+
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const itemsToShow = trackings.slice(currentIndex, currentIndex + 4);
+
+    const scrollProps = useSpring({
+        opacity: 1,
+        transform: `translateX(-${currentIndex * 260}px)`,
+        config: { friction: 30, tension: 200 },
+    });
+
+    const scrollLeft = () => {
+        if (currentIndex > 0) {
+            setCurrentIndex(currentIndex - 1);
+        }
+    };
+
+    const scrollRight = () => {
+        if (currentIndex + 4 < trackings.length) {
+            setCurrentIndex(currentIndex + 1);
+        }
+    };
+
+    const [checkedStates, setCheckedStates] = useState({});
+
+    const handleCheckboxChange = (trackingId, indicatorId, isChecked) => {
+        setCheckedStates(prevState => ({
+            ...prevState,
+            [`${trackingId}-${indicatorId}`]: isChecked
+        }));
+    };
+
 
     return (
-        <div className="flex flex-col h-full bg-white m-8 p-3 rounded-lg">
+        <div className="flex flex-col h-full bg-white m-8 p-3 rounded-lg shadow-lg overflow-y-auto">
             <div className="flex">
                 <button
                     onClick={handleGoBack}
@@ -115,7 +189,7 @@ export const ObjectiveDetails = () => {
             </div>
 
             <div className='flex justify-between ml-8 mr-3'>
-                <div className='w-1/2 h-auto bg-neutral-200 my-5 py-3 px-4 gap-y-5 rounded-xl'>
+                <div className='w-1/2 h-auto bg-neutral-200 my-5 py-3 px-4 gap-y-5 rounded-xl shadow-lg'>
                     <div className='text-lg flex items-center gap-x-4 font-montserrat font-bold mb-3'>Infomation
                         <button> <CiEdit></CiEdit> </button>
                     </div>
@@ -155,7 +229,7 @@ export const ObjectiveDetails = () => {
                         Number of trackings: <p className="ml-2 font-bold"></p>
                     </div>
                 </div>
-                <div className="flex items-center gap-x-2 p-2 bg-gradient-to-t rounded-lg from-[#8dbaaa] to-[#14ce90] ml-3 my-3 text-white">
+                <div className="flex items-center gap-x-2 p-2 bg-gradient-to-t rounded-lg from-[#8dbaaa] to-[#14ce90] ml-3 my-3 text-white shadow-lg">
                     <IoIosAddCircle className="size-5" />
                     <button onClick={handleCreateTrackingPopup} className="font-montserrat font-medium">
                         New Tracking
@@ -163,54 +237,76 @@ export const ObjectiveDetails = () => {
                 </div>
             </div>
 
-            <div className="px-4 py-3 ml-7 gap-x-3 mt-3 mr-3 text-white items-center rounded-lg bg-neutral-500 ">
-                <div className="flex justify-between items-center font-montserrat font-bold ">
-                    <div className="col-span-1">
-                        Phase 2:
-                        <div className="text-[#348a6c]"></div>
-                    </div>
-                    <div className="-rotate-90"><FaAngleDown></FaAngleDown></div>
-                </div>
-            </div>
+            {!loading && (
+                <div className="flex w-full justify-center items-center mt-7">
+                    <RiArrowLeftWideFill size={60} className="mt-2 mr-4 cursor-pointer" onClick={scrollLeft} />
 
-            <div className={`px-4 py-3 ml-7 gap-x-3 mt-3 mr-3 bg-neutral-500 items-center duration-500 text-white ${isOpen ? 'rounded-t-lg' : 'rounded-lg'}`}>
-                <div className="flex justify-between items-center font-montserrat font-bold ">
-                    <div className="col-span-1">
-                        Phase 1:
-                        <div className="text-[#348a6c]"></div>
-                    </div>
-                    <button onClick={toggleDropdown}>
-                        <div className={`-rotate-90 transition-transform duration-300 ${isOpen ? 'rotate-0' : ''}`}><FaAngleDown></FaAngleDown></div>
-                    </button>
-                </div>
-            </div>
+                    <div className="flex overflow-x-auto gap-x-5 scroll-smooth w-full no-scrollbar whitespace-nowrap">
+                        {itemsToShow.map((tracking, index) => {
+                            const phaseNumber = currentIndex + index + 1;
 
-            <div className="relative inline-block ml-7 mr-3">
+                            return (
+                                <div key={index} className="flex flex-col min-w-[250px] mx-2 rounded-lg">
+                                    <div className={`px-4 py-3 w-[250px] bg-[#348a6c] text-white rounded-t-lg`}>
+                                        <div className="flex justify-between items-center font-montserrat font-bold ">
+                                            <div>
+                                                Phase {phaseNumber}: {truncateText(tracking.name, 10)}
+                                            </div>
+                                        </div>
+                                    </div>
 
-                <div
-                    className={`transition-all duration-500 ease-out transform origin-top-right absolute left-0 w-full rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 ${isOpen ? 'scale-y-100 opacity-100' : 'scale-y-0 opacity-0'}`}
-                >
-                    <div className="" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
-                        <div className="flex flex-col h-auto gap-y-2 py-2 px-4 pb-3 bg-neutral-200">
-                            {objective.indicatorDTOList.map((indicator) => (
-                                <div onClick={() => { seletedSkill(indicator) }} className="text-lg">{indicator.skillName}</div>
-                            )
-                            )}
-                        </div>
+                                    <div className="w-[250px] text-xs font-montserrat h-auto gap-y-2 py-2 px-4 bg-neutral-200 shadow-lg rounded-b-lg">
+                                        {objective.indicatorDTOList.map((indicator, index) => {
+                                            const uniqueCheckboxId = `check-${tracking.id}-${indicator.id}`; // Generate unique ID
+                                            const isChecked = checkedStates[`${tracking.id}-${indicator.id}`] || false; // Get the checked state
+
+                                            return (
+                                                <div className="flex justify-between" key={indicator.id}>
+                                                    <div onClick={() => { seletedSkill(indicator, tracking.id) }} className="text-lg">{indicator.skillName}</div>
+                                                    <div className="inline-flex items-center">
+                                                        <label className="flex items-center cursor-pointer relative">
+                                                            <input
+                                                                type="checkbox"
+                                                                className="peer h-5 w-5 cursor-pointer transition-all appearance-none rounded shadow hover:shadow-md border border-slate-300 checked:bg-teal-600 checked:border-teal-600"
+                                                                id={uniqueCheckboxId}
+                                                                checked={isChecked}
+                                                                onChange={(e) => handleCheckboxChange(tracking.id, indicator.id, e.target.checked)}
+                                                            />
+                                                            <span className="absolute text-white opacity-0 peer-checked:opacity-100 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor" stroke="currentColor" strokeWidth="1">
+                                                                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"></path>
+                                                                </svg>
+                                                            </span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            );
+                                        })}
+
+                                    </div>
+                                </div>
+                            );
+                        })}
                     </div>
+                    <RiArrowRightWideFill size={60} className="mt-2 cursor-pointer" onClick={scrollRight} />
                 </div>
-            </div>
+            )}
 
             {trackingPopup && (
-                <trackingContext.Provider value={{ id, setTrackingPopup, indicator }}>
+                <trackingContext.Provider value={{ id, setTrackingPopup, indicator, trackingId }}>
                     <div onClick={handleClickOutside} className="absolute inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-                        <Tracking></Tracking>
+                        {checkedStates[`${trackingId}-${indicator.id}`] ? (
+                            <EditTracking />
+                        ) : (
+                            <Tracking />
+                        )}
                     </div>
                 </trackingContext.Provider>
             )}
 
+
             {createTrackingPopup && (
-                <createTrackingContext.Provider value={{ setCreateTrackingPopup }}>
+                <createTrackingContext.Provider value={{ id, setCreateTrackingPopup, setTrackings }}>
                     <div onClick={handleClickOutside} className="absolute inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
                         <NewTracking></NewTracking>
                     </div>
