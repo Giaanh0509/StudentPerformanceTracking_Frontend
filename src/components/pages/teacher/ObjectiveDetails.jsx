@@ -19,6 +19,7 @@ import { TiDeleteOutline } from "react-icons/ti";
 import { useSpring, animated } from 'react-spring';
 import { EditTracking } from "./EditTracking";
 
+
 export const trackingContext = createContext();
 export const createTrackingContext = createContext();
 
@@ -172,6 +173,34 @@ export const ObjectiveDetails = () => {
         }));
     };
 
+    const checkTrackingIndicatorExists = async (trackingId, indicatorId) => {
+        try {
+            const response = await axios.get(`http://localhost:8080/trackings/${trackingId}/indicators/${indicatorId}/exists`);
+            return response.data; 
+        } catch (error) {
+            console.error(`Error checking indicator ${indicatorId} for tracking ${trackingId}`, error);
+            return false;
+        }
+    };
+
+    const loadInitialCheckboxStates = async () => {
+        const newCheckedStates = {};
+    
+        for (const tracking of trackings) {
+            for (const indicator of objective.indicatorDTOList) {
+                const exists = await checkTrackingIndicatorExists(tracking.id, indicator.id);
+                newCheckedStates[`${tracking.id}-${indicator.id}`] = exists;
+            }
+        }
+    
+        setCheckedStates(newCheckedStates);
+    };
+
+    useEffect(() => {
+        if (trackings.length > 0 && objective.indicatorDTOList.length > 0) {
+            loadInitialCheckboxStates();
+        }
+    }, [trackings, objective.indicatorDTOList]);
 
     return (
         <div className="flex flex-col h-full bg-white m-8 p-3 rounded-lg shadow-lg overflow-y-auto">
@@ -226,7 +255,7 @@ export const ObjectiveDetails = () => {
             <div className="flex justify-between mb-3 mr-3 text-sm">
                 <div className="mt-3 ml-7 mr-auto">
                     <div className="flex p-[8px] border-[1px] rounded-lg w-44 border-[#7fa195]" name="" id="">
-                        Number of trackings: <p className="ml-2 font-bold"></p>
+                        Number of trackings: <p className="ml-2 font-bold">{trackings.length}</p>
                     </div>
                 </div>
                 <div className="flex items-center gap-x-2 p-2 bg-gradient-to-t rounded-lg from-[#8dbaaa] to-[#14ce90] ml-3 my-3 text-white shadow-lg">
@@ -250,26 +279,27 @@ export const ObjectiveDetails = () => {
                                     <div className={`px-4 py-3 w-[250px] bg-[#348a6c] text-white rounded-t-lg`}>
                                         <div className="flex justify-between items-center font-montserrat font-bold ">
                                             <div>
-                                                Phase {phaseNumber}: {truncateText(tracking.name, 10)}
+                                                <div>Phase {phaseNumber}: {truncateText(tracking.name, 10)} </div>
                                             </div>
+                                            <div><TiDeleteOutline size={28}/></div>
                                         </div>
                                     </div>
 
-                                    <div className="w-[250px] text-xs font-montserrat h-auto gap-y-2 py-2 px-4 bg-neutral-200 shadow-lg rounded-b-lg">
+                                    <div className="flex flex-col w-[250px] text-xs font-montserrat h-auto gap-y-2 py-2 px-4 bg-neutral-200 shadow-lg rounded-b-lg">
                                         {objective.indicatorDTOList.map((indicator, index) => {
-                                            const uniqueCheckboxId = `check-${tracking.id}-${indicator.id}`; // Generate unique ID
-                                            const isChecked = checkedStates[`${tracking.id}-${indicator.id}`] || false; // Get the checked state
+                                            const uniqueCheckboxId = `check-${tracking.id}-${indicator.id}`;
+                                            const isChecked = checkedStates[`${tracking.id}-${indicator.id}`] || false;
 
                                             return (
                                                 <div className="flex justify-between" key={indicator.id}>
-                                                    <div onClick={() => { seletedSkill(indicator, tracking.id) }} className="text-lg">{indicator.skillName}</div>
+                                                    <div onClick={() => { seletedSkill(indicator, tracking.id) }} className="text-lg tex-white hover:text-[#348a6c] cursor-pointer">{indicator.skillName}</div>
                                                     <div className="inline-flex items-center">
                                                         <label className="flex items-center cursor-pointer relative">
                                                             <input
                                                                 type="checkbox"
                                                                 className="peer h-5 w-5 cursor-pointer transition-all appearance-none rounded shadow hover:shadow-md border border-slate-300 checked:bg-teal-600 checked:border-teal-600"
                                                                 id={uniqueCheckboxId}
-                                                                checked={isChecked}
+                                                                checked={checkedStates[`${tracking.id}-${indicator.id}`] || false}
                                                                 onChange={(e) => handleCheckboxChange(tracking.id, indicator.id, e.target.checked)}
                                                             />
                                                             <span className="absolute text-white opacity-0 peer-checked:opacity-100 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">

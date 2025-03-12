@@ -12,8 +12,18 @@ export const EditTracking = () => {
 
     const [students, setStudents] = useState([]);
 
+    const [formData, setFormData] = useState([]);
+
     const handleCloseModal = () => {
         setTrackingPopup(false);
+    }
+
+    const handleTrackingValueChange = (index, value) => {
+        setStudents(prevStudents => 
+            prevStudents.map((student, idx) => 
+                idx === index ? { ...student, trackingValue: value } : student
+            )
+        );
     }
 
     useEffect(() => {
@@ -32,6 +42,27 @@ export const EditTracking = () => {
         }
     }, [id]);
 
+    useEffect(() => {
+        if (trackingId && indicator) {
+            axios.get(`http://localhost:8080/trackings/trackingId=${trackingId}/indicatorId=${indicator.id}`)
+                .then(response => {
+                    const trackingValues = response.data;
+    
+                    setStudents(prevStudents => 
+                        prevStudents.map((student, index) => ({
+                            ...student,
+                            trackingValue: trackingValues[index] ?? 0
+                        }))
+                    );
+
+                    setFormData(students);
+                })
+                .catch(error => {
+                    console.error('There was an error!', error);
+                });
+        }
+    }, [trackingId, indicator]);
+    
 
     return(
         <div className="flex flex-col bg-white font-montserrat p-4 rounded-lg w-[1100px] max-h-4/5 overflow-y-auto">
@@ -98,6 +129,8 @@ export const EditTracking = () => {
                                     <input
                                         className="border-2 rounded-md w-14 px-1 h-9 border-gray-300"
                                         type="number"
+                                        value={student.trackingValue}
+                                        onChange={(e) => handleTrackingValueChange(index, e.target.value)}
                                     />
                                 </div>
                                 <div className="ml-20"> {indicator.evaluation_type}</div>
@@ -108,7 +141,7 @@ export const EditTracking = () => {
             </div>
 
             <div className="flex mt-5 justify-center bg-gradient-to-l from-[#4df1bb] to-[#1c8764]  rounded-lg">
-                <button className="py-2 px-4 text-white font-semibold">Submit</button>
+                <button className="py-2 px-4 text-white font-semibold">Save</button>
             </div>
         </div>
     )
