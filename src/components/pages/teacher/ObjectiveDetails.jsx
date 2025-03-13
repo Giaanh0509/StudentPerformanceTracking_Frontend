@@ -279,7 +279,7 @@ export const ObjectiveDetails = () => {
                                     <div className={`px-4 py-3 w-[250px] bg-[#348a6c] text-white rounded-t-lg`}>
                                         <div className="flex justify-between items-center font-montserrat font-bold ">
                                             <div>
-                                                <div>Phase {phaseNumber}: {truncateText(tracking.name, 10)} </div>
+                                                <div>{truncateText(tracking.name, 18)} </div>
                                             </div>
                                             <div><TiDeleteOutline size={28}/></div>
                                         </div>

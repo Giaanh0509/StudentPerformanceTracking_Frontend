@@ -19,8 +19,8 @@ export const EditTracking = () => {
     }
 
     const handleTrackingValueChange = (index, value) => {
-        setStudents(prevStudents => 
-            prevStudents.map((student, idx) => 
+        setStudents(prevStudents =>
+            prevStudents.map((student, idx) =>
                 idx === index ? { ...student, trackingValue: value } : student
             )
         );
@@ -47,24 +47,34 @@ export const EditTracking = () => {
             axios.get(`http://localhost:8080/trackings/trackingId=${trackingId}/indicatorId=${indicator.id}`)
                 .then(response => {
                     const trackingValues = response.data;
-    
-                    setStudents(prevStudents => 
+
+                    setStudents(prevStudents =>
                         prevStudents.map((student, index) => ({
                             ...student,
                             trackingValue: trackingValues[index] ?? 0
                         }))
                     );
-
-                    setFormData(students);
                 })
                 .catch(error => {
                     console.error('There was an error!', error);
                 });
         }
     }, [trackingId, indicator]);
-    
 
-    return(
+    useEffect(() => {
+        setFormData(students);
+    }, [students]);
+
+    const handleSave = async () => {
+        try {
+            await axios.put(`http://localhost:8080/trackings/details/update/${trackingId}/${indicator.id}`, formData);
+            setTrackingPopup(false);
+        } catch (error) {
+            console.error("Error updating subject:", error);
+        }
+    };
+
+    return (
         <div className="flex flex-col bg-white font-montserrat p-4 rounded-lg w-[1100px] max-h-4/5 overflow-y-auto">
             <div className="flex justify-between text-xl font-medium mb-4">
                 <div className="text-xl">
@@ -141,7 +151,7 @@ export const EditTracking = () => {
             </div>
 
             <div className="flex mt-5 justify-center bg-gradient-to-l from-[#4df1bb] to-[#1c8764]  rounded-lg">
-                <button className="py-2 px-4 text-white font-semibold">Save</button>
+                <button onClick={handleSave} className="py-2 px-4 text-white font-semibold">Save</button>
             </div>
         </div>
     )
