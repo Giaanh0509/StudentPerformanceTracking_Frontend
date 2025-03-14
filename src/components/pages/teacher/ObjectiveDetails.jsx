@@ -203,7 +203,7 @@ export const ObjectiveDetails = () => {
     }, [trackings, objective.indicatorDTOList]);
 
     return (
-        <div className="flex flex-col h-full bg-white m-8 p-3 rounded-lg shadow-lg overflow-y-auto">
+        <div className="flex flex-col h-[640px] bg-white mx-6 mt-4 p-3 rounded-lg shadow-lg overflow-y-auto shadow-slate-400">
             <div className="flex">
                 <button
                     onClick={handleGoBack}

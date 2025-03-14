@@ -17,6 +17,7 @@ import { SubjectTeacher } from './components/pages/teacher/SubjectTeacher';
 import { SubjectDetailTeacher } from './components/pages/teacher/SubjectDetailTeacher';
 import { SubSkillTeacher } from './components/pages/teacher/SubSkillTeacher';
 import { ObjectiveDetails } from './components/pages/teacher/ObjectiveDetails';
+import { TeacherDashboard } from './components/pages/teacher/TeacherDashboard';
 
 function App() {
   return (
@@ -34,7 +35,7 @@ function App() {
         </Route>
 
         <Route path="/teacher" element={<Layout />}>
-          <Route index element={<Dashboard />} />
+          <Route index element={<TeacherDashboard />} />
           <Route path="subjects" element={<SubjectTeacher />} />
           <Route path="subjects/:id" element={<SubjectDetailTeacher />} />
           <Route path="subjects/:subjectId/skills/:skillId" element={<SubSkillTeacher />} />

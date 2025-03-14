@@ -39,7 +39,7 @@ export const Layout = () => {
                 <SideBar />
             ) : null}
             <div className="flex flex-col w-full">
-                <div className="h-16 bg-white flex items-center justify-end shadow-lg">
+                <div className="h-16 bg-white flex items-center mt-2 mx-6 justify-end rounded-lg shadow-lg shadow-slate-400">
                     <Navbar></Navbar> 
                 </div>  
                 <Outlet></Outlet>

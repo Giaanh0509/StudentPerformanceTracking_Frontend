@@ -51,14 +51,14 @@ export const Navbar = () => {
     };
 
     return (
-        <div className="flex items-center justify-end gap-x-5">
-            <img src={`${Expert}`} alt="" className="w-8 h-8 rounded-full border-2 border-black" />
+        <div className="flex items-center justify-end gap-x-3">
+            <img src={`${Expert}`} alt="" className="w-10 h-10 rounded-full border-2 border-gray-400" />
             <div className="flex flex-col">
                 <div className="text-sm">{userInfo.username}</div>
                 <div className="text-xs">{getRoleName(userInfo.roleId)}</div>
             </div>
             <FaAngleDown 
-                className="mr-5 cursor-pointer" 
+                className="ml-2 mr-5 cursor-pointer" 
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)} 
             />
             {isDropdownOpen && (
