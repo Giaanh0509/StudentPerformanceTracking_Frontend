@@ -60,12 +60,6 @@ export const Objectives = () => {
 
     return (
         <div className="flex flex-col h-[640px] bg-white mx-6 mt-4 p-3 rounded-lg shadow-lg shadow-slate-400">
-            <div className="flex">
-                <div className="text-2xl px-8 py-4 font-montserrat font-semibold">
-                    Manage Objectives
-                </div>
-            </div>
-
             <div className="flex justify-between mb-3">
                 <div className="mt-3 ml-7 mr-auto">
                     <div className="p-[8px] border-[1px] rounded-lg w-52 border-[#7fa195]" name="" id="">

@@ -97,13 +97,7 @@ export const Group = () => {
 
     return (
         <div className="flex flex-col h-[640px] bg-white mx-6 mt-4 p-3 rounded-lg shadow-lg shadow-slate-400">
-            <div className="flex">
-                <div className="text-2xl px-8 py-4 font-montserrat font-semibold">
-                    Manage Groups
-                </div>
-            </div>
-
-            <div className="flex justify-between mb-3 text-sm ">
+            <div className="flex justify-between mb-3 text-sm">
                 <div className="mt-3 ml-7 mr-auto">
                     <div className="flex p-[8px] border-[1px] rounded-lg w-auto border-[#7fa195]" name="" id="">
                         Number of groups: <p className="ml-2 font-bold">{groups.length}</p>
@@ -141,7 +135,7 @@ export const Group = () => {
 
 
             {!loading && (
-                <div className="flex flex-col max-h-[400px] overflow-y-auto">
+                <div className="flex flex-col max-h-[450px] overflow-y-auto">
                     {currentSubjects.map((group) => (
                         <Link to={`/teacher/groups/${group.id}`}>
                             <div key={group.id} className="grid grid-cols-4 p-4 ml-7 gap-x-3 mr-3 items-center hover:bg-slate-100">

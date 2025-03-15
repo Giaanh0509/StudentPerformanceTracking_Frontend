@@ -1,0 +1,24 @@
+
+.rbc-calendar {
+    font-family: 'Montserrat', sans-serif;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.rbc-event {
+    background-color: #4CAF50 !important; 
+    color: white !important; 
+    border-radius: 5px;
+    padding: 5px;
+    font-weight: bold;
+}
+
+
+.rbc-header {
+    background: #ffffff; 
+    color: black;
+    padding: 10px;
+    font-weight: bold;
+}
+

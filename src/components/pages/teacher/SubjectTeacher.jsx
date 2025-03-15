@@ -94,14 +94,9 @@ export const SubjectTeacher = () => {
 
     return (
         <div className="flex flex-col h-[640px] bg-white rounded-xl mx-6 mt-4 p-3 shadow-lg shadow-slate-400">
-            <div className="flex">
-                <div className="text-2xl px-8 py-4 font-montserrat font-semibold">
-                    Subjects
-                </div>
-            </div>
-            <div className="flex justify-between mb-3">
+            <div className="flex justify-between mb-3 text-sm">
                 <div className="mt-3 ml-7 mr-auto border-1 border-black">
-                    <div className="flex p-[8px] border-[1px] rounded-lg w-50 border-[#7fa195]" name="" id="">
+                    <div className="flex p-[8px] border-[1px] rounded-lg w-auto border-[#7fa195]" name="" id="">
                         Number of subjects: <p className="ml-2 font-bold">{subjects.length}</p>
                     </div>
                 </div>
@@ -128,7 +123,7 @@ export const SubjectTeacher = () => {
             </div>
 
             {!loading && (
-                <div className="flex flex-col max-h-[400px] overflow-y-auto">
+                <div className="flex flex-col max-h-[450px] overflow-y-auto">
                     {currentSubjects.map((subject) => (
                         <Link to={`/teacher/subjects/${subject.id}`}>
                             <div key={subject.id} className="grid grid-cols-4 p-4 ml-7 gap-x-3 mr-3 items-center hover:bg-slate-100">

@@ -2,6 +2,7 @@ import Expert from "../../assets/expert.png";
 import { FaAngleDown } from "react-icons/fa6";
 import { useState, createContext, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
+import { IoNotifications } from "react-icons/io5";
 
 export const Navbar = () => {
 
@@ -52,6 +53,7 @@ export const Navbar = () => {
 
     return (
         <div className="flex items-center justify-end gap-x-3">
+            <IoNotifications size={25} className="mr-3"/>
             <img src={`${Expert}`} alt="" className="w-10 h-10 rounded-full border-2 border-gray-400" />
             <div className="flex flex-col">
                 <div className="text-sm">{userInfo.username}</div>
