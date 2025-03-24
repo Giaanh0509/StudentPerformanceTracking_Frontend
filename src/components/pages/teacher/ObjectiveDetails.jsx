@@ -18,10 +18,14 @@ import { RiArrowRightWideFill, RiArrowLeftWideFill } from "react-icons/ri";
 import { TiDeleteOutline } from "react-icons/ti";
 import { useSpring, animated } from 'react-spring';
 import { EditTracking } from "./EditTracking";
+import { FcStatistics } from "react-icons/fc";
+import { Statistics } from "./Statistics";
 
 
 export const trackingContext = createContext();
 export const createTrackingContext = createContext();
+export const statisticsContext = createContext();
+
 
 export const ObjectiveDetails = () => {
 
@@ -35,9 +39,8 @@ export const ObjectiveDetails = () => {
         roleId: ""
     });
 
+    const [statisticsPopup, setStatisticsPopup] = useState(false);
     const [loading, setLoading] = useState(true);
-
-
     const [indicator, setIndicator] = useState();
     const [createTrackingPopup, setCreateTrackingPopup] = useState(false);
     const [trackingPopup, setTrackingPopup] = useState(false);
@@ -69,6 +72,7 @@ export const ObjectiveDetails = () => {
         if (event.target === event.currentTarget) {
             setTrackingPopup(false);
             setCreateTrackingPopup(false);
+            setStatisticsPopup(false);
         }
     }
 
@@ -176,7 +180,7 @@ export const ObjectiveDetails = () => {
     const checkTrackingIndicatorExists = async (trackingId, indicatorId) => {
         try {
             const response = await axios.get(`http://localhost:8080/trackings/${trackingId}/indicators/${indicatorId}/exists`);
-            return response.data; 
+            return response.data;
         } catch (error) {
             console.error(`Error checking indicator ${indicatorId} for tracking ${trackingId}`, error);
             return false;
@@ -185,14 +189,14 @@ export const ObjectiveDetails = () => {
 
     const loadInitialCheckboxStates = async () => {
         const newCheckedStates = {};
-    
+
         for (const tracking of trackings) {
             for (const indicator of objective.indicatorDTOList) {
                 const exists = await checkTrackingIndicatorExists(tracking.id, indicator.id);
                 newCheckedStates[`${tracking.id}-${indicator.id}`] = exists;
             }
         }
-    
+
         setCheckedStates(newCheckedStates);
     };
 
@@ -204,16 +208,27 @@ export const ObjectiveDetails = () => {
 
     return (
         <div className="flex flex-col h-[640px] bg-white mx-6 mt-4 p-3 rounded-lg shadow-lg overflow-y-auto shadow-slate-400">
-            <div className="flex">
-                <button
-                    onClick={handleGoBack}
-                    className="flex items-center text-[#046b49] hover:text-[#034d36]"
-                >
-                    <AiOutlineArrowLeft className="text-2xl" />
-                </button>
+            <div className="flex justify-between mr-3">
+                <div className="flex">
+                    <button
+                        onClick={handleGoBack}
+                        className="flex items-center text-[#046b49] hover:text-[#034d36]"
+                    >
+                        <AiOutlineArrowLeft className="text-2xl" />
+                    </button>
 
-                <div className="text-xl px-3 py-4 font-montserrat font-semibold text-[#046b49]">
-                    {objective.name}
+                    <div className="text-xl px-3 py-4 font-montserrat font-semibold text-[#046b49]">
+                        {objective.name}
+                    </div>
+                </div>
+
+                <div>
+                    <button
+                        onClick={() => { setStatisticsPopup(true) }}
+                        className="flex items-center gap-x-3 mt-3 p-2 px-3 bg-gradient-to-t rounded-lg from-[#f4a261] to-[#e76f51] text-white"
+                    >
+                        <FcStatistics size={20} />  Statistics
+                    </button>
                 </div>
             </div>
 
@@ -224,28 +239,32 @@ export const ObjectiveDetails = () => {
                     </div>
 
                     <div className='flex font-medium justify-between mr-[70px] mb-3'>
-                        <div className='flex gap-x-7'>Name:<div className='text-[#348a6c]'>
-                            {objective.name}
-                        </div>
+                        <div className='flex gap-x-7'>Name:
+                            <div className='text-[#348a6c]'>
+                                {objective.name}
+                            </div>
                         </div>
 
-                        <div className='flex gap-x-3'>Create Date:<div className='text-[#348a6c]'>
-                            {objective.createDate}
-                        </div>
+                        <div className='flex gap-x-3'>Create Date:
+                            <div className='text-[#348a6c]'>
+                                {objective.createDate}
+                            </div>
                         </div>
                     </div>
 
                     <div className='flex font-medium justify-between mr-[75px] mb-3'>
-                        <div className='flex gap-x-5'>Subject:<div className='text-[#348a6c]'>
-                            {objective.subject}
-                        </div>
+                        <div className='flex gap-x-5'>Subject:
+                            <div className='text-[#348a6c]'>
+                                {objective.subject}
+                            </div>
                         </div>
                     </div>
 
                     <div className='flex font-medium justify-between mr-[75px] mb-3'>
-                        <div className='flex gap-x-7'>Group:<div className='text-[#348a6c]'>
-                            {objective.group}
-                        </div>
+                        <div className='flex gap-x-7'>Group:
+                            <div className='text-[#348a6c]'>
+                                {objective.group}
+                            </div>
                         </div>
                     </div>
 
@@ -281,7 +300,7 @@ export const ObjectiveDetails = () => {
                                             <div>
                                                 <div>{truncateText(tracking.name, 18)} </div>
                                             </div>
-                                            <div><TiDeleteOutline size={28}/></div>
+                                            <div><TiDeleteOutline size={28} /></div>
                                         </div>
                                     </div>
 
@@ -341,6 +360,14 @@ export const ObjectiveDetails = () => {
                         <NewTracking></NewTracking>
                     </div>
                 </createTrackingContext.Provider>
+            )}
+
+            {statisticsPopup && (
+                <statisticsContext.Provider value={{ objective, setObjective, trackings, setTrackings }}>
+                    <div onClick={handleClickOutside} className="absolute inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+                        <Statistics></Statistics>
+                    </div>
+                </statisticsContext.Provider>
             )}
 
         </div>
