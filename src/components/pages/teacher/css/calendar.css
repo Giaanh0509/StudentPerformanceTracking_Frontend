@@ -9,10 +9,17 @@
 .rbc-event {
     background-color: #4CAF50 !important; 
     color: white !important; 
-    border-radius: 5px;
-    padding: 5px;
-    font-weight: bold;
-}
+    border-radius: 5px !important;
+    padding: 2px 4px !important; /* Giảm padding để thu nhỏ kích thước */
+    font-size: 15px; /* Giảm kích thước chữ */
+    height: 25px !important; /* Giảm chiều cao của sự kiện */
+    line-height: 18px; /* Điều chỉnh dòng để không bị cắt chữ */
+    overflow: hidden; /* Tránh nội dung bị tràn ra ngoài */
+    text-overflow: ellipsis; /* Hiển thị dấu "..." nếu nội dung quá dài */
+    white-space: nowrap; /* Tránh xuống dòng */
+    margin: 4px 6px !important;
+    max-width: calc(100% - 12px) !important;
+}   
 
 
 .rbc-header {

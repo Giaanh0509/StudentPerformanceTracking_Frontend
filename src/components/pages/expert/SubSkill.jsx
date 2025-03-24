@@ -118,7 +118,7 @@ export const SubSkill = () => {
 
 
     return (
-        <div className="flex flex-col h-full bg-white m-8 p-3 rounded-lg">
+        <div className="flex flex-col h-[640px] bg-white rounded-xl mx-6 mt-4 p-3 shadow-lg shadow-slate-400">
             <div className="flex">
                 <div className="text-2xl text-[#046b49] px-8 py-4 font-montserrat font-semibold">
                     Manage Subject / {subjectName} / {subSkillName}

@@ -92,7 +92,7 @@ export const Subject = () => {
     };
 
     return (
-        <div className="flex flex-col h-full bg-white rounded-xl m-8 p-1">
+        <div className="flex flex-col h-[640px] bg-white rounded-xl mx-6 mt-4 p-3 shadow-lg shadow-slate-400">
             <div className="flex">
                 <div className="text-2xl px-8 text-[#046b49] py-4 font-montserrat font-semibold">
                     Manage Subject
@@ -118,25 +118,25 @@ export const Subject = () => {
             <div className="px-4 py-3 ml-7 gap-x-3 mt-3 mr-3 rounded-md bg-neutral-200 items-center">
                 <div className="grid grid-cols-4 font-montserrat font-bold ">
                     <div className="flex gap-x-1 items-center">
-                        Name <FaSort />
+                        Name 
                     </div>
 
                     <div className="flex gap-x-1 items-center">
-                        Create Date <FaSort />
+                        Create Date 
                     </div>
 
                     <div className="flex gap-x-1 items-center">
-                        Uses <FaSort />
+                        Uses 
                     </div>
 
                     <div className="flex gap-x-1 items-center">
-                        State <FaSort />
+                        State
                     </div>
                 </div>
             </div>
 
             {!loading && (
-                <div className="flex flex-col max-h-[380px] overflow-y-auto">
+                <div className="flex flex-col max-h-[400px] overflow-y-auto">
                     {currentSubjects.map((subject) => (
                         <Link to={`/expert/subjects/${subject.id}`} key={subject.id}>
                             <div className="grid grid-cols-4 px-4 py-4 ml-7 font-montserrat gap-x-3 items-center hover:bg-slate-100">

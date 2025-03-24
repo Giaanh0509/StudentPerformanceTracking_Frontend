@@ -1,16 +1,17 @@
 import { GoPersonFill } from "react-icons/go";
 import { MdGroups } from "react-icons/md";
 import { GoGoal } from "react-icons/go";
+import axios from "axios";
 import { FaRegCalendarAlt } from "react-icons/fa";
 import { IoBookSharp } from "react-icons/io5";
-import React, { useState } from "react";
+import { useState, createContext, useEffect } from "react";
 import "./css/calendar.css";
 import { Calendar, dateFnsLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { format, parse, startOfWeek, getDay } from "date-fns";
 import enUS from "date-fns/locale/en-US";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import Select from "react-select"; 
+import Select from "react-select";
 
 
 const locales = {
@@ -24,7 +25,6 @@ const localizer = dateFnsLocalizer({
     getDay,
     locales,
 });
-
 
 // const events = [
 //     { title: "日本語", start: new Date(2025, 2, 4, 10, 15), end: new Date(2025, 2, 4, 11, 45) },
@@ -79,7 +79,7 @@ const CustomToolbar = (toolbar) => {
 
             <div className="flex items-center gap-2">
                 <span className="text-lg font-bold text-[#03865a]">{toolbar.label}</span>
-                <FaRegCalendarAlt color="#03865a" className="pb-1" size={25}/>
+                <FaRegCalendarAlt color="#03865a" className="pb-1" size={25} />
             </div>
 
 
@@ -109,49 +109,142 @@ const CustomToolbar = (toolbar) => {
 
 
 export const TeacherDashboard = () => {
+
+    const [subjects, setSubjects] = useState([]);
+    const [groups, setGroups] = useState([]);
+    const [trackings, setTrackings] = useState([]);
+    const [events, setEvents] = useState([]);
+    const [objectives, setObjectives] = useState([]);
+    const [userInfo, setUserInfo] = useState({
+        id: "",
+        name: "",
+        roleId: ""
+    }
+    )
+
+
+    useEffect(() => {
+        const fetchData = async () => {
+            axios.get(`http://localhost:8080/subjects/all`)
+                .then(response => {
+                    {
+                        const fetchedSubjects = response.data || [];
+                        setSubjects(response.data);
+                    }
+                })
+                .catch(error => {
+                    console.error('There was an error!', error);
+                });
+        };
+
+        fetchData();
+
+    }, [])
+
+    useEffect(() => {
+        const storedUserLoginDTO = localStorage.getItem('userLoginDTO');
+
+        if (storedUserLoginDTO) {
+            try {
+                const userLoginDTO = JSON.parse(storedUserLoginDTO);
+
+                setUserInfo(userLoginDTO);
+            } catch (e) {
+                console.error('Error parsing userLoginDTO from localStorage:', e);
+            }
+        } else {
+            console.log('No user info found in localStorage');
+        }
+    }, []);
+
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(`http://localhost:8080/trackings/all`);
+                const fetchedTrackings = response.data || [];
+
+                // Chuyển đổi dữ liệu tracking thành định dạng sự kiện của Calendar
+                const mappedEvents = fetchedTrackings.map(tracking => ({
+                    title: tracking.name || "Tracking Event",  // Nếu có tên tracking
+                    start: new Date(tracking.trackingDate),  // Ngày bắt đầu
+                    end: new Date(tracking.trackingDate),    // Có thể thêm thời gian kết thúc nếu có
+                    allDay: true,  // Đánh dấu là sự kiện cả ngày
+                }));
+
+                setEvents(mappedEvents);
+            } catch (error) {
+                console.error("Lỗi khi lấy dữ liệu trackings:", error);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            axios.get(`http://localhost:8080/groups/userId=${userInfo.id}`)
+                .then(response => {
+                    {
+                        const fetchedSubjects = response.data || [];
+                        setGroups(response.data);
+                    }
+                })
+                .catch(error => {
+                    console.error('There was an error!', error);
+                });
+        };
+
+        fetchData();
+    })
+
+    useEffect(() => {
+        axios.get(`http://localhost:8080/objectives/userId=${userInfo.id}`)
+            .then(response => setObjectives(response.data || []))
+            .catch(error => console.error("Error fetching objectives:", error));
+    });
+
     return (
-        <div className="flex flex-col h-[655px]">
-            <div className="flex flex-col h-auto bg-white mx-6 mt-4 p-1 rounded-lg shadow-lg shadow-slate-400">
-                <div className="flex justify-between px-8 py-4 items-center">
-                    <div className="flex gap-x-3 pl-5 bg-gradient-to-r from-[#0476a3] to-[#93c8e0] w-[270px] h-24 rounded-lg items-center justify-start shadow-lg shadow-slate-400">
-                        <GoPersonFill className="border-slate-400 border-2 p-3 rounded-full" color="white" size={60} />
-                        <div className="flex flex-col text-white">
-                            <span className="font-montserrat font-bold text-3xl">50</span>
-                            <span className="font-montserrat font-medium text-sm">Students</span>
-                        </div>
+        <div className="flex flex-col max-h-[665px] overflow-y-auto">
+            <div className="flex justify-between px-6 py-4 mt-2 items-center">
+                <div className="flex gap-x-3 pl-5 bg-gradient-to-r from-[#0476a3] to-[#93c8e0] w-[270px] h-24 rounded-lg items-center justify-start shadow-lg shadow-slate-400">
+                    <GoPersonFill className="border-slate-400 border-2 p-3 rounded-full" color="white" size={60} />
+                    <div className="flex flex-col text-white">
+                        <span className="font-montserrat font-bold text-3xl">50</span>
+                        <span className="font-montserrat font-medium text-sm">Students</span>
                     </div>
-                    <div className="flex gap-x-3 pl-5 bg-gradient-to-r from-[#b26d04] to-[#cfac78] w-[270px] h-24 rounded-lg items-center justify-start shadow-lg shadow-slate-400">
-                        <MdGroups className="border-slate-400 border-2 p-2 rounded-full" color="white" size={60} />
-                        <div className="flex flex-col text-white">
-                            <span className="font-montserrat font-bold text-3xl">8</span>
-                            <span className="font-montserrat font-medium text-sm">Groups</span>
-                        </div>
+                </div>
+                <div className="flex gap-x-3 pl-5 bg-gradient-to-r from-[#b26d04] to-[#cfac78] w-[270px] h-24 rounded-lg items-center justify-start shadow-lg shadow-slate-400">
+                    <MdGroups className="border-slate-400 border-2 p-2 rounded-full" color="white" size={60} />
+                    <div className="flex flex-col text-white">
+                        <span className="font-montserrat font-bold text-3xl">{groups.length}</span>
+                        <span className="font-montserrat font-medium text-sm">Groups</span>
                     </div>
-                    <div className="flex gap-x-3 pl-5 bg-gradient-to-r from-[#037807] to-[#82d582] w-[270px] h-24 rounded-lg items-center justify-start shadow-lg shadow-slate-400">
-                        <GoGoal className="border-slate-400 border-2 p-3 rounded-full" color="white" size={60} />
-                        <div className="flex flex-col text-white">
-                            <span className="font-montserrat font-bold text-3xl">2</span>
-                            <span className="font-montserrat font-medium text-sm">Objectives</span>
-                        </div>
+                </div>
+                <div className="flex gap-x-3 pl-5 bg-gradient-to-r from-[#037807] to-[#82d582] w-[270px] h-24 rounded-lg items-center justify-start shadow-lg shadow-slate-400">
+                    <GoGoal className="border-slate-400 border-2 p-3 rounded-full" color="white" size={60} />
+                    <div className="flex flex-col text-white">
+                        <span className="font-montserrat font-bold text-3xl">{objectives.length}</span>
+                        <span className="font-montserrat font-medium text-sm">Objectives</span>
                     </div>
-                    <div className="flex gap-x-3 pl-5 bg-gradient-to-r from-[#a515be] to-[#d1a1db] w-[270px] h-24 rounded-lg items-center justify-start shadow-lg shadow-slate-400">
-                        <IoBookSharp className="border-slate-400 border-2 p-3 rounded-full" color="white" size={60} />
-                        <div className="flex flex-col text-white">
-                            <span className="font-montserrat font-bold text-3xl">20</span>
-                            <span className="font-montserrat font-medium text-sm">Subjects</span>
-                        </div>
+                </div>
+                <div className="flex gap-x-3 pl-5 bg-gradient-to-r from-[#a515be] to-[#d1a1db] w-[270px] h-24 rounded-lg items-center justify-start shadow-lg shadow-slate-400">
+                    <IoBookSharp className="border-slate-400 border-2 p-3 rounded-full" color="white" size={60} />
+                    <div className="flex flex-col text-white">
+                        <span className="font-montserrat font-bold text-3xl">{subjects.length}</span>
+                        <span className="font-montserrat font-medium text-sm">Subjects</span>
                     </div>
                 </div>
             </div>
-            <div className="flex h-auto overflow-y-auto bg-white w-[1305px] mx-6 mt-5 p-3 rounded-lg shadow-lg shadow-slate-400 items-center justify-center">
+            <div className="flex max-h-[800px] bg-white w-[1290px] mx-6 mt-2 p-3 rounded-lg shadow-lg shadow-slate-400 items-center justify-center">
                 <Calendar
                     localizer={localizer}
-                    // events={events}
+                    events={events}
                     startAccessor="start"
                     endAccessor="end"
-                    style={{ height: 460, width: "100%" }}
+                    style={{ height: 750, width: "100%" }}
                     components={{
-                        toolbar: CustomToolbar, // Gán toolbar mới
+                        toolbar: CustomToolbar,
                     }}
                 />
             </div>

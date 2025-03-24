@@ -116,7 +116,7 @@ export const SubjectDetail = () => {
     }, [skills]);
 
     return (
-        <div className='flex flex-col h-full bg-white rounded-xl m-8 p-1'>
+        <div className='flex flex-col h-[640px] bg-white rounded-xl mx-6 mt-4 p-3 shadow-lg shadow-slate-400'>
             <div className="flex">
                 <div className="text-2xl text-[#046b49] px-8 py-4 font-montserrat font-semibold">
                     Manage Subject / {subject.name}
@@ -126,20 +126,20 @@ export const SubjectDetail = () => {
             <div className='flex justify-between ml-8 mr-3'>
                 <div className='w-80 h-44 bg-neutral-200 my-5 rounded-xl'>
                     <div className='flex flex-col my-3 gap-y-3'>
-                        <div className='flex justify-center text-xl font-bold mb-5'>
+                        <div className='flex justify-center text-lg font-bold mb-5'>
                             Number of uses
                         </div>
-                        <div className='text-6xl flex justify-center'>
+                        <div className='text-5xl flex justify-center'>
                             5
                         </div>
                     </div>
                 </div>
 
                 <div className='w-3/5 h-44 bg-neutral-200  my-5 py-3 px-4 gap-y-5 rounded-xl'>
-                    <div className='text-xl flex items-center gap-x-4 font-montserrat font-bold mb-3'>Infomation
+                    <div className='text-lg flex items-center gap-x-4 font-montserrat font-bold mb-3'>Infomation
                         <button onClick={handleEditButton}> <CiEdit></CiEdit> </button>
                     </div>
-                    <div className='flex font-medium justify-between mr-[75px] mb-3'>
+                    <div className='flex font-medium justify-between mr-[75px] mb-3 text-base'>
                         <div className='flex gap-x-12'>Name:<div className='text-[#348a6c]'>
                             {subject.name}
                         </div></div>
@@ -147,7 +147,7 @@ export const SubjectDetail = () => {
                             <div className='text-[#348a6c]'>{subject.createDate}</div></div>
                     </div>
 
-                    <div className="flex font-medium mr-16 gap-x-2">
+                    <div className="flex font-medium mr-16 gap-x-2  text-base">
                         <span className="text-black">Description:</span>
                         <span className="text-[#348a6c]"> {subject.description} </span>
                     </div>
@@ -155,13 +155,13 @@ export const SubjectDetail = () => {
             </div>
 
 
-            <div className="flex justify-between mb-3 ml-8">
+            <div className="flex justify-between mb-3 ml-8 text-sm">
                 <div className="mt-3">
                     <input className="border-[1px] p-2 rounded-lg w-80 border-[#7fa195]" type="text" placeholder="Search for skill" />
                 </div>
                 <div className="flex items-center gap-x-2 p-2 bg-gradient-to-t rounded-lg from-[#508572] to-[#14ce90] m-3 text-white">
                     <IoIosAddCircle className="size-5" />
-                    <button onClick={handleButton} className="text-base font-montserrat font-medium">
+                    <button onClick={handleButton} className="text-sm font-montserrat font-medium">
                         Create New Skill
                     </button>
                 </div>

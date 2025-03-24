@@ -213,7 +213,7 @@ export const ObjectiveDetails = () => {
                 </button>
 
                 <div className="text-xl px-3 py-4 font-montserrat font-semibold text-[#046b49]">
-                    Manage Objectives / {objective.name}
+                    {objective.name}
                 </div>
             </div>
 
