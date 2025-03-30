@@ -18,6 +18,10 @@ import { SubjectDetailTeacher } from './components/pages/teacher/SubjectDetailTe
 import { SubSkillTeacher } from './components/pages/teacher/SubSkillTeacher';
 import { ObjectiveDetails } from './components/pages/teacher/ObjectiveDetails';
 import { TeacherDashboard } from './components/pages/teacher/TeacherDashboard';
+import { LearnerDashboard } from './components/pages/learner/LearnerDashboard';
+import { LearnerGroup } from './components/pages/learner/LearnerGroup';
+import { LearnerObjective } from './components/pages/learner/LearnerObjective';
+import { LearnerStudent } from './components/pages/learner/LearnerStudent';
 
 function App() {
   return (
@@ -43,6 +47,13 @@ function App() {
           <Route path="groups/:id" element={<Student />} />
           <Route path="objectives" element={<Objectives />} />
           <Route path="objectives/:id" element={<ObjectiveDetails />}  />
+        </Route>
+
+        <Route path="/learner" element={<Layout />}>
+          <Route index element={<LearnerDashboard />} />
+          <Route path="groups" element={<LearnerGroup />} />
+          <Route path="groups/:id" element={<LearnerStudent />} />
+          <Route path="objectives" element={<LearnerObjective />} />
         </Route>
 
       </Routes>

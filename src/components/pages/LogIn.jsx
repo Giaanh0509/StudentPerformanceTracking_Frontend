@@ -33,7 +33,8 @@ export const Login = () => {
 
                 console.log(userLoginDTO.roleId);
                 if(userLoginDTO.roleId == 3) navigate('/expert');
-                    else navigate('/teacher');
+                    else if(userLoginDTO.roleId == 1) navigate('/teacher');
+                    else if(userLoginDTO.roleId == 2) navigate('/learner');
             })
             .catch((error) => {
                 console.error(error);

@@ -236,7 +236,7 @@ export const Student = () => {
     };
 
     return (
-        <div className="flex flex-col h-[1000px] bg-white ml-8 mt-8 p-3 overflow-y-auto rounded-t-lg shadow-lg">
+        <div className="flex flex-col h-[640px] bg-white mx-6 mt-4 p-3 rounded-lg shadow-lg shadow-slate-400 overflow-y-auto">
             <div className="flex items-center">
                 <button
                     onClick={handleGoBack}

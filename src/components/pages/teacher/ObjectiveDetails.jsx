@@ -61,6 +61,7 @@ export const ObjectiveDetails = () => {
         name: "",
         subject: "",
         group: "",
+        groupId: "",
         createDate: "",
         indicatorDTOList: []
     }

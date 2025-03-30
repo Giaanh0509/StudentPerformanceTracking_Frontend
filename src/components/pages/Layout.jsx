@@ -4,6 +4,7 @@ import { SideBarTeacher } from "./teacher/SideBarTeacher"
 import { SideBar } from "./expert/SideBar"
 import { useState, createContext, useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import { SideBarLearner } from "./learner/SideBarLearner";
 
 export const Layout = () => {
 
@@ -23,6 +24,14 @@ export const Layout = () => {
     } else if (pathname.startsWith("/teacher/objectives")) {
         title = "Objectives";
     } else if (pathname.startsWith("/teacher/groups")) {
+        title = "Groups";
+    }
+
+    if (pathname.startsWith("/learner/subjects")) {
+        title = "Subjects";
+    } else if (pathname.startsWith("/learner/objectives")) {
+        title = "Objectives";
+    } else if (pathname.startsWith("/learner/groups")) {
         title = "Groups";
     }
 
@@ -49,7 +58,7 @@ export const Layout = () => {
                 <SideBarTeacher />
             ) : userInfo.roleId === 3 ? (
                 <SideBar />
-            ) : null}
+            ) : <SideBarLearner/> }
             <div className="flex flex-col w-full">
                 <div className="h-16 bg-white flex justify-between items-center mt-2 mx-6 rounded-lg shadow-lg shadow-slate-400">
                     <div className="ml-10 text-xl font-montserrat font-semibold">{title}</div>

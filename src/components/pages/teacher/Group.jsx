@@ -133,7 +133,6 @@ export const Group = () => {
                 </div>
             </div>
 
-
             {!loading && (
                 <div className="flex flex-col max-h-[450px] overflow-y-auto">
                     {currentSubjects.map((group) => (
