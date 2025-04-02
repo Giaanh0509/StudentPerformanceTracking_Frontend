@@ -14,6 +14,9 @@ import { FaFileUpload } from "react-icons/fa";
 import { EditGroup } from "./EditGroup";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import { useNavigate } from 'react-router-dom';
+import { CiBoxList } from "react-icons/ci";
+import { HandleStudent } from "./HandleStudent";
+
 
 export const modalContext = createContext();
 export const editGroupContext = createContext();
@@ -247,6 +250,8 @@ export const Student = () => {
                 <div className="text-xl px-3 py-2 font-montserrat font-semibold text-[#046b49]">
                     Manage Groups / {group.name}
                 </div>
+
+                
             </div>
 
             <div className='flex justify-between ml-8 mr-3'>
@@ -286,20 +291,16 @@ export const Student = () => {
                 <div className="mt-3">
                     <input className="border-[1px] p-2 rounded-lg w-80 border-[#7fa195]" type="text" placeholder="Search for students" />
                 </div>
-                <div className="flex items-center gap-x-2 p-2 bg-gradient-to-t rounded-lg from-[#8dbaaa] to-[#14ce90] ml-3 my-3 text-white">
-                    <IoIosAddCircle className="size-5" />
-                    <button onClick={handleButton} className="font-montserrat font-medium">
-                        New Student
-                    </button>
-                </div>
 
-                <div className="flex items-center gap-x-2">
-                    <input type="file" accept=".xlsx, .xls" onChange={handleFileChange} className="hidden" ref={fileInputRef} id="fileUpload" />
-                    <label htmlFor="fileUpload" className="p-2 bg-gradient-to-t rounded-lg from-[#f4a261] to-[#e76f51] m-3 text-white cursor-pointer flex items-center gap-x-2">
-                        <FaFileUpload className="size-5" />
-                        <span>Upload Excel</span>
-                    </label>
-                </div>
+                <div className="flex items-center mr-3 gap-x-2 p-2 bg-gradient-to-t rounded-lg from-[#8dbaaa] to-[#14ce90] ml-3 my-3 text-white">
+                    <CiBoxList size={17}/>
+                    <button onClick={handleButton} className="font-montserrat font-medium">
+                        Request
+                    </button>
+                </div> 
+                
+
+                
             </div>
 
             <div className="px-4 py-3 ml-7 gap-x-3 mt-3 mr-3 rounded-md bg-neutral-200 items-center">
@@ -391,7 +392,7 @@ export const Student = () => {
             {showModal && (
                 <modalContext.Provider value={{ showModal, setShowModal, students, setStudents, id }}>
                     <div onClick={handleClickOutside} className="absolute inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-                        <NewStudent></NewStudent>
+                        <HandleStudent></HandleStudent>
                     </div>
                 </modalContext.Provider>
             )}

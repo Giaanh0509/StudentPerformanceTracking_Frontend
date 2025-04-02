@@ -26,7 +26,6 @@ export const trackingContext = createContext();
 export const createTrackingContext = createContext();
 export const statisticsContext = createContext();
 
-
 export const ObjectiveDetails = () => {
 
     const containerRef = useRef(null);

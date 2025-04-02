@@ -9,6 +9,49 @@ export const LearnerGroup = () => {
 
     const [groups, setGroups] = useState([]);
 
+    const [userInfo, setUserInfo] = useState({
+        id: "",
+        name: "",
+        roleId: ""
+    }
+    );
+
+    const [student, setStudent] = useState({});
+
+    useEffect(() => {
+        const storedUserLoginDTO = localStorage.getItem('userLoginDTO');
+
+        if (storedUserLoginDTO) {
+            try {
+                const userLoginDTO = JSON.parse(storedUserLoginDTO);
+
+                setUserInfo(userLoginDTO);
+            } catch (e) {
+                console.error('Error parsing userLoginDTO from localStorage:', e);
+            }
+        } else {
+            console.log('No user info found in localStorage');
+        }
+    }, []);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            if (userInfo.id != 0) {
+                axios.get(`http://localhost:8080/students/${userInfo.id}`)
+                    .then(response => {
+                        {
+                            setStudent(response.data);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('There was an error!', error);
+                    });
+            }
+        };
+        fetchData();
+    }, [userInfo])
+
+
     useEffect(() => {
         const fetchData = async () => {
 
@@ -28,6 +71,52 @@ export const LearnerGroup = () => {
         fetchData();
 
     }, [])
+
+    useEffect(() => {
+        const fetchGroupStatus = async () => {
+            if (student.id != 0) {
+                const updatedGroups = [...groups];
+
+                for (let group of updatedGroups) {
+                    try {
+                        const response = await axios.get(`http://localhost:8080/groupsStudents/studentId=${student.id}/groupId=${group.id}`);
+                        group.status = response.data;
+                    } catch (error) {
+                        console.error('Error fetching group status:', error);
+                        group.status = 'UNKNOWN';
+                    }
+                }
+
+                setGroups(updatedGroups);
+            }
+        };
+
+        fetchGroupStatus();
+    }, [student.id]);
+
+    const handleJoin = async (groupId) => {
+        const updatedGroups = groups.map(group => {
+            if (group.id === groupId && group.status === "") {
+                group.status = 'PENDING'; 
+                axios.post(`http://localhost:8080/groupsStudents/updateStatus`, {
+                    studentId: student.id,
+                    groupId: group.id,
+                    status: 'PENDING'
+                })
+                .then(response => {
+                    console.log("Status updated successfully:", response.data);
+                })
+                .catch(error => {
+                    console.error("Error updating status:", error);
+                });
+            }
+            return group;
+        });
+        setGroups(updatedGroups); 
+    };
+
+    console.log(student.id)
+    console.log(groups)
 
     const [subjectsPerPage] = useState(8);
 
@@ -56,7 +145,7 @@ export const LearnerGroup = () => {
             </div>
 
             <div className="px-4 py-3 ml-7 gap-x-3 mt-3 mr-3 rounded-md bg-neutral-200 items-center">
-                <div className="grid grid-cols-4 font-montserrat font-bold ">
+                <div className="grid grid-cols-5 font-montserrat font-bold ">
                     <div className="col-span-1">
                         Name
                     </div>
@@ -70,6 +159,10 @@ export const LearnerGroup = () => {
                     </div>
 
                     <div>
+                        Teacher
+                    </div>
+
+                    <div>
                     </div>
                 </div>
             </div>
@@ -77,7 +170,7 @@ export const LearnerGroup = () => {
             <div className="flex flex-col max-h-[450px] overflow-y-auto">
                 {currentSubjects.map((group) => (
                     <Link className="" to={`/learner/groups/${group.id}`}>
-                        <div key={group.id} className="grid grid-cols-4 p-4 ml-7 gap-x-3 mr-3 items-center hover:bg-slate-100">
+                        <div key={group.id} className="grid grid-cols-5 p-4 ml-7 gap-x-3 mr-3 items-center hover:bg-slate-100">
                             <div className="col-span-1 font-montserrat font-meidum">
                                 {group.name}
                             </div>
@@ -90,8 +183,27 @@ export const LearnerGroup = () => {
                                 5
                             </div>
 
-                            <div className="flex gap-x-2 ml-16 font-monts1 px-2rrat font-meidum">
-                            <button className="bg-[#007bff] p-2 rounded-lg text-white">Join</button>
+                            <div>
+                                Van Anh
+                            </div>
+
+                            <div onClick={(e) => {
+                                            e.preventDefault();
+                                    }} className="flex gap-x-2 ml-16 font-monts1 px-2rrat font-medium">
+                                <button
+                                    className={`p-2 rounded-lg text-white 
+                                    ${group.status === "" ? 'bg-[#007bff]' :
+                                            group.status === "APPROVED" ? 'bg-green-500' :
+                                                group.status === "PENDING" ? 'bg-yellow-500' :
+                                                    group.status === "REJECTED" ? 'bg-red-500' : 'bg-[#007bff]'}`}
+                                    onClick={() =>  handleJoin(group.id)}
+                                    disabled={group.status !== ""}  // Disable the button if already joined or has other status
+                                >
+                                    {group.status === "" ? "Join" :
+                                        group.status === "APPROVED" ? "Joined" :
+                                            group.status === "PENDING" ? "Waiting" :
+                                                group.status === "REJECTED" ? "Rejected" : group.status}
+                                </button>
                             </div>
 
                         </div>
