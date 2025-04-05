@@ -10,7 +10,7 @@ import { useState } from "react";
 import UserService from "../../services/UserService";
 import { useNavigate } from 'react-router-dom';
 import { PiUserListBold } from "react-icons/pi";
-
+import { BiBookmark } from "react-icons/bi";
 
 
 
@@ -23,6 +23,7 @@ export const SignUp = () => {
         username: "",
         password: "",
         email: "",
+        name: "",
         phoneNumber: "",
         role: ""
     });
@@ -94,6 +95,17 @@ export const SignUp = () => {
                         </div>
 
                         <div className="flex items-center gap-x-2 bg-[#F4F8F5] px-2 py-1">
+                            <BiBookmark  className="size-6 ml-2" />
+                            <input
+                                type="text"
+                                name="name"
+                                value={user.name}
+                                onChange={(e) => handleChange(e)}
+                                className="p-2 bg-[#F4F8F5] focus:outline-none"
+                                placeholder="Name" />
+                        </div>
+
+                        <div className="flex items-center gap-x-2 bg-[#F4F8F5] px-2 py-1">
                             <PiUserListBold className="size-6 ml-2"/>
                             <select
                                 name="role"
@@ -112,14 +124,6 @@ export const SignUp = () => {
 
                     <div className="text-white bg-[#1dcc92] py-3 px-20 rounded-full mt-4 hover:bg-[#08ae77] font-semibold">
                         <button onClick={saveUser}>SIGN UP</button>
-                    </div>
-
-                    <div className="">or register with</div>
-
-                    <div className="flex gap-x-4">
-                        <FaSquareFacebook className="size-8" />
-                        <FaSquareXTwitter className="size-8" />
-                        <FaLinkedin className="size-8" />
                     </div>
                 </div>
             </div>

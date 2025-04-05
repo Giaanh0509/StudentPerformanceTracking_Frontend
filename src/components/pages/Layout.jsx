@@ -6,44 +6,9 @@ import { useState, createContext, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { SideBarLearner } from "./learner/SideBarLearner";
 import axios from "axios";
-import { AddInformationStudent } from "./learner/AddInformationStudent";
-
-export const studentContext = createContext();
 
 export const Layout = () => {
-
-    const [userInfo, setUserInfo] = useState({
-        id: "",
-        name: "",
-        roleId: ""
-    }
-    );
-
-    const [student, setStudent] = useState({});
-    const [popUp, setPopup] = useState(false)
-
-    useEffect(() => {
-        const fetchData = async () => {
-            if (userInfo.id != 0) {
-                axios.get(`http://localhost:8080/students/${userInfo.id}`)
-                .then(response => {
-                    {
-                        console.log(response.data);
-                        setStudent(response.data);
-                        if (!response.data.name) {
-                            setPopup(true);  
-                        } else {
-                            setPopup(false);
-                        }
-                    }
-                })
-                .catch(error => {
-                    console.error('There was an error!', error);
-                });
-            }
-        };
-        fetchData();
-    }, [userInfo])
+    
 
     const location = useLocation();
     const pathname = location.pathname;
@@ -65,6 +30,13 @@ export const Layout = () => {
         title = "Groups";
     }
 
+    const [userInfo, setUserInfo] = useState({
+        id: "",
+        name: "",
+        roleId: ""
+    }
+    );
+
     useEffect(() => {
         const storedUserLoginDTO = localStorage.getItem('userLoginDTO');
 
@@ -82,6 +54,7 @@ export const Layout = () => {
     }, []);
 
 
+
     return (
         <div className='flex bg-neutral-200 overflow-hidden h-screen'>
             {userInfo.roleId === 1 ? (
@@ -96,14 +69,6 @@ export const Layout = () => {
                 </div>
                 <Outlet></Outlet>
             </div>
-
-            {popUp && (
-                <studentContext.Provider value={{ studentId: student.id, setPopup }}>
-                    <div className="absolute inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-                        <AddInformationStudent></AddInformationStudent>
-                    </div>
-                </studentContext.Provider>
-            )}
 
         </div>
     )

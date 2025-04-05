@@ -1,7 +1,7 @@
 import { TiDelete } from "react-icons/ti";
 import { useState, useContext, useEffect } from "react";
-import { studentContext } from "../Layout";
 import axios from "axios";
+import { studentContext } from "./LearnerDashboard";
 
 
 export const AddInformationStudent = () => {

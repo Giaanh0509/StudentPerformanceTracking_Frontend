@@ -11,7 +11,6 @@ import { selectedSkillContext } from "../expert/selectedSkillContext";
 export const skillContext = createContext();
 export const indicatorContext = createContext();
 
-
 export const SubjectDetailTeacher = () => {
 
     const { id } = useParams();

@@ -37,7 +37,7 @@ export const LearnerGroup = () => {
     useEffect(() => {
         const fetchData = async () => {
             if (userInfo.id != 0) {
-                axios.get(`http://localhost:8080/students/${userInfo.id}`)
+                axios.get(`http://localhost:8080/students/userId=${userInfo.id}`)
                     .then(response => {
                         {
                             setStudent(response.data);
@@ -184,7 +184,7 @@ export const LearnerGroup = () => {
                             </div>
 
                             <div>
-                                Van Anh
+                                {group.userName}
                             </div>
 
                             <div onClick={(e) => {
