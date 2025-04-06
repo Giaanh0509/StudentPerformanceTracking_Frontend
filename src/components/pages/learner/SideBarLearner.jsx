@@ -29,7 +29,7 @@ const SideBarLink = ({ SideBar }) => {
   
     const isDashboardActive = SideBar.key === 'dashboard' && pathname === '/learner';
     const isGroupsActive = SideBar.key === 'groups' && (pathname === '/learner/groups' || pathname.startsWith('/learner/groups/'));
-    const isStatisticsActive = SideBar.key === 'objectives' && (pathname === '/learner/objectives' || pathname.startsWith('/learner/objectives/'));
+    const isStatisticsActive = SideBar.key === 'achievement' && (pathname === '/learner/achievement' || pathname.startsWith('/learner/achievement/'));
   
     const isActive = isDashboardActive || isStatisticsActive || isGroupsActive;
   

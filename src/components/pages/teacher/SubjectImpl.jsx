@@ -18,6 +18,8 @@ export const SubjectImpl = () => {
     const [indicators, setIndicators] = useState([]);
     const [objectives, setObjectives] = useState([]);
     const [inputName, setInputName] = useState("");
+    const [startDate, setStartDate] = useState("");
+    const [endDate, setEndDate] = useState("");
 
 
     const handleChange = (e, indicatorId) => {
@@ -33,8 +35,6 @@ export const SubjectImpl = () => {
                     indicator_id: indicatorId,
                     start_value: "",
                     objective_value: "",
-                    start_date: "",
-                    end_date: "",
                     [name]: value
                 });
             }
@@ -67,8 +67,11 @@ export const SubjectImpl = () => {
                 user_id: userInfo.id,
                 subject_id: selectedSubjectId,
                 createDate: formatDate(),
-                objectives: objectives
+                start_date: startDate,
+                end_date: endDate,
+                objectives: objectives,
             };
+
             await axios.post("http://localhost:8080/objectives/new", dataToSend);
             alert("Data submitted successfully!");
             setShowModal(false);
@@ -77,6 +80,7 @@ export const SubjectImpl = () => {
             alert("Failed to submit data.");
         }
     };
+
 
     useEffect(() => {
         const storedUserLoginDTO = localStorage.getItem("userLoginDTO");
@@ -217,13 +221,13 @@ export const SubjectImpl = () => {
                     </ReactFlow>
                 </div>
 
-                <div className="overflow-auto mt-8">
+                <div className="flex flex-col overflow-auto mt-8">
                     <div className="flex text-lg font-montserrat gap-x-6 justify-between">
                         <div className="flex flex-col gap-y-3">
-                        <div className="font-bold">Name:</div>
-                        <input type="text" className="border-2 p-1 w-72 border-zinc-300 h-10 rounded-lg" value={inputName} onChange={handleNameChange} />
+                            <div className="font-bold">Name:</div>
+                            <input type="text" className="border-2 p-1 w-72 border-zinc-300 h-10 rounded-lg" value={inputName} onChange={handleNameChange} />
                         </div>
-                        
+
                         <CustomDropdown
                             groups={groups}
                             selectedGroup={selectedGroup}
@@ -232,69 +236,77 @@ export const SubjectImpl = () => {
 
                     </div>
 
-
-
-                    <table className="w-full font-montserrat font-bold border-collapse border-b border-gray-300 mt-4">
-                        <thead>
-                            <tr className="text-left">
-                                <th className="py-2 pr-14">Skill</th>
-                                <th className="px-4 py-2">Indicator</th>
-                                <th className="px-4 py-2">Range</th>
-                                <th className="px-4 py-2">Evaluation_type</th>
-                                <th className="px-4 py-2">Start_value</th>
-                                <th className="px-4 py-2">Objective_value</th>
-                                <th className="px-4 py-2">Start_date</th>
-                                <th className="px-4 py-2">End_date</th>
-                            </tr>
-                        </thead>
-                    </table>
-
-                    <div>
-                        {indicators.map(indicator => (
-                            <div key={indicator.id} className="grid grid-cols-8 font-montserrat mb-3 mt-4">
-                                <div>{indicator.skillName}</div>
-                                <div>{indicator.name}</div>
-                                <div>{indicator.scale_min} - {indicator.scale_max}</div>
-                                <div>{indicator.evaluation_type}</div>
-                                <div>
-                                    <input
-                                        type="number"
-                                        className="border border-black p-1 w-20"
-                                        name="start_value"
-                                        value={objectives.find(obj => obj.indicator_id === indicator.id)?.start_value || ""}
-                                        onChange={(e) => handleChange(e, indicator.id)}
-                                    />
-                                </div>
-                                <div>
-                                    <input
-                                        type="number"
-                                        className="border border-black p-1 w-20"
-                                        name="objective_value"
-                                        value={objectives.find(obj => obj.indicator_id === indicator.id)?.objective_value || ""}
-                                        onChange={(e) => handleChange(e, indicator.id)}
-                                    />
-                                </div>
-                                <div>
-                                    <input
-                                        type="date"
-                                        className="border border-black p-1 w-[120px]"
-                                        name="start_date"
-                                        value={objectives.find(obj => obj.indicator_id === indicator.id)?.start_date || ""}
-                                        onChange={(e) => handleChange(e, indicator.id)}
-                                    />
-                                </div>
-                                <div>
-                                    <input
-                                        type="date"
-                                        className="border border-black p-1 w-[120px]"
-                                        name="end_date"
-                                        value={objectives.find(obj => obj.indicator_id === indicator.id)?.end_date || ""}
-                                        onChange={(e) => handleChange(e, indicator.id)}
-                                    />
-                                </div>
-                            </div>
-                        ))}
+                    <div className="flex flex-col gap-y-3">
+                        <div className="font-bold">Start Date:</div>
+                        <input
+                            type="date"
+                            className="border-2 p-1 w-72 border-zinc-300 h-10 rounded-lg"
+                            value={startDate}
+                            onChange={(e) => setStartDate(e.target.value)}
+                        />
                     </div>
+
+                    <div className="flex flex-col gap-y-3">
+                        <div className="font-bold">End Date:</div>
+                        <input
+                            type="date"
+                            className="border-2 p-1 w-72 border-zinc-300 h-10 rounded-lg"
+                            value={endDate}
+                            onChange={(e) => setEndDate(e.target.value)}
+                        />
+                    </div>
+
+                    <div className="mt-3">
+                        <div className="h-14 border p-2 bg-neutral-300  border-gray-300">
+                            <div className="grid grid-cols-6 font-montserrat">
+                                <div className="py-2">Skill</div>
+                                <div className="py-2">Indicator</div>
+                                <div className="py-2">Range</div>
+                                <div className="py-2">Evaluation_type</div>
+                                <div className="py-2">Start_value</div>
+                                <div className="py-2">Objective_value</div>
+                            </div>
+                        </div>
+
+                        <div className="h-auto border-x border-b p-2 border-gray-300 rounded">
+                            <div className="flex flex-col p-1 gap-y-3">
+                                {indicators.map(indicator => (
+                                    <div key={indicator.id} className="grid grid-cols-6 font-montserrat mb-3 mt-4">
+                                        <div>{indicator.skillName}</div>
+                                        <div>{indicator.name}</div>
+                                        <div>{indicator.scale_min} - {indicator.scale_max}</div>
+                                        <div>{indicator.evaluation_type}</div>
+                                        <div>
+                                            <input
+                                                type="number"
+                                                className="border border-black p-1 w-20"
+                                                name="start_value"
+                                                value={objectives.find(obj => obj.indicator_id === indicator.id)?.start_value || ""}
+                                                onChange={(e) => handleChange(e, indicator.id)}
+                                            />
+                                        </div>
+                                        <div>
+                                            <input
+                                                type="number"
+                                                className="border border-black p-1 w-20"
+                                                name="objective_value"
+                                                value={objectives.find(obj => obj.indicator_id === indicator.id)?.objective_value || ""}
+                                                onChange={(e) => handleChange(e, indicator.id)}
+                                            />
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+
+                    </div>
+
+
+
+
+
+
                 </div>
             </div>
 

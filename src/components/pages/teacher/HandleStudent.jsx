@@ -34,12 +34,11 @@ export const HandleStudent = () => {
 
         fetchData();
 
-    }, [])
+    }, [studentRequests])
 
-    const handleAccept = async (studentId, groupId) => {
+    const handleAccept = async (studentId) => {
         try {
-            await axios.get(`http://localhost:8080/groupsStudents/acceptRequest/studentId=${studentId}/groupId=${groupId}`);
-            
+            await axios.put(`http://localhost:8080/groupsStudents/acceptRequest/studentId=${studentId}/groupId=${id}`);
         } catch (error) {
             console.error("Error updating subject:", error);
         }
@@ -76,7 +75,11 @@ export const HandleStudent = () => {
                                 <div className="mt-1 ml-20">{student.name}</div>
                                 <div className="mt-1 ml-20">{student.dateOfBirth}</div>
                                 <div className="flex gap-x-10 ml-16">
-                                    <AiOutlineCheck color="green" size={25} />
+                                   <button onClick={ (e) => {
+                                    handleAccept(student.id)
+                                   }}> 
+                                   <AiOutlineCheck color="green" size={25} />
+                                   </button> 
                                     <AiOutlineClose color="red" size={25}/>
                                 </div>
                             </div>

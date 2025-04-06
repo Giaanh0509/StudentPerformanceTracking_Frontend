@@ -53,7 +53,7 @@ function App() {
           <Route index element={<LearnerDashboard />} />
           <Route path="groups" element={<LearnerGroup />} />
           <Route path="groups/:id" element={<LearnerStudent />} />
-          <Route path="objectives" element={<LearnerObjective />} />
+          <Route path="achievement" element={<LearnerObjective />} />
         </Route>
 
       </Routes>
