@@ -22,6 +22,9 @@ import { LearnerDashboard } from './components/pages/learner/LearnerDashboard';
 import { LearnerGroup } from './components/pages/learner/LearnerGroup';
 import { LearnerObjective } from './components/pages/learner/LearnerObjective';
 import { LearnerStudent } from './components/pages/learner/LearnerStudent';
+import { AchievementStudent } from './components/pages/learner/AchievementStudent';
+import { AchievementDetails } from './components/pages/learner/AchievementDetails';
+import { Score } from './components/pages/learner/Score';
 
 function App() {
   return (
@@ -53,7 +56,8 @@ function App() {
           <Route index element={<LearnerDashboard />} />
           <Route path="groups" element={<LearnerGroup />} />
           <Route path="groups/:id" element={<LearnerStudent />} />
-          <Route path="achievement" element={<LearnerObjective />} />
+          <Route path="achievement" element={<AchievementStudent />} />
+          <Route path="achievement/:id" element={<AchievementDetails />} />
         </Route>
 
       </Routes>

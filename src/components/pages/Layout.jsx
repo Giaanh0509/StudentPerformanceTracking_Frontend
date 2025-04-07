@@ -24,8 +24,8 @@ export const Layout = () => {
 
     if (pathname.startsWith("/learner/subjects")) {
         title = "Subjects";
-    } else if (pathname.startsWith("/learner/objectives")) {
-        title = "Objectives";
+    } else if (pathname.startsWith("/learner/achievement")) {
+        title = "Achievement";
     } else if (pathname.startsWith("/learner/groups")) {
         title = "Groups";
     }
