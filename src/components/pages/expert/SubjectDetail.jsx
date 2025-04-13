@@ -130,7 +130,7 @@ export const SubjectDetail = () => {
                             Number of uses
                         </div>
                         <div className='text-5xl flex justify-center'>
-                            5
+                            {subject.uses}
                         </div>
                     </div>
                 </div>

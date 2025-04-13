@@ -1,15 +1,34 @@
 import { useEffect, useContext, useState } from "react";
 import { useParams, useLocation } from 'react-router-dom';
 import axios from "axios";
+import { useNavigate } from 'react-router-dom';
 import { Link, useSearchParams } from 'react-router-dom';
+import { AiOutlineArrowLeft } from "react-icons/ai";
 
 export const AchievementDetails = () => {
+
+    const navigate = useNavigate();
+
+    const handleGoBack = () => {
+        navigate('/learner/achievement');
+    };
 
     const { id } = useParams();
     const [student, setStudent] = useState({});
     const [trackings, setTrackings] = useState([]);
     const [trackingDetails, setTrackingDetails] = useState([]);
     const [hoverTrackingId, setHoverTrackingId] = useState(null);
+
+    const [objective, setObjective] = useState({
+        id: "",
+        name: "",
+        subject: "",
+        group: "",
+        groupId: "",
+        createDate: "",
+        indicatorDTOList: []
+    }
+    );
 
     useEffect(() => {
         {
@@ -82,8 +101,38 @@ export const AchievementDetails = () => {
         }
     }, [student, trackings]);
 
+    useEffect(() => {
+        const fetchData = async () => {
+            axios.get(`http://localhost:8080/objectives/objectiveId=${id}`)
+                .then(response => {
+                    {
+                        setObjective(response.data)
+                    }
+                })
+                .catch(error => {
+                    console.error('There was an error!', error);
+                });
+        };
+
+        fetchData();
+
+    }, [id])
+
     return (
         <div className="flex flex-col h-[640px] bg-white mx-6 mt-4 p-3 rounded-lg shadow-lg shadow-slate-400 overflow-y-auto">
+            <div className="flex items-center my-2">
+                <button
+                    onClick={handleGoBack}
+                    className="flex items-center text-[#046b49] hover:text-[#034d36]"
+                >
+                    <AiOutlineArrowLeft className="text-2xl" />
+                </button>
+                <div className="text-xl px-3 py-2 font-montserrat font-semibold text-[#046b49]">
+                    {objective.name}
+                </div>
+            </div>
+
+
             <div className="px-4 py-3 ml-7 gap-x-3 mt-3 mr-3 rounded-md bg-neutral-200 items-center">
                 <div className="grid grid-cols-4 font-montserrat font-bold ">
                     <div className="">
@@ -106,7 +155,8 @@ export const AchievementDetails = () => {
 
             <div className="flex flex-col max-h-[450px]">
                 {[...trackingDetails].reverse().map((tracking) => (
-                    <Link className="" to={`/learner/achievement/${id}/score/${tracking.id}`}>
+                    <div>
+
                         <div className="grid grid-cols-4 p-4 ml-7 gap-x-3 mr-3 items-center h-24 hover:bg-slate-100">
                             <div className="col-span-1 font-montserrat font-meidum">
                                 {tracking.trackingName}
@@ -141,7 +191,8 @@ export const AchievementDetails = () => {
                             </div>
                         </div>
                         <div className="ml-7 gap-x-3 mr-3 border-[1px] border-b-gray-200"></div>
-                    </Link>
+                    </div>
+
                 ))}
 
                 <div className="grid grid-cols-4 p-4 ml-7 gap-x-3 mr-3 items-center h-44 bg-gray-400 text-white rounded-lg font-bold">
@@ -150,7 +201,7 @@ export const AchievementDetails = () => {
                     </div>
 
                     <div className="font-montserrat font-meidum ml-[50px]">
-                        
+
                     </div>
 
                     <div className="font-montserrat font-meidum ml-[65px]">
@@ -158,7 +209,7 @@ export const AchievementDetails = () => {
                     </div>
 
                     <div className="font-montserrat font-meidum ml-[50px]">
-                        
+
                     </div>
                 </div>
 

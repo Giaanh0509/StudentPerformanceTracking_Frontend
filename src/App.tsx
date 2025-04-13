@@ -24,7 +24,6 @@ import { LearnerObjective } from './components/pages/learner/LearnerObjective';
 import { LearnerStudent } from './components/pages/learner/LearnerStudent';
 import { AchievementStudent } from './components/pages/learner/AchievementStudent';
 import { AchievementDetails } from './components/pages/learner/AchievementDetails';
-import { Score } from './components/pages/learner/Score';
 
 function App() {
   return (

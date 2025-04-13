@@ -236,7 +236,7 @@ export const SubjectImpl = () => {
 
                     </div>
 
-                    <div className="flex flex-col gap-y-3">
+                    <div className="flex flex-col gap-y-2 mt-3">
                         <div className="font-bold">Start Date:</div>
                         <input
                             type="date"
@@ -246,7 +246,7 @@ export const SubjectImpl = () => {
                         />
                     </div>
 
-                    <div className="flex flex-col gap-y-3">
+                    <div className="flex flex-col gap-y-1 mt-3">
                         <div className="font-bold">End Date:</div>
                         <input
                             type="date"
@@ -279,7 +279,7 @@ export const SubjectImpl = () => {
                                         <div>
                                             <input
                                                 type="number"
-                                                className="border border-black p-1 w-20"
+                                                className="border border-black p-1 w-20 rounded-md"
                                                 name="start_value"
                                                 value={objectives.find(obj => obj.indicator_id === indicator.id)?.start_value || ""}
                                                 onChange={(e) => handleChange(e, indicator.id)}
@@ -288,7 +288,7 @@ export const SubjectImpl = () => {
                                         <div>
                                             <input
                                                 type="number"
-                                                className="border border-black p-1 w-20"
+                                                className="border border-black p-1 w-20 rounded-md"
                                                 name="objective_value"
                                                 value={objectives.find(obj => obj.indicator_id === indicator.id)?.objective_value || ""}
                                                 onChange={(e) => handleChange(e, indicator.id)}

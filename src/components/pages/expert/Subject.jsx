@@ -92,7 +92,7 @@ export const Subject = () => {
     };
 
     return (
-        <div className="flex flex-col h-[640px] bg-white rounded-xl mx-6 mt-4 p-3 shadow-lg shadow-slate-400">
+        <div className="flex flex-col h-[645px] bg-white rounded-xl mx-6 mt-4 p-3 shadow-lg shadow-slate-400">
             <div className="flex">
                 <div className="text-2xl px-8 text-[#046b49] py-4 font-montserrat font-semibold">
                     Manage Subject
@@ -147,7 +147,7 @@ export const Subject = () => {
                                     {subject.createDate}
                                 </div>
 
-                                <div className="font-medium ml-2">3</div>
+                                <div className="font-medium ml-2">{subject.uses}</div>
 
                                 <div className="flex justify-between">
                                     Public

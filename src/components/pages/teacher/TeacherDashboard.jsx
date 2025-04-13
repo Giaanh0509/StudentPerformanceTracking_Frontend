@@ -207,29 +207,29 @@ export const TeacherDashboard = () => {
     return (
         <div className="flex flex-col max-h-[665px] overflow-y-auto">
             <div className="flex justify-between px-6 py-4 mt-2 items-center">
-                <div className="flex gap-x-3 pl-5 bg-gradient-to-r from-[#0476a3] to-[#93c8e0] w-[270px] h-24 rounded-lg items-center justify-start shadow-lg shadow-slate-400">
-                    <GoPersonFill className="border-slate-400 border-2 p-3 rounded-full" color="white" size={60} />
+                <div className="flex gap-x-3 pl-5 bg-[#2ec4b6] w-[270px] h-24 rounded-lg items-center justify-start shadow-lg shadow-slate-400">
+                    <GoPersonFill className="border-slate-500 border-2 p-3 rounded-full" color="white" size={60} />
                     <div className="flex flex-col text-white">
                         <span className="font-montserrat font-bold text-3xl">50</span>
                         <span className="font-montserrat font-medium text-sm">Students</span>
                     </div>
                 </div>
-                <div className="flex gap-x-3 pl-5 bg-gradient-to-r from-[#b26d04] to-[#cfac78] w-[270px] h-24 rounded-lg items-center justify-start shadow-lg shadow-slate-400">
-                    <MdGroups className="border-slate-400 border-2 p-2 rounded-full" color="white" size={60} />
+                <div className="flex gap-x-3 pl-5 bg-[#60b8d1] w-[270px] h-24 rounded-lg items-center justify-start shadow-lg shadow-slate-400">
+                    <MdGroups className="border-slate-500 border-2 p-2 rounded-full" color="white" size={60} />
                     <div className="flex flex-col text-white">
                         <span className="font-montserrat font-bold text-3xl">{groups.length}</span>
                         <span className="font-montserrat font-medium text-sm">Groups</span>
                     </div>
                 </div>
-                <div className="flex gap-x-3 pl-5 bg-gradient-to-r from-[#037807] to-[#82d582] w-[270px] h-24 rounded-lg items-center justify-start shadow-lg shadow-slate-400">
-                    <GoGoal className="border-slate-400 border-2 p-3 rounded-full" color="white" size={60} />
+                <div className="flex gap-x-3 pl-5 bg-[#4abd93] w-[270px] h-24 rounded-lg items-center justify-start shadow-lg shadow-slate-400">
+                    <GoGoal className="border-slate-500 border-2 p-3 rounded-full" color="white" size={60} />
                     <div className="flex flex-col text-white">
                         <span className="font-montserrat font-bold text-3xl">{objectives.length}</span>
                         <span className="font-montserrat font-medium text-sm">Objectives</span>
                     </div>
                 </div>
-                <div className="flex gap-x-3 pl-5 bg-gradient-to-r from-[#a515be] to-[#d1a1db] w-[270px] h-24 rounded-lg items-center justify-start shadow-lg shadow-slate-400">
-                    <IoBookSharp className="border-slate-400 border-2 p-3 rounded-full" color="white" size={60} />
+                <div className="flex gap-x-3 pl-5 bg-[#ab9ee7] w-[270px] h-24 rounded-lg items-center justify-start shadow-lg shadow-slate-400">
+                    <IoBookSharp className="border-slate-500 border-2 p-3 rounded-full" color="white" size={60} />
                     <div className="flex flex-col text-white">
                         <span className="font-montserrat font-bold text-3xl">{subjects.length}</span>
                         <span className="font-montserrat font-medium text-sm">Subjects</span>
