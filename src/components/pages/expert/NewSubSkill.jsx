@@ -95,10 +95,10 @@ export const NewSubSkill = () => {
     }
 
     return (
-        <div className="flex flex-col gap-y-4 bg-white p-4 rounded-lg w-[750px] h-3/4">
+        <div className="flex flex-col gap-y-4 bg-white p-4 rounded-lg w-[750px] h-auto">
             <div className="flex justify-between">
                 <div className="font-bold text-xl text-[#08c891]">Create new skill</div>
-                <TiDelete onClick={handleCloseModal} className="size-7" />
+                <TiDelete onClick={handleCloseModal} className="size-7 hover:text-red-500 transition" />
             </div>
             <div className="border-[1px] border-b-gray-400"></div>
             <div className="flex justify-between gap-x-5">

@@ -8,7 +8,7 @@ import { useState, createContext, useEffect } from "react";
 import { FaFireAlt } from "react-icons/fa";
 import { AiOutlineNumber } from "react-icons/ai";
 import React from "react";
-import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
+import { PieChart, Pie, Cell, Tooltip, Legend, BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from "recharts";
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import "./css/calendar.css";
@@ -95,6 +95,29 @@ export const Dashboard = () => {
 
     const [value, setValue] = useState(new Date());
 
+    const getRecentMonthData = () => {
+        const monthMap = {};
+        const now = new Date();
+
+        for (let i = 4; i >= 0; i--) {
+            const date = new Date(now.getFullYear(), now.getMonth() - i, 1);
+            const key = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+            monthMap[key] = 0;
+        }
+
+        subjects.forEach(subject => {
+            if (subject.createDate) {
+                const monthKey = subject.createDate.slice(0, 7);
+                if (monthKey in monthMap) {
+                    monthMap[monthKey]++;
+                }
+            }
+        });
+
+        return Object.entries(monthMap).map(([month, count]) => ({ month, count }));
+    };
+
+    const recentMonthData = getRecentMonthData();
 
     return (
         <div className="flex">
@@ -170,7 +193,7 @@ export const Dashboard = () => {
 
             <div className="flex flex-col">
                 <div className="flex flex-col h-[400px] items-center gap-y-2 bg-white rounded-xl mt-4 p-5 shadow-lg shadow-slate-400 w-[630px]">
-                    <h2 className="text-xl font-bold mb-4 text-center">📅 Calendar</h2>
+                    <h2 className="text-xl font-semibold mb-4 text-center">📅 Calendar</h2>
                     <Calendar
                         events={events}
                         startAccessor="start"
@@ -179,7 +202,17 @@ export const Dashboard = () => {
                     />
                 </div>
 
-                <div className="flex flex-col h-[200px] items-center gap-y-2 bg-white rounded-xl mt-4 p-5 shadow-lg shadow-slate-400 w-[630px]">
+                <div className="flex flex-col h-[226px] items-center gap-y-2 bg-white rounded-xl mt-4 p-5 shadow-lg shadow-slate-400 w-[630px]">
+                <h2 className="text-xl font-semibold mb-4 text-center">📊 Subjects Created Per Month</h2>
+                    <ResponsiveContainer width="100%" height="100%">
+                        <BarChart data={recentMonthData} margin={{ top: 10, right: 30, left: 0, bottom: 5 }}>
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis dataKey="month" />
+                            <YAxis />
+                            <Tooltip />
+                            <Bar dataKey="count" fill="#2ec4b6" barSize={40} radius={[10, 10, 0, 0]} />
+                        </BarChart>
+                    </ResponsiveContainer>
                 </div>
             </div>
 

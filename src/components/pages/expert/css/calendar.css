@@ -42,9 +42,10 @@ abbr[title] {
 }
 
 .react-calendar__tile--now {
-    background: #FFD700;
+    background: #0d997d;
     border-radius: 6px;
     font-weight: bold;
+    padding: 3px;
     color: white;
 }
 

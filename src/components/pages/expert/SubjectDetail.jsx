@@ -9,7 +9,8 @@ import { CiEdit } from "react-icons/ci";
 import { Indicator } from './Indicator';
 import { selectedSkillContext } from "./selectedSkillContext";
 import { EditSubject } from './EditSubject';
-
+import { useNavigate } from 'react-router-dom';
+import { AiOutlineArrowLeft } from "react-icons/ai";
 
 export const skillContext = createContext();
 export const indicatorContext = createContext();
@@ -115,10 +116,22 @@ export const SubjectDetail = () => {
         }
     }, [skills]);
 
+    const navigate = useNavigate();
+
+    const handleGoBack = () => {
+        navigate('/expert/subjects');
+    };
+
     return (
         <div className='flex flex-col h-[640px] bg-white rounded-xl mx-6 mt-4 p-3 shadow-lg shadow-slate-400'>
-            <div className="flex">
-                <div className="text-2xl text-[#046b49] px-8 py-4 font-montserrat font-semibold">
+            <div className="flex items-center">
+                <button
+                    onClick={handleGoBack}
+                    className="flex items-center text-[#046b49] hover:text-[#034d36]"
+                >
+                    <AiOutlineArrowLeft className="text-2xl" />
+                </button>
+                <div className="text-2xl text-[#046b49] pr-8 pl-2 py-4 font-montserrat font-semibold">
                     Manage Subject / {subject.name}
                 </div>
             </div>
@@ -173,7 +186,7 @@ export const SubjectDetail = () => {
                         Name
                     </div>
                     <div>
-                        Fomula
+                        Weight
                     </div>
                     <div>
                         ChildrenSkill
@@ -194,7 +207,7 @@ export const SubjectDetail = () => {
                                         {skill.name}
                                     </div>
 
-                                    <div className="font-montserrat font-medium">
+                                    <div className="font-montserrat ml-4 font-medium">
                                         {skill.formula}
                                     </div>
 
@@ -217,7 +230,7 @@ export const SubjectDetail = () => {
                                         {skill.name}
                                     </div>
 
-                                    <div className="font-montserrat font-medium">
+                                    <div className="font-montserrat  ml-4 font-medium">
                                         {skill.formula}
                                     </div>
 
@@ -239,7 +252,7 @@ export const SubjectDetail = () => {
             )}
 
             {popup && (
-                <selectedSkillContext.Provider value={{ selectedSkillId, setPopup}}>
+                <selectedSkillContext.Provider value={{ selectedSkillId, setPopup }}>
                     <div onClick={handleClickOutside} className="absolute inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
                         <Indicator></Indicator>
                     </div>
@@ -256,9 +269,9 @@ export const SubjectDetail = () => {
 
             {editPopup && (
                 <editSubjectContext.Provider value={{ subject, setSubject, editPopup, setEditPopup }}>
-                <div onClick={handleClickOutside} className="absolute inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-                    <EditSubject></EditSubject>
-                </div>            
+                    <div onClick={handleClickOutside} className="absolute inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+                        <EditSubject></EditSubject>
+                    </div>
                 </editSubjectContext.Provider>
             )}
 

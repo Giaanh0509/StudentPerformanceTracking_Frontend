@@ -7,6 +7,9 @@ import { NewSkill } from './NewSkill';
 import { NewSubSkill } from './NewSubSkill';
 import { Indicator } from './Indicator';
 import { selectedSkillContext } from "./selectedSkillContext";
+import { useNavigate } from 'react-router-dom';
+import { AiOutlineArrowLeft } from "react-icons/ai";
+
 
 export const subSkillContext = createContext();
 export const indicatorSubSkillContext = createContext();
@@ -116,19 +119,30 @@ export const SubSkill = () => {
 
     }, [check])
 
+    const navigate = useNavigate();
+
+    const handleGoBack = () => {
+        navigate(`/expert/subjects/${subId}`);
+    };
 
     return (
         <div className="flex flex-col h-[640px] bg-white rounded-xl mx-6 mt-4 p-3 shadow-lg shadow-slate-400">
-            <div className="flex">
-                <div className="text-2xl text-[#046b49] px-8 py-4 font-montserrat font-semibold">
+            <div className="flex items-center">
+                <button
+                    onClick={handleGoBack}
+                    className="flex items-center text-[#046b49] hover:text-[#034d36]"
+                >
+                    <AiOutlineArrowLeft className="text-2xl" />
+                </button>
+                <div className="text-2xl text-[#046b49] pr-8 pl-2 py-4 font-montserrat font-semibold">
                     Manage Subject / {subjectName} / {subSkillName}
                 </div>
             </div>
 
             <div className="flex justify-between mb-3 text-sm">
                 <div className=" ml-7 mr-auto">
-                    <div className="p-[8px] border-[1px] rounded-lg w-44 border-[#7fa195]" name="" id="">
-                        Number of subjects: <span className="font-bold"></span>
+                    <div className="flex gap-x-2 p-[8px] border-[1px] rounded-lg w-auto border-[#7fa195]" name="" id="">
+                        Number of subSkills: <span className="font-bold">{subSkills.length}</span>
                     </div>
                 </div>
 
@@ -171,7 +185,7 @@ export const SubSkill = () => {
                                     </div>
 
                                     <div>
-                                    {subSkill.formula}
+                                        {subSkill.formula}
                                     </div>
 
                                     <div>
@@ -180,24 +194,31 @@ export const SubSkill = () => {
 
                                     <div>{subSkill.createDate}</div>
                                 </div>
+
+                                <div className="ml-7 gap-x-3 mr-3 border-[1px] border-b-gray-200"></div>
                             </Link>
                         ) : (
-                            <div key={subSkill.id} onClick={() => handleSkillClick(subSkill.id)} className="grid grid-cols-4 px-4 py-4 ml-7  font-medium font-montserrat gap-x-3 items-center hover:bg-slate-100">
-                                <div className="">
-                                    {subSkill.name}
+                            <div>
+                                <div key={subSkill.id} onClick={() => handleSkillClick(subSkill.id)} className="grid grid-cols-4 px-4 py-4 ml-7  font-medium font-montserrat gap-x-3 items-center hover:bg-slate-100">
+                                    <div className="">
+                                        {subSkill.name}
+                                    </div>
+
+                                    <div>
+                                        {subSkill.formula}
+                                    </div>
+
+                                    <div>
+                                        {subSkill.childrenSkill ? "True" : "False"}
+                                    </div>
+
+                                    <div>{subSkill.createDate}</div>
                                 </div>
 
-                                <div>
-                                    {subSkill.formula}
-                                </div>
-
-                                <div>
-                                    {subSkill.childrenSkill ? "True" : "False"}
-                                </div>
-
-                                <div>{subSkill.createDate}</div>
+                                <div className="ml-7 gap-x-3 mr-3 border-[1px] border-b-gray-200"></div>
 
                             </div>
+
                         )
                     ))}
                 </div>

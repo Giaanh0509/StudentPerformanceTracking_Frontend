@@ -94,10 +94,10 @@ export const NewSkill = () => {
     }
 
     return (
-        <div className="flex flex-col gap-y-4 bg-white px-4 pb-4 rounded-lg w-[600px] h-3/4 font-montserrat max-h-[380px] overflow-y-auto">
+        <div className="flex flex-col gap-y-4 bg-white px-4 pb-4 rounded-lg w-[600px] h-auto font-montserrat">
             <div className="flex justify-between sticky top-0 bg-white px-2 py-3 z-10 border-b-[1px] border-gray-400">
                 <div className="font-bold text-xl text-[#03966c]">Create New Skill</div>
-                <TiDelete onClick={handleCloseModal} className="size-7" />
+                <TiDelete onClick={handleCloseModal} className="size-7 hover:text-red-500 transition" />
             </div>
             <div className="flex justify-between gap-x-5">
                 <div className="font-semibold">Name:</div>
