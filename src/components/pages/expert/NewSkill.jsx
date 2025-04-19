@@ -113,7 +113,7 @@ export const NewSkill = () => {
                 <div className="font-semibold">Formula:</div>
 
                 <input
-                    type="text"
+                    type="number"
                     name="formula"
                     value={skill.formula}
                     onChange={(e) => handleChange(e)}

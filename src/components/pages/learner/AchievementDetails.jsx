@@ -87,7 +87,7 @@ export const AchievementDetails = () => {
 
                 for (const tracking of trackings) {
                     try {
-                        const response = await axios.get(`http://localhost:8080/trackings/trackingId=${tracking.id}/studentId=${student.id}`);
+                        const response = await axios.get(`http://localhost:8080/trackings/objectiveId=${id}/trackingId=${tracking.id}/studentId=${student.id}`);
                         newDetails.push(response.data);
                     } catch (error) {
                         console.error(`Error fetching detail for tracking ${tracking.id}:`, error);
@@ -169,7 +169,7 @@ export const AchievementDetails = () => {
                             <div className="relative flex font-montserrat font-meidum ml-[64px]"
                                 onMouseEnter={() => setHoverTrackingId(tracking.trackingId)}
                                 onMouseLeave={() => setHoverTrackingId(null)}>
-                                5
+                                {tracking.averagePoint}
 
                                 {hoverTrackingId === tracking.trackingId && (
                                     <div className="absolute top-0 left-10 z-10 bg-white border border-gray-300 shadow-lg rounded-md p-2 w-48 flex flex-col">
@@ -195,7 +195,7 @@ export const AchievementDetails = () => {
 
                 ))}
 
-                <div className="grid grid-cols-4 p-4 ml-7 gap-x-3 mr-3 items-center h-44 bg-gray-400 text-white rounded-lg font-bold">
+                <div className="grid grid-cols-4 p-4 ml-7 gap-x-3 mr-3 items-center h-24 bg-gray-400 text-white rounded-lg font-bold">
                     <div className="col-span-1 font-montserrat font-meidum">
                         Final
                     </div>
