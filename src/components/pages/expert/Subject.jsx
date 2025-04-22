@@ -9,7 +9,8 @@ import { MdDelete } from "react-icons/md";
 import { TiDelete } from "react-icons/ti";
 import { DeleteSubject } from "./DeleteSubject";
 import { FaSort } from "react-icons/fa";
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 export const modalContext = createContext();
 export const deleteSubjectContext = createContext();
 
@@ -118,15 +119,15 @@ export const Subject = () => {
             <div className="px-4 py-3 ml-7 gap-x-3 mt-3 mr-3 rounded-md bg-neutral-200 items-center">
                 <div className="grid grid-cols-4 font-montserrat font-bold ">
                     <div className="flex gap-x-1 items-center">
-                        Name 
+                        Name
                     </div>
 
                     <div className="flex gap-x-1 items-center">
-                        Create Date 
+                        Create Date
                     </div>
 
                     <div className="flex gap-x-1 items-center">
-                        Uses 
+                        Uses
                     </div>
 
                     <div className="flex gap-x-1 items-center">
@@ -185,20 +186,22 @@ export const Subject = () => {
             </div>
 
             {deletePopup && (
-                    <deleteSubjectContext.Provider value={{ selectedSubjectId, setDeletePopup}}>
+                <deleteSubjectContext.Provider value={{ selectedSubjectId, setDeletePopup }}>
                     <div onClick={handleClickOutside} className="absolute inset-0 flex justify-center items-center z-50">
-                        <DeleteSubject></DeleteSubject>
+                        <DeleteSubject onSuccessDelete={() => toast.success("Subject deleted successfully! 🎉")}></DeleteSubject>
                     </div>
-                    </deleteSubjectContext.Provider>
+                </deleteSubjectContext.Provider>
             )}
 
             {showModal && (
                 <modalContext.Provider value={{ showModal, setShowModal, subjects, setSubjects }}>
                     <div onClick={handleClickOutside} className="absolute inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-                        <NewSubject></NewSubject>
+                        <NewSubject onSuccessCreate={() => toast.success("Subject created successfully! 🎉")} />
                     </div>
                 </modalContext.Provider>
             )}
+
+            <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} />
         </div>
     );
 };

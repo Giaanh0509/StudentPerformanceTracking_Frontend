@@ -11,11 +11,16 @@ import { selectedSkillContext } from "./selectedSkillContext";
 import { EditSubject } from './EditSubject';
 import { useNavigate } from 'react-router-dom';
 import { AiOutlineArrowLeft } from "react-icons/ai";
+import { MdDelete } from "react-icons/md";
+import { FaEdit } from "react-icons/fa";
+import { EditSkill } from './EditSkill';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const skillContext = createContext();
 export const indicatorContext = createContext();
 export const editSubjectContext = createContext();
-
+export const editSkillContext = createContext();
 
 export const SubjectDetail = () => {
 
@@ -30,11 +35,14 @@ export const SubjectDetail = () => {
         description: ""
     });
 
+    const [edit, setEdit] = useState(0);
 
     const [showModal, setShowModal] = useState(false);
     const [popup, setPopup] = useState(false);
 
     const [editPopup, setEditPopup] = useState(false);
+    const [editSkillPopup, setEditSkillPopup] = useState(false);
+    const [selectedEditSkillId, setEditSelectedSkillId] = useState(null);
 
     const [check, setCheck] = useState(false);
 
@@ -53,11 +61,16 @@ export const SubjectDetail = () => {
         setPopup(true);
     };
 
+    const handleEditSkillClick = (skillId) => {
+        setEditSelectedSkillId(skillId);
+    }
+
     const handleClickOutside = (event) => {
         if (event.target === event.currentTarget) {
             setShowModal(false);
             setPopup(false);
             setEditPopup(false);
+            setEditSkillPopup(false);
         }
     };
 
@@ -85,6 +98,10 @@ export const SubjectDetail = () => {
     const [skills, setSkills] = useState([]);
     const [loading, setLoading] = useState(true);
 
+    const handleEditSkillPopup = () => {
+        setEditSkillPopup(true);
+    }
+
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true);
@@ -106,7 +123,9 @@ export const SubjectDetail = () => {
 
         fetchData();
 
-    }, [check])
+    }, [check, edit])
+
+    console.log(edit)
 
     const listRef = useRef(null);
 
@@ -215,8 +234,16 @@ export const SubjectDetail = () => {
                                         {skill.childrenSkill ? "True" : "False"}
                                     </div>
 
-                                    <div className="font-montserrat font-medium">
+                                    <div className="flex gap-x-28 font-montserrat font-medium">
                                         {skill.createDate}
+
+                                        <div onClick={(e) => {
+                                            e.preventDefault();
+                                            handleEditSkillClick(skill.id);
+                                        }} className='flex'>
+                                            <button onClick={handleEditSkillPopup} className="bg-[#a6bf16] p-1 rounded-md text-white mr-5"><FaEdit className="size-4" /></button>
+                                            <button className="bg-[#a30303] p-1 rounded-md text-white mr-5"><MdDelete className="size-4" /></button>
+                                        </div>
                                     </div>
 
                                 </div>
@@ -225,7 +252,7 @@ export const SubjectDetail = () => {
                             </Link>
                         ) : (
                             <div>
-                                <div onClick={() => handleSkillClick(skill.id)} className="grid grid-cols-4 p-4 ml-7 gap-x-3 mr-3 items-center cursor-pointer hover:bg-slate-100">
+                                <div onClick={() => handleSkillClick(skill.id)} className="grid grid-cols-4 p-4 ml-7 mr-3 gap-x-3 items-center cursor-pointer hover:bg-slate-100">
                                     <div className="font-montserrat font-medium">
                                         {skill.name}
                                     </div>
@@ -238,9 +265,18 @@ export const SubjectDetail = () => {
                                         {skill.childrenSkill ? "True" : "False"}
                                     </div>
 
-                                    <div className="font-montserrat font-medium">
+                                    <div className="flex gap-x-28 font-montserrat font-medium">
                                         {skill.createDate}
+                                        <div onClick={(e) => {
+                                            e.preventDefault();
+                                            e.stopPropagation();
+                                            handleEditSkillClick(skill.id);
+                                        }} className='flex'>
+                                            <button onClick={handleEditSkillPopup} className="bg-[#a6bf16] p-1 rounded-md text-white mr-5"><FaEdit className="size-4" /></button>
+                                            <button className="bg-[#a30303] p-1 rounded-md text-white mr-5"><MdDelete className="size-4" /></button>
+                                        </div>
                                     </div>
+
                                 </div>
 
                                 <div className="ml-7 gap-x-3 mr-3 border-[1px] border-b-gray-200"></div>
@@ -259,10 +295,18 @@ export const SubjectDetail = () => {
                 </selectedSkillContext.Provider>
             )}
 
+            {editSkillPopup && (
+                <editSkillContext.Provider value={{ selectedEditSkillId, setEditSkillPopup, edit, setEdit}}>
+                    <div onClick={handleClickOutside} className="absolute inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+                        <EditSkill></EditSkill>
+                    </div>
+                </editSkillContext.Provider>
+            )}
+
             {showModal && (
                 <skillContext.Provider value={{ subjectId, showModal, setShowModal, skills, setSkills, check, setCheck }}>
                     <div onClick={handleClickOutside} className="absolute inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-                        <NewSkill></NewSkill>
+                        <NewSkill onSuccessCreate={() => toast.success("Skill created successfully! 🎉")}></NewSkill>
                     </div>
                 </skillContext.Provider>
             )}
@@ -275,6 +319,7 @@ export const SubjectDetail = () => {
                 </editSubjectContext.Provider>
             )}
 
+            <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} />
         </div>
     )
 }

@@ -111,7 +111,7 @@ export const AchievementStudent = () => {
                                 </div>
 
                                 <div className="flex ml-4 font-montserrat font-meidum">
-                                    5/5
+                                    /10
                                 </div>
                             </div>
                             <div className="ml-7 gap-x-3 mr-3 border-[1px] border-b-gray-200"></div>

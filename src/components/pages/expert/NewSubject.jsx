@@ -2,8 +2,10 @@ import { TiDelete } from "react-icons/ti";
 import { useState, useContext, useEffect } from "react";
 import { modalContext } from "./Subject";
 import SubjectService from "../../../services/SubjectService";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
-export const NewSubject = () => {
+export const NewSubject = ({ onSuccessCreate }) => {
     const { showModal, setShowModal } = useContext(modalContext);
     const { subjects, setSubjects } = useContext(modalContext);
 
@@ -61,6 +63,7 @@ export const NewSubject = () => {
             .then((response) => {
                 setSubjects((prevSubjects) => [...prevSubjects, response.data]);
                 setShowModal(false);
+                onSuccessCreate && onSuccessCreate();
             })
             .catch((err) => {
                 console.error(err);
@@ -72,7 +75,7 @@ export const NewSubject = () => {
             <div className="flex justify-between items-center">
                 <h2 className="font-bold text-2xl text-[#03966c]">Create New Subject</h2>
                 <button onClick={handleCloseModal} className="text-gray-600 hover:text-red-500 transition text-2xl">
-                    <TiDelete className="size-7"/>
+                    <TiDelete className="size-7" />
                 </button>
             </div>
             <div className="border-b border-gray-300"></div>
@@ -85,9 +88,8 @@ export const NewSubject = () => {
                     value={subject.name}
                     onChange={handleChange}
                     placeholder="Enter subject name"
-                    className={`border-2 p-2 w-full rounded-lg ${
-                        errors.name ? "border-red-500 focus:ring-red-500" : ""
-                    }`}
+                    className={`border-2 p-2 w-full rounded-lg ${errors.name ? "border-red-500 focus:ring-red-500" : ""
+                        }`}
                 />
                 {errors.name && <p className="text-red-500 text-sm">Subject name is required.</p>}
             </div>
@@ -99,9 +101,8 @@ export const NewSubject = () => {
                     value={subject.description}
                     onChange={handleChange}
                     placeholder="Enter subject description"
-                    className={`border-2 p-2 w-full rounded-lg resize-none ${
-                        errors.description ? "border-red-500 focus:ring-red-500" : ""
-                    }`}
+                    className={`border-2 p-2 w-full rounded-lg resize-none ${errors.description ? "border-red-500 focus:ring-red-500" : ""
+                        }`}
                     rows="3"
                 ></textarea>
                 {errors.description && <p className="text-red-500 text-sm">Description is required.</p>}

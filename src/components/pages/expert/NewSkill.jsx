@@ -4,7 +4,7 @@ import { skillContext } from "./SubjectDetail";
 import SkillService from "../../../services/SkillService";
 import IndicatorService from "../../../services/IndicatorService";
 
-export const NewSkill = () => {
+export const NewSkill = ({ onSuccessCreate }) => {
 
     const { subjectId } = useContext(skillContext);
     const { showModal, setShowModal } = useContext(skillContext);
@@ -86,6 +86,7 @@ export const NewSkill = () => {
                 }
 
                 setShowModal(false);
+                onSuccessCreate && onSuccessCreate();
             })
             .catch((err) => {
                 console.error(err);
@@ -110,7 +111,7 @@ export const NewSkill = () => {
             </div>
 
             <div className="flex justify-between gap-x-5">
-                <div className="font-semibold">Formula:</div>
+                <div className="font-semibold">Weight:</div>
 
                 <input
                     type="number"

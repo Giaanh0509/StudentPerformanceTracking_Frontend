@@ -2,7 +2,7 @@ import axios from "axios"
 import { deleteSubjectContext } from "./Subject"
 import { useEffect, useContext, useState } from "react";
 
-export const DeleteSubject = () => {
+export const DeleteSubject = ({ onSuccessDelete }) => {
 
     const { selectedSubjectId } = useContext(deleteSubjectContext);
     const { setDeletePopup } = useContext(deleteSubjectContext);
@@ -15,6 +15,7 @@ export const DeleteSubject = () => {
         axios.get(`http://localhost:8080/subjects/delete/${selectedSubjectId}`)
             .then(response => { 
                 setDeletePopup(false);
+                onSuccessDelete && onSuccessDelete();
             })
             .catch(error => {
                 console.error('There was an error!', error);
