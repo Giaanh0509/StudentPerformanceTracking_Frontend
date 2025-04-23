@@ -6,6 +6,7 @@ export const DeleteSubject = ({ onSuccessDelete }) => {
 
     const { selectedSubjectId } = useContext(deleteSubjectContext);
     const { setDeletePopup } = useContext(deleteSubjectContext);
+    const { render, setRender } = useContext(deleteSubjectContext);
 
     const handleButton = () => {
         setDeletePopup(false);
@@ -15,6 +16,7 @@ export const DeleteSubject = ({ onSuccessDelete }) => {
         axios.get(`http://localhost:8080/subjects/delete/${selectedSubjectId}`)
             .then(response => { 
                 setDeletePopup(false);
+                setRender(render+1);
                 onSuccessDelete && onSuccessDelete();
             })
             .catch(error => {

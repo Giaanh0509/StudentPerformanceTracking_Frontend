@@ -8,6 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 export const NewSubject = ({ onSuccessCreate }) => {
     const { showModal, setShowModal } = useContext(modalContext);
     const { subjects, setSubjects } = useContext(modalContext);
+    const { render, setRender } = useContext(modalContext);
 
     const [subject, setSubject] = useState({
         id: "",
@@ -63,6 +64,7 @@ export const NewSubject = ({ onSuccessCreate }) => {
             .then((response) => {
                 setSubjects((prevSubjects) => [...prevSubjects, response.data]);
                 setShowModal(false);
+                setRender(render+1);
                 onSuccessCreate && onSuccessCreate();
             })
             .catch((err) => {

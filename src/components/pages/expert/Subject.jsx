@@ -29,6 +29,7 @@ export const Subject = () => {
 
     const [subjectsPerPage] = useState(10);
 
+    const [render, setRender] = useState(0);
     const [searchParams, setSearchParams] = useSearchParams();
     const currentPage = parseInt(searchParams.get('page')) || 1;
 
@@ -82,7 +83,7 @@ export const Subject = () => {
         };
 
         fetchData();
-    }, [subjects, userInfo]);
+    }, [userInfo, render]);
 
     const indexOfLastSubject = currentPage * subjectsPerPage;
     const indexOfFirstSubject = indexOfLastSubject - subjectsPerPage;
@@ -186,7 +187,7 @@ export const Subject = () => {
             </div>
 
             {deletePopup && (
-                <deleteSubjectContext.Provider value={{ selectedSubjectId, setDeletePopup }}>
+                <deleteSubjectContext.Provider value={{ selectedSubjectId, setDeletePopup, render, setRender }}>
                     <div onClick={handleClickOutside} className="absolute inset-0 flex justify-center items-center z-50">
                         <DeleteSubject onSuccessDelete={() => toast.success("Subject deleted successfully! 🎉")}></DeleteSubject>
                     </div>
@@ -194,7 +195,7 @@ export const Subject = () => {
             )}
 
             {showModal && (
-                <modalContext.Provider value={{ showModal, setShowModal, subjects, setSubjects }}>
+                <modalContext.Provider value={{ showModal, setShowModal, subjects, setSubjects, render, setRender }}>
                     <div onClick={handleClickOutside} className="absolute inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
                         <NewSubject onSuccessCreate={() => toast.success("Subject created successfully! 🎉")} />
                     </div>

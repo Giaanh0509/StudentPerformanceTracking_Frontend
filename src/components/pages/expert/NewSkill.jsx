@@ -19,7 +19,7 @@ export const NewSkill = ({ onSuccessCreate }) => {
         createDate: "",
         subjectId: subjectId,
         parentSkillId: "",
-        children: "true"
+        childrenSkill: "true"
     });
 
     const [indicator, setIndicator] = useState({
@@ -41,7 +41,7 @@ export const NewSkill = ({ onSuccessCreate }) => {
 
     const handleChildrenChange = (e) => {
         const value = e.target.value === "true";
-        setSkill({ ...skill, children: value });
+        setSkill({ ...skill, childrenSkill: value });
     };
 
     const handleChange = (e) => {
@@ -68,7 +68,7 @@ export const NewSkill = ({ onSuccessCreate }) => {
                 setCheck(true);
 
                 setSkills((prevSkills) => [createdSkill, ...prevSkills]);
-                if (skill.children === false) {
+                if (skill.childrenSkill === false) {
                     const newIndicator = {
                         ...indicator,
                         skillId: newSkillId
@@ -143,9 +143,9 @@ export const NewSkill = ({ onSuccessCreate }) => {
                     <label>
                         <input
                             type="radio"
-                            name="children"
+                            name="childrenSkill"
                             value="true"
-                            checked={skill.children === true}
+                            checked={skill.childrenSkill === true}
                             onChange={handleChildrenChange}
                         />
                         Yes
@@ -153,9 +153,9 @@ export const NewSkill = ({ onSuccessCreate }) => {
                     <label>
                         <input
                             type="radio"
-                            name="children"
+                            name="childrenSkill"
                             value="false"
-                            checked={skill.children === false}
+                            checked={skill.childrenSkill === false}
                             onChange={handleChildrenChange}
                         />
                         No
@@ -163,7 +163,7 @@ export const NewSkill = ({ onSuccessCreate }) => {
                 </div>
             </div>
 
-            {skill.children === false && (
+            {skill.childrenSkill === false && (
                 <div className="flex flex-col gap-y-5">
                     <div className="font-bold text-xl text-[#03966c]">Create indicators for skill</div>
                     <div className="flex justify-between gap-x-5">

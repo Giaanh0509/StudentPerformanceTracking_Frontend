@@ -16,11 +16,13 @@ import { FaEdit } from "react-icons/fa";
 import { EditSkill } from './EditSkill';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { DeleteSkill } from './DeleteSkill';
 
 export const skillContext = createContext();
 export const indicatorContext = createContext();
 export const editSubjectContext = createContext();
 export const editSkillContext = createContext();
+export const deleteSkillContext = createContext();
 
 export const SubjectDetail = () => {
 
@@ -35,13 +37,14 @@ export const SubjectDetail = () => {
         description: ""
     });
 
-    const [edit, setEdit] = useState(0);
+    const [render, setRender] = useState(0);
 
     const [showModal, setShowModal] = useState(false);
     const [popup, setPopup] = useState(false);
 
     const [editPopup, setEditPopup] = useState(false);
     const [editSkillPopup, setEditSkillPopup] = useState(false);
+    const [deleteSkillPopup, setDeleteSkillPopup] = useState(false);
     const [selectedEditSkillId, setEditSelectedSkillId] = useState(null);
 
     const [check, setCheck] = useState(false);
@@ -71,8 +74,14 @@ export const SubjectDetail = () => {
             setPopup(false);
             setEditPopup(false);
             setEditSkillPopup(false);
+            setDeleteSkillPopup(false);
         }
     };
+
+    const handleDeleteButton = (skillId) => {
+        setSelectedSkillId(skillId);
+        setDeleteSkillPopup(true);
+    }
 
     useEffect(() => {
         const fetchData = async () => {
@@ -108,12 +117,8 @@ export const SubjectDetail = () => {
             setCheck(false);
 
             try {
-                const response = await axios.get(`http://localhost:8080/subjects/${subjectId}/skills`);
-                const skillsData = response.data._embedded?.skills || [];
-
-                const parentSkills = skillsData.filter(skill => skill.parentSkill === null);
-
-                setSkills(parentSkills);
+                const response = await axios.get(`http://localhost:8080/skills/subjectId=${subjectId}`);
+                setSkills(response.data);
             } catch (error) {
                 console.log(error);
             }
@@ -123,9 +128,7 @@ export const SubjectDetail = () => {
 
         fetchData();
 
-    }, [check, edit])
-
-    console.log(edit)
+    }, [check, render])
 
     const listRef = useRef(null);
 
@@ -242,7 +245,7 @@ export const SubjectDetail = () => {
                                             handleEditSkillClick(skill.id);
                                         }} className='flex'>
                                             <button onClick={handleEditSkillPopup} className="bg-[#a6bf16] p-1 rounded-md text-white mr-5"><FaEdit className="size-4" /></button>
-                                            <button className="bg-[#a30303] p-1 rounded-md text-white mr-5"><MdDelete className="size-4" /></button>
+                                            <button onClick={() => handleDeleteButton(skill.id)} className="bg-[#a30303] p-1 rounded-md text-white mr-5"><MdDelete className="size-4" /></button>
                                         </div>
                                     </div>
 
@@ -273,7 +276,7 @@ export const SubjectDetail = () => {
                                             handleEditSkillClick(skill.id);
                                         }} className='flex'>
                                             <button onClick={handleEditSkillPopup} className="bg-[#a6bf16] p-1 rounded-md text-white mr-5"><FaEdit className="size-4" /></button>
-                                            <button className="bg-[#a30303] p-1 rounded-md text-white mr-5"><MdDelete className="size-4" /></button>
+                                            <button onClick={() => handleDeleteButton(skill.id)} className="bg-[#a30303] p-1 rounded-md text-white mr-5"><MdDelete className="size-4" /></button>
                                         </div>
                                     </div>
 
@@ -295,8 +298,9 @@ export const SubjectDetail = () => {
                 </selectedSkillContext.Provider>
             )}
 
+
             {editSkillPopup && (
-                <editSkillContext.Provider value={{ selectedEditSkillId, setEditSkillPopup, edit, setEdit}}>
+                <editSkillContext.Provider value={{ selectedEditSkillId, setEditSkillPopup, render, setRender }}>
                     <div onClick={handleClickOutside} className="absolute inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
                         <EditSkill></EditSkill>
                     </div>
@@ -309,6 +313,14 @@ export const SubjectDetail = () => {
                         <NewSkill onSuccessCreate={() => toast.success("Skill created successfully! 🎉")}></NewSkill>
                     </div>
                 </skillContext.Provider>
+            )}
+
+            {deleteSkillPopup && (
+                <deleteSkillContext.Provider value={{ selectedEditSkillId, setDeleteSkillPopup, render, setRender }}>
+                    <div onClick={handleClickOutside} className="absolute inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+                        <DeleteSkill onSuccessDelete={() => toast.success("Skill deleted successfully! 🎉")}></DeleteSkill>
+                    </div>
+                </deleteSkillContext.Provider>
             )}
 
             {editPopup && (

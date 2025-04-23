@@ -22,6 +22,12 @@ export const Layout = () => {
         title = "Groups";
     }
 
+    if (pathname.startsWith("/expert/subjects")) {
+        title = "Subjects";
+    } else if (pathname.startsWith("/expert/statistics")) {
+        title = "Statistics";
+    } 
+
     if (pathname.startsWith("/learner/subjects")) {
         title = "Subjects";
     } else if (pathname.startsWith("/learner/achievement")) {

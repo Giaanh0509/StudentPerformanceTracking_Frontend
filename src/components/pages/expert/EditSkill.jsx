@@ -7,7 +7,7 @@ export const EditSkill = () => {
 
     const { selectedEditSkillId } = useContext(editSkillContext);
     const { setEditSkillPopup } = useContext(editSkillContext);
-    const { edit, setEdit } = useContext(editSkillContext);
+    const { render, setRender } = useContext(editSkillContext);
     const [skill, setSkill] = useState({});
 
     useEffect(() => {
@@ -41,7 +41,7 @@ export const EditSkill = () => {
                 {
                     setSkill(response.data)
                     setEditSkillPopup(false);
-                    setEdit(edit+1)
+                    setRender(render+1)
                 }
             })
             .catch(error => {
@@ -52,7 +52,7 @@ export const EditSkill = () => {
     return (
         <div className="flex flex-col gap-y-4 bg-white font-montserrat p-6 rounded-2xl w-[500px] shadow-lg">
             <div className="flex justify-between items-center">
-                <h2 className="font-bold text-2xl">Edit skill: <span className="text-[#03966c]"></span></h2>
+                <h2 className="font-bold text-2xl">Edit skill: <span className="text-[#03966c]">{skill.name}</span></h2>
                 <button className="text-gray-600 hover:text-red-500 transition text-2xl">
                     <TiDelete className="size-7" />
                 </button>
