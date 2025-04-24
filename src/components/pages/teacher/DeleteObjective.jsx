@@ -2,19 +2,24 @@ import { useEffect, useContext, useState } from "react";
 import axios from "axios"
 import { deleteObjectiveContext } from "./Objectives";
 
-export const DeleteObjective = () => {
+export const DeleteObjective = ({ onSuccessDelete }) => {
 
     const { selectedObjectiveId } = useContext(deleteObjectiveContext);
     const { setDeletePopup} = useContext(deleteObjectiveContext);
+    const { render, setRender } = useContext(deleteObjectiveContext);
 
     const handleButton = () => {
         setDeletePopup(false);
     }
 
+    console.log(selectedObjectiveId);
+
     const deleteGroup = () => {
-        axios.get(`http://localhost:8080/objectives/delete/${selectedObjectiveId}`)
+        axios.get(`http://localhost:8080/objectives/delete/objectiveId=${selectedObjectiveId}`)
             .then(response => { 
                 setDeletePopup(false);
+                setRender(render + 1 );
+                onSuccessDelete && onSuccessDelete();
             })
             .catch(error => {
                 console.error('There was an error!', error);

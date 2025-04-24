@@ -16,7 +16,8 @@ import { AiOutlineArrowLeft } from "react-icons/ai";
 import { useNavigate } from 'react-router-dom';
 import { CiBoxList } from "react-icons/ci";
 import { HandleStudent } from "./HandleStudent";
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const modalContext = createContext();
 export const editGroupContext = createContext();
@@ -165,7 +166,7 @@ export const Student = () => {
                     Manage Groups / {group.name}
                 </div>
 
-                
+
             </div>
 
             <div className='flex justify-between ml-8 mr-3'>
@@ -207,13 +208,13 @@ export const Student = () => {
                 </div>
 
                 <div className="flex items-center mr-3 gap-x-2 p-2 bg-gradient-to-t rounded-lg from-[#8dbaaa] to-[#14ce90] ml-3 my-3 text-white">
-                    <CiBoxList size={17}/>
+                    <CiBoxList size={17} />
                     <button onClick={handleButton} className="font-montserrat font-medium">
                         Request
                     </button>
-                </div> 
-        
-                
+                </div>
+
+
             </div>
 
             <div className="px-4 py-3 ml-7 gap-x-3 mt-3 mr-3 rounded-md bg-neutral-200 items-center">
@@ -289,10 +290,12 @@ export const Student = () => {
             {editPopup && (
                 <editGroupContext.Provider value={{ group, setGroup, editPopup, setEditPopup }}>
                     <div onClick={handleClickOutside} className="absolute inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-                        <EditGroup></EditGroup>
+                        <EditGroup onSuccessEdit={() => toast.success("Group edited successfully! 🎉")}></EditGroup>
                     </div>
                 </editGroupContext.Provider>
             )}
+
+            <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} />
         </div>
     )
 }

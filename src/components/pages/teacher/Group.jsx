@@ -8,6 +8,8 @@ import axios from "axios";
 import { Link, useSearchParams } from 'react-router-dom';
 import { NewGroup } from "./NewGroup";
 import { DeleteGroup } from "./DeleteGroup";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const modalContext = createContext();
 export const deleteGroupContext = createContext();
@@ -31,6 +33,7 @@ export const Group = () => {
 
     const [deletePopup, setDeletePopup] = useState(false);
     const [selectedGroupId, setSelectedGroupId] = useState(null);
+    const [render, setRender] = useState(0);
 
     const handleClickOutside = (event) => {
         if (event.target === event.currentTarget) {
@@ -85,7 +88,7 @@ export const Group = () => {
 
         fetchData();
 
-    }, [groups, userInfo])
+    }, [userInfo, render])
 
     const indexOfLastSubject = currentPage * subjectsPerPage;
     const indexOfFirstSubject = indexOfLastSubject - subjectsPerPage;
@@ -147,16 +150,16 @@ export const Group = () => {
                                 </div>
 
                                 <div className="flex ml-16 font-montserrat font-meidum">
-                                    5
+                                    {group.numberOfStudents}
                                 </div>
 
                                 <div className="flex gap-x-2 ml-16 font-monts1 px-2rrat font-meidum" onClick={(e) => {
-                                            e.preventDefault();
-                                    }}>
+                                    e.preventDefault();
+                                }}>
                                     <button onClick={() => handleDeleteButton(group.id)} className="bg-[#a30303] p-2 rounded-lg text-white"><MdDelete /></button>
                                 </div>
 
-                            </div>    
+                            </div>
                             <div className="ml-7 gap-x-3 mr-3 border-[1px] border-b-gray-200"></div>
                         </Link>
                     ))}
@@ -178,20 +181,23 @@ export const Group = () => {
             </div>
 
             {deletePopup && (
-                    <deleteGroupContext.Provider value={{ selectedGroupId, setDeletePopup}}>
+                <deleteGroupContext.Provider value={{ selectedGroupId, setDeletePopup, render, setRender }}>
                     <div onClick={handleClickOutside} className="absolute inset-0 flex justify-center items-center z-50">
-                        <DeleteGroup></DeleteGroup>
+                        <DeleteGroup onSuccessDelete={() => toast.success("Group deleted successfully! 🎉")}></DeleteGroup>
                     </div>
-                    </deleteGroupContext.Provider>
+                </deleteGroupContext.Provider>
             )}
 
             {showModal && (
-                <modalContext.Provider value={{ showModal, setShowModal, groups, setGroups }}>
+                <modalContext.Provider value={{ showModal, setShowModal, groups, setGroups, render, setRender }}>
                     <div onClick={handleClickOutside} className="absolute inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-                        <NewGroup></NewGroup>
+                        <NewGroup onSuccessCreate={() => toast.success("Group created successfully! 🎉")}></NewGroup>
                     </div>
                 </modalContext.Provider>
             )}
+
+            <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} />
+
         </div>
     )
 }

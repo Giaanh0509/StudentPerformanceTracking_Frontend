@@ -2,10 +2,11 @@ import { deleteGroupContext } from "./Group"
 import axios from "axios"
 import { useEffect, useContext, useState } from "react";
 
-export const DeleteGroup = () => {
+export const DeleteGroup = ({ onSuccessDelete }) => {
 
     const { selectedGroupId } = useContext(deleteGroupContext);
     const { setDeletePopup } = useContext(deleteGroupContext);
+    const { render, setRender } = useContext(deleteGroupContext);
 
     const handleButton = () => {
         setDeletePopup(false);
@@ -15,6 +16,8 @@ export const DeleteGroup = () => {
         axios.get(`http://localhost:8080/groups/delete/${selectedGroupId}`)
             .then(response => { 
                 setDeletePopup(false);
+                setRender(render + 1 );
+                onSuccessDelete && onSuccessDelete();
             })
             .catch(error => {
                 console.error('There was an error!', error);

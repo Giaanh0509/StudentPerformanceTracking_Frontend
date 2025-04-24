@@ -5,6 +5,9 @@ import { Link, useSearchParams } from 'react-router-dom';
 import SubjectService from "../../../services/SubjectService";
 import axios from "axios";
 import { SubjectImpl } from "./SubjectImpl";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 export const modalContext = createContext();
 
@@ -170,10 +173,12 @@ export const SubjectTeacher = () => {
             {showModal && (
                 <modalContext.Provider value={{ showModal, setShowModal, subjects, setSubjects, selectedSubjectId }}>
                     <div onClick={handleClickOutside} className="absolute inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-                        <SubjectImpl></SubjectImpl>
+                        <SubjectImpl onSuccessCreate={() => toast.success("Objective created successfully! 🎉")}></SubjectImpl>
                     </div>
                 </modalContext.Provider>
             )}
+
+            <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} />
 
         </div>
     )

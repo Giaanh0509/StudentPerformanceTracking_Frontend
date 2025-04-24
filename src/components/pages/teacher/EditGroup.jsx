@@ -3,7 +3,8 @@ import { useEffect, useContext, useState } from "react";
 import { editGroupContext } from "./Student";
 import axios from "axios";
 
-export const EditGroup = () => {
+export const EditGroup = ({ onSuccessEdit }) => {
+
 
     const { group, setGroup } = useContext(editGroupContext);
     const { editPopup, setEditPopup } = useContext(editGroupContext);
@@ -38,6 +39,7 @@ export const EditGroup = () => {
             await axios.put(`http://localhost:8080/groups/edit/${group.id}`, formData);
             setGroup((prevGroup) => ({ ...prevGroup, ...formData }));
             setEditPopup(false);
+            onSuccessEdit && onSuccessEdit();
         } catch (error) {
             console.error("Error updating subject:", error);
         }

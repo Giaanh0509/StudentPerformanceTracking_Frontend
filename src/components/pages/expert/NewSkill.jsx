@@ -11,6 +11,16 @@ export const NewSkill = ({ onSuccessCreate }) => {
     const { skills, setSkills } = useContext(skillContext);
     const { check, setCheck } = useContext(skillContext);
 
+    const [errors, setErrors] = useState({
+        name: false,
+        description: false,
+        formula: false,
+        indicatorName: false,
+        evaluationType: false,
+        scaleMin: false,
+        scaleMax: false
+    });
+
     const [skill, setSkill] = useState({
         id: "",
         name: "",
@@ -51,6 +61,21 @@ export const NewSkill = ({ onSuccessCreate }) => {
 
     const saveSkill = (e) => {
         e.preventDefault();
+
+        const newErrors = {
+            name: !skill.name,
+            description: !skill.description,
+            formula: !skill.formula,
+            indicatorName: !skill.childrenSkill && !indicator.name,
+            evaluationType: !skill.childrenSkill && !indicator.evaluation_type,
+            scaleMin: !skill.childrenSkill && !indicator.scale_min,
+            scaleMax: !skill.childrenSkill && !indicator.scale_max
+        };
+
+        setErrors(newErrors);
+
+        const hasError = Object.values(newErrors).some((v) => v);
+        if (hasError) return;
 
         const currentDate = new Date().toISOString().split('T')[0];
         const newSkill = {
@@ -107,8 +132,11 @@ export const NewSkill = ({ onSuccessCreate }) => {
                     name="name"
                     value={skill.name}
                     onChange={(e) => handleChange(e)}
-                    className="border-2 p-1 border-[#979c9b] w-96 mr-10 rounded-lg" />
+                    className={`border-2 p-1 border-[#979c9b] w-96 mr-10 rounded-lg ${errors.name ? "border-red-500 focus:ring-red-500" : ""
+                }`} />
             </div>
+
+            {errors.name && <p className="text-red-500 text-sm text-left ml-36">Name is required.</p>}
 
             <div className="flex justify-between gap-x-5">
                 <div className="font-semibold">Weight:</div>
@@ -118,8 +146,11 @@ export const NewSkill = ({ onSuccessCreate }) => {
                     name="formula"
                     value={skill.formula}
                     onChange={(e) => handleChange(e)}
-                    className="border-2 border-[#979c9b] p-1 w-96 mr-10 rounded-lg" />
+                    className={`border-2 border-[#979c9b] p-1 w-96 mr-10 rounded-lg ${errors.formula ? "border-red-500 focus:ring-red-500" : ""
+                }`} />
             </div>
+
+            {errors.formula && <p className="text-red-500 text-sm text-left ml-36">Weight is required.</p>}
 
             <div className="flex justify-between gap-x-5">
                 <div className="font-semibold">Description:</div>
@@ -128,7 +159,8 @@ export const NewSkill = ({ onSuccessCreate }) => {
                     name="description"
                     value={skill.description}
                     onChange={(e) => handleChange(e)}
-                    className="border-2 border-[#979c9b] p-1 w-96 mr-10 h-auto min-h-[5rem] rounded-lg resize-none overflow-hidden"
+                    className={`border-2 border-[#979c9b] p-1 w-96 mr-10 h-auto min-h-[5rem] rounded-lg resize-none overflow-hidden ${errors.description ? "border-red-500 focus:ring-red-500" : ""
+                }`}
                     rows="1"
                     onInput={(e) => {
                         e.target.style.height = "auto";
@@ -136,6 +168,9 @@ export const NewSkill = ({ onSuccessCreate }) => {
                     }}
                 ></textarea>
             </div>
+
+            {errors.description && <p className="text-red-500 text-sm text-left ml-36">Description is required.</p>}
+
 
             <div className="flex justify-between gap-x-5">
                 <div className="font-semibold">Create Children?</div>
@@ -176,6 +211,8 @@ export const NewSkill = ({ onSuccessCreate }) => {
                             className="border-2 border-[#979c9b] p-1 w-96 mr-10 rounded-lg" />
                     </div>
 
+                    {errors.indicatorName && <p className="text-red-500 text-sm text-left ml-36">IndicatorName is required.</p>}
+
                     <div className="flex justify-between gap-x-5">
                         <div className="font-semibold">Type:</div>
                         <input
@@ -194,7 +231,7 @@ export const NewSkill = ({ onSuccessCreate }) => {
                                 name="scale_min"
                                 value={indicator.scale_min}
                                 onChange={(e) => handleChangeIndicator(e)}
-                                className="border-2 border-[#979c9b] p-1 w-20 rounded-lg" />
+                                className="border-2 ml-4 border-[#979c9b] p-1 w-20 rounded-lg" />
                         </div>
 
                         <div className="flex gap-x-12 mr-auto ml-3">

@@ -4,9 +4,12 @@ import { useEffect, useState, useContext } from "react";
 import { modalContext } from "./SubjectTeacher";
 import ReactFlow, { MiniMap, Controls, Background } from "reactflow";
 import "reactflow/dist/style.css";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { CustomDropdown } from "./CustomDropdown";
 
-export const SubjectImpl = () => {
+export const SubjectImpl = ({ onSuccessCreate }) => {
+
     const { selectedSubjectId } = useContext(modalContext);
     const { showModal, setShowModal } = useContext(modalContext);
     const [subject, setSubject] = useState([]);
@@ -73,8 +76,8 @@ export const SubjectImpl = () => {
             };
 
             await axios.post("http://localhost:8080/objectives/new", dataToSend);
-            alert("Data submitted successfully!");
             setShowModal(false);
+            onSuccessCreate && onSuccessCreate();
         } catch (error) {
             console.error("Error submitting data:", error);
             alert("Failed to submit data.");
@@ -310,14 +313,9 @@ export const SubjectImpl = () => {
                 </div>
             </div>
 
-
-
-
             <div className="flex  p-2 mt-5 text-white justify-center bg-gradient-to-l from-[#4df1bb] to-[#1c8764]  rounded-lg">
                 <button onClick={handleSubmit}>Submit</button>
             </div>
-
-            {/* Sửa lại phần ReactFlow */}
 
         </div>
 

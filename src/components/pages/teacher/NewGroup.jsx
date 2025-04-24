@@ -4,10 +4,12 @@ import { TiDelete } from "react-icons/ti";
 import { modalContext } from "./Group"
 import GroupService from "../../../services/GroupService";
 
-export const NewGroup = () => {
+export const NewGroup = ({ onSuccessCreate }) => {
 
     const { showModal, setShowModal } = useContext(modalContext);
     const { groups, setGroups } = useContext(modalContext);
+    const { render, setRender } = useContext(modalContext);
+
 
     const [group, setGroup] = useState({
         id: "",
@@ -62,7 +64,9 @@ export const NewGroup = () => {
         GroupService.saveGroup(group)
             .then((response) => {
                 setGroups((prevGroups) => [...prevGroups, response.data]);
+                setRender(render+1);
                 setShowModal(false);
+                onSuccessCreate && onSuccessCreate();
             })
             .catch((err) => {
                 console.error(err);

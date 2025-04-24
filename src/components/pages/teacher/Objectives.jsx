@@ -7,6 +7,8 @@ import { useState, createContext, useEffect } from "react";
 import axios from "axios";
 import { Link, useSearchParams } from 'react-router-dom';
 import { DeleteObjective } from "./DeleteObjective";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const deleteObjectiveContext = createContext();
 
@@ -21,6 +23,7 @@ export const Objectives = () => {
     });
 
     const [deletePopup, setDeletePopup] = useState(false);
+    const [render, setRender] = useState(0);
     const [selectedObjectiveId, setSelectedObjectiveId] = useState(null);
 
     const hanldeDeletePopup = (objectiveId) => {
@@ -56,7 +59,7 @@ export const Objectives = () => {
             setLoading(false);
         }
 
-    }, [userInfo]);
+    }, [userInfo, render]);
 
     return (
         <div className="flex flex-col h-[640px] bg-white mx-6 mt-4 p-3 rounded-lg shadow-lg shadow-slate-400">
@@ -101,30 +104,30 @@ export const Objectives = () => {
                     {objectives.map((objective) => (
                         <div>
                             <Link to={`/teacher/objectives/${objective.id}`}>
-                            <div key={objective.id} className="grid grid-cols-5 p-4 ml-7 gap-x-3 mr-3 font-montserrat items-center font-meidum hover:bg-slate-100">
-                                <div className="col-span-1">
-                                    {objective.name}
-                                </div>
-                                <div>
-                                    {objective.subject}
-                                </div>
+                                <div key={objective.id} className="grid grid-cols-5 p-4 ml-7 gap-x-3 mr-3 font-montserrat items-center font-meidum hover:bg-slate-100">
+                                    <div className="col-span-1">
+                                        {objective.name}
+                                    </div>
+                                    <div>
+                                        {objective.subject}
+                                    </div>
 
-                                <div>
-                                    {objective.group}
-                                </div>
+                                    <div>
+                                        {objective.group}
+                                    </div>
 
-                                <div>
-                                    {objective.createDate}
-                                </div>
+                                    <div>
+                                        {objective.createDate}
+                                    </div>
 
-                                <div onClick={(e) => {
-                                    e.preventDefault();
-                                }}
-                                    className="flex gap-x-2" >
-                                    <button onClick={() => {hanldeDeletePopup(objective.id)}} className="bg-[#a30303] p-2 rounded-md text-white"><MdDelete /></button>
+                                    <div onClick={(e) => {
+                                        e.preventDefault();
+                                    }}
+                                        className="flex gap-x-2" >
+                                        <button onClick={() => { hanldeDeletePopup(objective.id) }} className="bg-[#a30303] p-2 rounded-md text-white"><MdDelete /></button>
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="ml-7 gap-x-3 mr-3 border-[1px] border-b-gray-200"></div>
+                                <div className="ml-7 gap-x-3 mr-3 border-[1px] border-b-gray-200"></div>
                             </Link>
                         </div>
                     ))}
@@ -132,12 +135,14 @@ export const Objectives = () => {
             )}
 
             {deletePopup && (
-                <deleteObjectiveContext.Provider value={{ selectedObjectiveId, setDeletePopup }}>
+                <deleteObjectiveContext.Provider value={{ selectedObjectiveId, setDeletePopup, render, setRender }}>
                     <div onClick={handleClickOutside} className="absolute inset-0 flex justify-center items-center z-50">
-                        <DeleteObjective></DeleteObjective>
+                        <DeleteObjective onSuccessDelete={() => toast.success("Objective deleted successfully! 🎉")}></DeleteObjective>
                     </div>
                 </deleteObjectiveContext.Provider>
             )}
+
+            <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} />
 
         </div>
     )

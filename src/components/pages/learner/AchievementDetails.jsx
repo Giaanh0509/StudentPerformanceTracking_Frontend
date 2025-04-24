@@ -157,7 +157,7 @@ export const AchievementDetails = () => {
                 {[...trackingDetails].reverse().map((tracking) => (
                     <div>
 
-                        <div className="grid grid-cols-4 p-4 ml-7 gap-x-3 mr-3 items-center h-24 hover:bg-slate-100">
+                        <div className="grid grid-cols-4 p-4 ml-7 gap-x-3 mr-3 items-center h-20 hover:bg-slate-100">
                             <div className="col-span-1 font-montserrat font-meidum">
                                 {tracking.trackingName}
                             </div>
@@ -195,7 +195,7 @@ export const AchievementDetails = () => {
 
                 ))}
 
-                <div className="grid grid-cols-4 p-4 ml-7 gap-x-3 mr-3 items-center h-24 bg-gray-400 text-white rounded-lg font-bold">
+                <div className="grid grid-cols-4 p-4 ml-7 gap-x-3 mr-3 items-center h-16 bg-gray-400 text-white rounded-lg font-bold">
                     <div className="col-span-1 font-montserrat font-meidum">
                         Final
                     </div>
