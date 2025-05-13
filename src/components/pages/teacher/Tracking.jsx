@@ -11,6 +11,7 @@ export const Tracking = () => {
     const { setTrackingPopup } = useContext(trackingContext);
     const { indicator } = useContext(trackingContext);
     const { trackingId } = useContext(trackingContext);
+    const { render, setRender } = useContext(trackingContext);
 
     const handleCloseModal = () => {
         setTrackingPopup(false);
@@ -67,6 +68,7 @@ export const Tracking = () => {
         TrackingService.saveTrackingDetails(trackingDetails)
             .then((response) => {
                 setTrackingPopup(false);
+                setRender(render+1);
             })
             .catch((err) => {
                 console.error(err);

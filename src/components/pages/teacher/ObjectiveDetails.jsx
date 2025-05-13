@@ -20,11 +20,16 @@ import { useSpring, animated } from 'react-spring';
 import { EditTracking } from "./EditTracking";
 import { FcStatistics } from "react-icons/fc";
 import { Statistics } from "./Statistics";
-
+import { DeleteTracking } from "./DeleteTracking";
+import { ToastContainer, toast } from 'react-toastify';
+import { EditObjective } from "./EditObjective";
+import 'react-toastify/dist/ReactToastify.css';
 
 export const trackingContext = createContext();
 export const createTrackingContext = createContext();
 export const statisticsContext = createContext();
+export const deleteTrack = createContext();
+export const editObjective = createContext();
 
 export const ObjectiveDetails = () => {
 
@@ -44,9 +49,17 @@ export const ObjectiveDetails = () => {
     const [createTrackingPopup, setCreateTrackingPopup] = useState(false);
     const [trackingPopup, setTrackingPopup] = useState(false);
     const [trackings, setTrackings] = useState([]);
+    const [deleteTrackingPopup, setDeleteTrackingPopup] = useState(false);
+    const [selectedTrackingId, setSelectedTrackingId] = useState();
+    const [render, setRender] = useState(0);
+    const [editObjectives, setEditObjectives] = useState(false);
 
     const handleCreateTrackingPopup = () => {
         setCreateTrackingPopup(true);
+    }
+
+    const handleSelectedTrackingId = (trackingId) => {
+        setSelectedTrackingId(trackingId);
     }
 
     const [isOpen, setIsOpen] = useState(true);
@@ -54,6 +67,14 @@ export const ObjectiveDetails = () => {
     const toggleDropdown = () => {
         setIsOpen(!isOpen);
     };
+
+    const handleDeleteTrackingPopup = () => {
+        setDeleteTrackingPopup(true);
+    }
+
+    const handleEditObjectives = () => {
+        setEditObjectives(true);
+    }
 
     const [objective, setObjective] = useState({
         id: "",
@@ -73,6 +94,7 @@ export const ObjectiveDetails = () => {
             setTrackingPopup(false);
             setCreateTrackingPopup(false);
             setStatisticsPopup(false);
+            setEditObjectives(false);
         }
     }
 
@@ -134,7 +156,7 @@ export const ObjectiveDetails = () => {
 
         fetchData();
 
-    }, [trackings, id])
+    }, [render, id])
 
     const navigate = useNavigate();
 
@@ -235,7 +257,7 @@ export const ObjectiveDetails = () => {
             <div className='flex justify-between ml-8 mr-3'>
                 <div className='w-1/2 h-auto bg-neutral-200 my-5 py-3 px-4 gap-y-5 rounded-xl shadow-lg'>
                     <div className='text-lg flex items-center gap-x-4 font-montserrat font-bold mb-3'>Infomation
-                        <button> <CiEdit></CiEdit> </button>
+                        <button onClick={handleEditObjectives}> <CiEdit></CiEdit> </button>
                     </div>
 
                     <div className='flex font-medium justify-between mr-[70px] mb-3'>
@@ -280,7 +302,7 @@ export const ObjectiveDetails = () => {
                 <div className="flex items-center gap-x-2 p-2 bg-gradient-to-t rounded-lg from-[#8dbaaa] to-[#14ce90] ml-3 my-3 text-white shadow-lg">
                     <IoIosAddCircle className="size-5" />
                     <button onClick={handleCreateTrackingPopup} className="font-montserrat font-medium">
-                        New Tracking
+                        New Track
                     </button>
                 </div>
             </div>
@@ -300,7 +322,11 @@ export const ObjectiveDetails = () => {
                                             <div>
                                                 <div>{truncateText(tracking.name, 18)} </div>
                                             </div>
-                                            <div><TiDeleteOutline size={28} /></div>
+                                            <div onClick={(e) => {
+                                                handleSelectedTrackingId(tracking.id);
+                                                handleDeleteTrackingPopup(true);
+                                            }
+                                            }><TiDeleteOutline size={28} /></div>
                                         </div>
                                     </div>
 
@@ -342,7 +368,7 @@ export const ObjectiveDetails = () => {
             )}
 
             {trackingPopup && (
-                <trackingContext.Provider value={{ id, setTrackingPopup, indicator, trackingId }}>
+                <trackingContext.Provider value={{ id, setTrackingPopup, indicator, trackingId, render, setRender }}>
                     <div onClick={handleClickOutside} className="absolute inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
                         {checkedStates[`${trackingId}-${indicator.id}`] ? (
                             <EditTracking />
@@ -353,11 +379,26 @@ export const ObjectiveDetails = () => {
                 </trackingContext.Provider>
             )}
 
+            {deleteTrackingPopup && (
+                <deleteTrack.Provider value={{ selectedTrackingId, setDeleteTrackingPopup, render, setRender }}>
+                    <div onClick={handleClickOutside} className="absolute inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+                        <DeleteTracking></DeleteTracking>
+                    </div>
+                </deleteTrack.Provider>
+            )}
+
+            {editObjectives && (
+                <editObjective.Provider value={{ editObjectives, setEditObjectives, id}}>
+                <div onClick={handleClickOutside} className="absolute inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+                    <EditObjective></EditObjective>
+                </div>
+                </editObjective.Provider>
+            )}
 
             {createTrackingPopup && (
-                <createTrackingContext.Provider value={{ id, setCreateTrackingPopup, setTrackings }}>
+                <createTrackingContext.Provider value={{ id, setCreateTrackingPopup, setTrackings, render, setRender }}>
                     <div onClick={handleClickOutside} className="absolute inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-                        <NewTracking></NewTracking>
+                        <NewTracking onSuccessCreate={() => toast.success("Track created successfully! 🎉")}></NewTracking>
                     </div>
                 </createTrackingContext.Provider>
             )}
@@ -369,6 +410,8 @@ export const ObjectiveDetails = () => {
                     </div>
                 </statisticsContext.Provider>
             )}
+
+            <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} />
 
         </div>
     )

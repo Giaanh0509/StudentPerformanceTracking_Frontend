@@ -75,7 +75,7 @@ export const LearnerDashboard = () => {
                     <div className="ml-7 border-[2px] border-b-gray-300"></div>
 
                     <div className="flex ml-7 mt-2 gap-x-5">
-                        <div className="w-44 h-56 bg-black mr-5"></div>
+                        <div className="w-44 h-56 bg-black rounded-lg mr-5"></div>
                         <div className="flex flex-col gap-y-3">
                             <div className="flex gap-x-24"> <p className="font-bold">Name:</p> <p>{student.name}</p> </div>
                             <div className="flex gap-x-10"> <p className="font-bold">Date of birth:</p> <p>{student.dateOfBirth}</p> </div>

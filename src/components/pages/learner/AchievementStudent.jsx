@@ -66,6 +66,17 @@ export const AchievementStudent = () => {
     return (
         <div className="flex flex-col h-[640px] bg-white mx-6 mt-4 p-3 rounded-lg shadow-lg shadow-slate-400">
 
+            <div className="flex justify-between mb-3 text-sm">
+                <div className="mt-3 ml-7 mr-auto">
+                    <div className="flex p-[8px] border-[1px] rounded-lg w-auto border-[#7fa195]" name="" id="">
+                        Number of objectives: <p className="ml-2 font-bold">{objectives.length}</p>
+                    </div>
+                </div>
+                <div className="mt-3">-
+                    <input className="border-[1px] p-2 rounded-lg w-80 border-[#7fa195]" type="text" placeholder="Search for objectives" />
+                </div>
+            </div>
+
             <div className="px-4 py-3 ml-7 gap-x-3 mt-3 mr-3 rounded-md bg-neutral-200 items-center">
                 <div className="grid grid-cols-5 font-montserrat font-bold ">
                     <div className="">
@@ -92,30 +103,30 @@ export const AchievementStudent = () => {
 
             <div className="flex flex-col max-h-[450px] overflow-y-auto">
                 {objectives.map((objective) => (
-                        <Link className="" to={`/learner/achievement/${objective.id}`}>
-                            <div className="grid grid-cols-5 p-4 ml-7 gap-x-3 mr-3 items-center h-24 hover:bg-slate-100">
-                                <div className="col-span-1 font-montserrat font-meidum">
-                                    {objective.subject}
-                                </div>
-
-                                <div className="font-montserrat font-meidum">
-                                    {objective.name}
-                                </div>
-
-                                <div className="flex font-montserrat font-meidum">
-                                    {objective.group}
-                                </div>
-
-                                <div>
-                                    {objective.userName}
-                                </div>
-
-                                <div className="flex ml-4 font-montserrat font-meidum">
-                                    /10
-                                </div>
+                    <Link className="" to={`/learner/achievement/${objective.id}`}>
+                        <div className="grid grid-cols-5 p-4 ml-7 gap-x-3 mr-3 items-center h-24 hover:bg-slate-100">
+                            <div className="col-span-1 font-montserrat font-meidum">
+                                {objective.subject}
                             </div>
-                            <div className="ml-7 gap-x-3 mr-3 border-[1px] border-b-gray-200"></div>
-                        </Link>
+
+                            <div className="font-montserrat font-meidum">
+                                {objective.name}
+                            </div>
+
+                            <div className="flex font-montserrat font-meidum">
+                                {objective.group}
+                            </div>
+
+                            <div>
+                                {objective.userName}
+                            </div>
+
+                            <div className="flex ml-4 font-montserrat font-meidum">
+                                /10
+                            </div>
+                        </div>
+                        <div className="ml-7 gap-x-3 mr-3 border-[1px] border-b-gray-200"></div>
+                    </Link>
                 ))}
             </div>
         </div>

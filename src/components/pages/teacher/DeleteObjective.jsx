@@ -12,8 +12,6 @@ export const DeleteObjective = ({ onSuccessDelete }) => {
         setDeletePopup(false);
     }
 
-    console.log(selectedObjectiveId);
-
     const deleteGroup = () => {
         axios.get(`http://localhost:8080/objectives/delete/objectiveId=${selectedObjectiveId}`)
             .then(response => { 
