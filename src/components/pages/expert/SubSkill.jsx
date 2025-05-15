@@ -64,7 +64,7 @@ export const SubSkill = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            axios.get(`http://localhost:8080/subjects`)
+            axios.get(`https://student-be-production.up.railway.app/subjects`)
                 .then(response => {
                     {
                         response.data._embedded.subjects.map(subject => {
@@ -85,7 +85,7 @@ export const SubSkill = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            axios.get(`http://localhost:8080/subjects/${subId}/skills/${skId}`)
+            axios.get(`https://student-be-production.up.railway.app/subjects/${subId}/skills/${skId}`)
                 .then(response => {
                     setSubSkillName(response.data.name);
                 })
@@ -101,7 +101,7 @@ export const SubSkill = () => {
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true);
-            axios.get(`http://localhost:8080/subjects/${subId}/skills`)
+            axios.get(`https://student-be-production.up.railway.app/subjects/${subId}/skills`)
                 .then(response => {
                     const skillsData = response.data._embedded?.skills || [];
                     const filteredSubSkills = skillsData.filter((sk) => sk.parentSkill && sk.parentSkill.id == skId);

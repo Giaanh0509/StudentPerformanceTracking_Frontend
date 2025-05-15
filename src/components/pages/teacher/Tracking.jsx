@@ -11,7 +11,6 @@ export const Tracking = () => {
     const { setTrackingPopup } = useContext(trackingContext);
     const { indicator } = useContext(trackingContext);
     const { trackingId } = useContext(trackingContext);
-    const { render, setRender } = useContext(trackingContext);
 
     const handleCloseModal = () => {
         setTrackingPopup(false);
@@ -32,7 +31,7 @@ export const Tracking = () => {
     useEffect(() => {
         if (id) {
             const fetchData = async () => {
-                axios.get(`http://localhost:8080/students/objectiveId=${id}`)
+                axios.get(`https://student-be-production.up.railway.app/students/objectiveId=${id}`)
                     .then(response => {
                         setStudents(response.data);
                     })
@@ -68,7 +67,6 @@ export const Tracking = () => {
         TrackingService.saveTrackingDetails(trackingDetails)
             .then((response) => {
                 setTrackingPopup(false);
-                setRender(render+1);
             })
             .catch((err) => {
                 console.error(err);

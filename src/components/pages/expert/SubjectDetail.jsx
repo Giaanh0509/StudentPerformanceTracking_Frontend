@@ -85,7 +85,7 @@ export const SubjectDetail = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            axios.get(`http://localhost:8080/subjects`)
+            axios.get(`https://student-be-production.up.railway.app/subjects`)
                 .then(response => {
                     {
                         response.data._embedded.subjects.map(subject => {
@@ -117,7 +117,7 @@ export const SubjectDetail = () => {
             setCheck(false);
 
             try {
-                const response = await axios.get(`http://localhost:8080/skills/subjectId=${subjectId}`);
+                const response = await axios.get(`https://student-be-production.up.railway.app/skills/subjectId=${subjectId}`);
                 setSkills(response.data);
             } catch (error) {
                 console.log(error);

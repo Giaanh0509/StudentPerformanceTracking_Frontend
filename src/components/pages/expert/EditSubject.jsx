@@ -31,7 +31,7 @@ export const EditSubject = () => {
 
     const handleSave = async () => {
         try {
-            await axios.put(`http://localhost:8080/subjects/update/${subject.id}`, formData);
+            await axios.put(`https://student-be-production.up.railway.app/subjects/update/${subject.id}`, formData);
             setSubject((prevSubject) => ({ ...prevSubject, ...formData }));
             setEditPopup(false);
         } catch (error) {

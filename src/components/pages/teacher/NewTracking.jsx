@@ -3,12 +3,11 @@ import { TiDelete } from "react-icons/ti";
 import { createTrackingContext } from "./ObjectiveDetails";
 import TrackingService from "../../../services/TrackingService";
 
-export const NewTracking = ({ onSuccessCreate }) => {
+export const NewTracking = () => {
 
     const { id } = useContext(createTrackingContext);
     const { setCreateTrackingPopup } = useContext(createTrackingContext);
     const { setTrackings } = useContext(createTrackingContext);
-    const { render, setRender } = useContext(createTrackingContext);
 
     const currentDate = new Date().toISOString().split('T')[0];
 
@@ -37,8 +36,6 @@ export const NewTracking = ({ onSuccessCreate }) => {
             .then((response) => {
                 setTrackings((prevTracking) => [...prevTracking, response.data]);
                 setCreateTrackingPopup(false);
-                setRender(render + 1);
-                onSuccessCreate && onSuccessCreate();
             })
             .catch((err) => {
                 console.error(err);

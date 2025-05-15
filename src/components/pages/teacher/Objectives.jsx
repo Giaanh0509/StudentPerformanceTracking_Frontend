@@ -52,7 +52,7 @@ export const Objectives = () => {
     useEffect(() => {
         if (userInfo.id) {
             setLoading(true);
-            axios.get(`http://localhost:8080/objectives/userId=${userInfo.id}`)
+            axios.get(`https://student-be-production.up.railway.app/objectives/userId=${userInfo.id}`)
                 .then(response => setObjectives(response.data || []))
                 .catch(error => console.error("Error fetching objectives:", error));
 

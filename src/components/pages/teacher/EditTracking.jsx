@@ -29,7 +29,7 @@ export const EditTracking = () => {
     useEffect(() => {
         if (id) {
             const fetchData = async () => {
-                axios.get(`http://localhost:8080/students/objectiveId=${id}`)
+                axios.get(`https://student-be-production.up.railway.app/students/objectiveId=${id}`)
                     .then(response => {
                         setStudents(response.data);
                     })
@@ -44,7 +44,7 @@ export const EditTracking = () => {
 
     useEffect(() => {
         if (trackingId && indicator) {
-            axios.get(`http://localhost:8080/trackings/trackingId=${trackingId}/indicatorId=${indicator.id}`)
+            axios.get(`https://student-be-production.up.railway.app/trackings/trackingId=${trackingId}/indicatorId=${indicator.id}`)
                 .then(response => {
                     const trackingValues = response.data;
 
@@ -67,7 +67,7 @@ export const EditTracking = () => {
 
     const handleSave = async () => {
         try {
-            await axios.put(`http://localhost:8080/trackings/details/update/${trackingId}/${indicator.id}`, formData);
+            await axios.put(`https://student-be-production.up.railway.app/trackings/details/update/${trackingId}/${indicator.id}`, formData);
             setTrackingPopup(false);
         } catch (error) {
             console.error("Error updating subject:", error);

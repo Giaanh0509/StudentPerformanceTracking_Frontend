@@ -12,8 +12,10 @@ export const DeleteObjective = ({ onSuccessDelete }) => {
         setDeletePopup(false);
     }
 
+    console.log(selectedObjectiveId);
+
     const deleteGroup = () => {
-        axios.get(`http://localhost:8080/objectives/delete/objectiveId=${selectedObjectiveId}`)
+        axios.get(`https://student-be-production.up.railway.app/objectives/delete/objectiveId=${selectedObjectiveId}`)
             .then(response => { 
                 setDeletePopup(false);
                 setRender(render + 1 );

@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const CREATE_TRACKING_API_URL = "http://localhost:8080/trackings/new";
-const CREATE_TRACKING_DETAILS_API_URL = "http://localhost:8080/trackings/newDetails";
+const CREATE_TRACKING_API_URL = "https://student-be-production.up.railway.app/trackings/new";
+const CREATE_TRACKING_DETAILS_API_URL = "https://student-be-production.up.railway.app/trackings/newDetails";
 
 class TrackingService {
     saveTracking(tracking) {

@@ -20,7 +20,7 @@ export const HandleStudent = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            axios.get(`http://localhost:8080/groupsStudents/joinRequest/groupId=${id}`)
+            axios.get(`https://student-be-production.up.railway.app/groupsStudents/joinRequest/groupId=${id}`)
                 .then(response => {
                     {
                         const fetchedSubjects = response.data || [];
@@ -38,7 +38,7 @@ export const HandleStudent = () => {
 
     const handleAccept = async (studentId) => {
         try {
-            await axios.put(`http://localhost:8080/groupsStudents/acceptRequest/studentId=${studentId}/groupId=${id}`);
+            await axios.put(`https://student-be-production.up.railway.app/groupsStudents/acceptRequest/studentId=${studentId}/groupId=${id}`);
         } catch (error) {
             console.error("Error updating subject:", error);
         }

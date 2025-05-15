@@ -50,7 +50,7 @@ export const SubjectDetailTeacher = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            axios.get(`http://localhost:8080/subjects`)
+            axios.get(`https://student-be-production.up.railway.app/subjects`)
                 .then(response => {
                     {
                         response.data._embedded.subjects.map(subject => {
@@ -78,7 +78,7 @@ export const SubjectDetailTeacher = () => {
             setCheck(false);
 
             try {
-                const response = await axios.get(`http://localhost:8080/subjects/${id}/skills`);
+                const response = await axios.get(`https://student-be-production.up.railway.app/subjects/${id}/skills`);
                 const skillsData = response.data._embedded?.skills || [];
 
                 const parentSkills = skillsData.filter(skill => skill.parentSkill === null);

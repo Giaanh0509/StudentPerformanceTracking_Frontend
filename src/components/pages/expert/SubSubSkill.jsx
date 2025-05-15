@@ -15,7 +15,7 @@ export const SubSubSkill = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            axios.get(`http://localhost:8080/subjects`)
+            axios.get(`https://student-be-production.up.railway.app/subjects`)
                 .then(response => {
                     {
                         response.data._embedded.subjects.map(subject => {
@@ -36,7 +36,7 @@ export const SubSubSkill = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            axios.get(`http://localhost:8080/subjects/${subId}/skills/${sId}`)
+            axios.get(`https://student-be-production.up.railway.app/subjects/${subId}/skills/${sId}`)
                 .then(response => {
                     setSubSkillName(response.data.name);
                 })
@@ -51,7 +51,7 @@ export const SubSubSkill = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            axios.get(`http://localhost:8080/subjects/${subId}/skills/${skId}`)
+            axios.get(`https://student-be-production.up.railway.app/subjects/${subId}/skills/${skId}`)
                 .then(response => {
                     setSubSubSkillName(response.data.name);
                 })

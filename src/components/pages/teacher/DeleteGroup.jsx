@@ -13,7 +13,7 @@ export const DeleteGroup = ({ onSuccessDelete }) => {
     }
 
     const deleteGroup = () => {
-        axios.get(`http://localhost:8080/groups/delete/${selectedGroupId}`)
+        axios.get(`https://student-be-production.up.railway.app/groups/delete/${selectedGroupId}`)
             .then(response => { 
                 setDeletePopup(false);
                 setRender(render + 1 );

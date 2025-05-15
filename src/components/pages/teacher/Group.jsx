@@ -71,7 +71,7 @@ export const Group = () => {
             if (userInfo.id != 0) {
                 setLoading(true);
 
-                axios.get(`http://localhost:8080/groups/userId=${userInfo.id}`)
+                axios.get(`https://student-be-production.up.railway.app/groups/userId=${userInfo.id}`)
                     .then(response => {
                         {
                             const fetchedSubjects = response.data || [];

@@ -36,7 +36,7 @@ export const EditGroup = ({ onSuccessEdit }) => {
 
     const handleSave = async () => {
         try {
-            await axios.put(`http://localhost:8080/groups/edit/${group.id}`, formData);
+            await axios.put(`https://student-be-production.up.railway.app/groups/edit/${group.id}`, formData);
             setGroup((prevGroup) => ({ ...prevGroup, ...formData }));
             setEditPopup(false);
             onSuccessEdit && onSuccessEdit();
