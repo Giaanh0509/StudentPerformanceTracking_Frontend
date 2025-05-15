@@ -41,7 +41,7 @@ export const LearnerDashboard = () => {
     useEffect(() => {
         const fetchData = async () => {
             if (userInfo.id != 0) {
-                axios.get(`https://student-be-production.up.railway.app/students/userId=${userInfo.id}`)
+                axios.get(`studentperformancetrackingbackend-production.up.railway.app/students/userId=${userInfo.id}`)
                     .then(response => {
                         {
                             console.log(response.data);

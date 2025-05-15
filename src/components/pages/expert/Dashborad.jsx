@@ -34,7 +34,7 @@ export const Dashboard = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            axios.get(`https://student-be-production.up.railway.app/subjects/all`)
+            axios.get(`studentperformancetrackingbackend-production.up.railway.app/subjects/all`)
                 .then(response => {
                     const fetchedSubjects = response.data || [];
                     setSubjects(fetchedSubjects);

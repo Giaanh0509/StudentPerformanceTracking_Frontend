@@ -23,7 +23,7 @@ export const Login = () => {
     const handleLogin = (e) => {
         e.preventDefault();
     
-        axios.post('https://student-be-production.up.railway.app/sessions/login', user)
+        axios.post('studentperformancetrackingbackend-production.up.railway.app/sessions/login', user)
             .then((response) => {
                 const authenticated = response.data.authenticated;
                 const userLoginDTO = response.data.userLoginDTO;

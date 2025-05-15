@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const CREATE_GROUP_API_URL = "https://student-be-production.up.railway.app/groups/new";
+const CREATE_GROUP_API_URL = "studentperformancetrackingbackend-production.up.railway.app/groups/new";
 
 class GroupService {
     saveGroup(group) {

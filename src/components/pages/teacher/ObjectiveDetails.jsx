@@ -96,7 +96,7 @@ export const ObjectiveDetails = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            axios.get(`https://student-be-production.up.railway.app/objectives/objectiveId=${id}`)
+            axios.get(`studentperformancetrackingbackend-production.up.railway.app/objectives/objectiveId=${id}`)
                 .then(response => {
                     {
                         setObjective(response.data)
@@ -115,7 +115,7 @@ export const ObjectiveDetails = () => {
         const fetchData = async () => {
             if (id != 0) {
                 setLoading(true);
-                axios.get(`https://student-be-production.up.railway.app/trackings/objectiveId=${id}`)
+                axios.get(`studentperformancetrackingbackend-production.up.railway.app/trackings/objectiveId=${id}`)
                     .then(response => {
                         {
                             const fetchedSubjects = response.data || [];
@@ -179,7 +179,7 @@ export const ObjectiveDetails = () => {
 
     const checkTrackingIndicatorExists = async (trackingId, indicatorId) => {
         try {
-            const response = await axios.get(`https://student-be-production.up.railway.app/trackings/${trackingId}/indicators/${indicatorId}/exists`);
+            const response = await axios.get(`studentperformancetrackingbackend-production.up.railway.app/trackings/${trackingId}/indicators/${indicatorId}/exists`);
             return response.data;
         } catch (error) {
             console.error(`Error checking indicator ${indicatorId} for tracking ${trackingId}`, error);

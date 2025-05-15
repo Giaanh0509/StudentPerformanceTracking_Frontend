@@ -31,7 +31,7 @@ export const Tracking = () => {
     useEffect(() => {
         if (id) {
             const fetchData = async () => {
-                axios.get(`https://student-be-production.up.railway.app/students/objectiveId=${id}`)
+                axios.get(`studentperformancetrackingbackend-production.up.railway.app/students/objectiveId=${id}`)
                     .then(response => {
                         setStudents(response.data);
                     })

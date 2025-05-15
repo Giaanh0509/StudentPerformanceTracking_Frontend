@@ -13,7 +13,7 @@ export const DeleteSubject = ({ onSuccessDelete }) => {
     }
 
     const deleteSubject = () => {
-        axios.get(`https://student-be-production.up.railway.app/subjects/delete/${selectedSubjectId}`)
+        axios.get(`studentperformancetrackingbackend-production.up.railway.app/subjects/delete/${selectedSubjectId}`)
             .then(response => { 
                 setDeletePopup(false);
                 setRender(render+1);

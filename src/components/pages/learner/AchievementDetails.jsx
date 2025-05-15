@@ -32,7 +32,7 @@ export const AchievementDetails = () => {
 
     useEffect(() => {
         {
-            axios.get(`https://student-be-production.up.railway.app/trackings/objectiveId=${id}`)
+            axios.get(`studentperformancetrackingbackend-production.up.railway.app/trackings/objectiveId=${id}`)
                 .then(response => setTrackings(response.data || []))
                 .catch(error => console.error("Error fetching objectives:", error));
         }
@@ -65,7 +65,7 @@ export const AchievementDetails = () => {
     useEffect(() => {
         const fetchData = async () => {
             if (userInfo.id != 0) {
-                axios.get(`https://student-be-production.up.railway.app/students/userId=${userInfo.id}`)
+                axios.get(`studentperformancetrackingbackend-production.up.railway.app/students/userId=${userInfo.id}`)
                     .then(response => {
                         {
                             console.log(response.data);
@@ -87,7 +87,7 @@ export const AchievementDetails = () => {
 
                 for (const tracking of trackings) {
                     try {
-                        const response = await axios.get(`https://student-be-production.up.railway.app/trackings/objectiveId=${id}/trackingId=${tracking.id}/studentId=${student.id}`);
+                        const response = await axios.get(`studentperformancetrackingbackend-production.up.railway.app/trackings/objectiveId=${id}/trackingId=${tracking.id}/studentId=${student.id}`);
                         newDetails.push(response.data);
                     } catch (error) {
                         console.error(`Error fetching detail for tracking ${tracking.id}:`, error);
@@ -103,7 +103,7 @@ export const AchievementDetails = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            axios.get(`https://student-be-production.up.railway.app/objectives/objectiveId=${id}`)
+            axios.get(`studentperformancetrackingbackend-production.up.railway.app/objectives/objectiveId=${id}`)
                 .then(response => {
                     {
                         setObjective(response.data)
