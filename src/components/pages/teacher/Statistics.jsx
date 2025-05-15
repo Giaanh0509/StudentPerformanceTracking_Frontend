@@ -12,7 +12,7 @@ export const Statistics = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`studentperformancetrackingbackend-production.up.railway.app/groupsStudents/groupId=${objective.groupId}`);
+                const response = await axios.get(`https://studentperformancetrackingbackend-production.up.railway.app/groupsStudents/groupId=${objective.groupId}`);
                 setStudents(response.data || []);
             } catch (error) {
                 console.error('Lỗi khi tải danh sách sinh viên:', error);
@@ -74,8 +74,8 @@ const IndicatorChart = ({ indicator, trackings, selectedStudent }) => {
                     trackings.map(async (tracking) => {
                         if (tracking.id && indicator) {
                             const url = selectedStudent
-                                ? `studentperformancetrackingbackend-production.up.railway.app/trackings/trackingId=${tracking.id}/indicatorId=${indicator.id}/studentId=${selectedStudent}`
-                                : `studentperformancetrackingbackend-production.up.railway.app/trackings/trackingId=${tracking.id}/indicatorId=${indicator.id}/statistics`;
+                                ? `https://studentperformancetrackingbackend-production.up.railway.app/trackings/trackingId=${tracking.id}/indicatorId=${indicator.id}/studentId=${selectedStudent}`
+                                : `https://studentperformancetrackingbackend-production.up.railway.app/trackings/trackingId=${tracking.id}/indicatorId=${indicator.id}/statistics`;
 
                             const response = await axios.get(url);
                             

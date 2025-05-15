@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const CREATE_INDICATOR_API_URL = "studentperformancetrackingbackend-production.up.railway.app/indicators/new";
-const GET_ALL_INDICATOR_API_URL = "studentperformancetrackingbackend-production.up.railway.app/indicators/all";
+const CREATE_INDICATOR_API_URL = "https://studentperformancetrackingbackend-production.up.railway.app/indicators/new";
+const GET_ALL_INDICATOR_API_URL = "https://studentperformancetrackingbackend-production.up.railway.app/indicators/all";
 
 class IndicatorService {
     saveIndicator(indicator) {

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const CREATE_STUDENT_API_URL = "studentperformancetrackingbackend-production.up.railway.app/students/new";
+const CREATE_STUDENT_API_URL = "https://studentperformancetrackingbackend-production.up.railway.app/students/new";
 
 class StudentService {
     saveStudent(student) {

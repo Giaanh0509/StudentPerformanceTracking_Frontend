@@ -75,7 +75,7 @@ export const SubjectImpl = ({ onSuccessCreate }) => {
                 objectives: objectives,
             };
 
-            await axios.post("studentperformancetrackingbackend-production.up.railway.app/objectives/new", dataToSend);
+            await axios.post("https://studentperformancetrackingbackend-production.up.railway.app/objectives/new", dataToSend);
             setShowModal(false);
             onSuccessCreate && onSuccessCreate();
         } catch (error) {
@@ -99,20 +99,20 @@ export const SubjectImpl = ({ onSuccessCreate }) => {
 
     useEffect(() => {
         if (userInfo.id) {
-            axios.get(`studentperformancetrackingbackend-production.up.railway.app/groups/userId=${userInfo.id}`)
+            axios.get(`https://studentperformancetrackingbackend-production.up.railway.app/groups/userId=${userInfo.id}`)
                 .then(response => setGroups(response.data || []))
                 .catch(error => console.error("Error fetching groups:", error));
         }
     }, [userInfo]);
 
     useEffect(() => {
-        axios.get(`studentperformancetrackingbackend-production.up.railway.app/subjects/subjectId=${selectedSubjectId}`)
+        axios.get(`https://studentperformancetrackingbackend-production.up.railway.app/subjects/subjectId=${selectedSubjectId}`)
             .then(response => response.data && setSubject(response.data))
             .catch(error => console.error("Error fetching subject:", error));
     }, [selectedSubjectId]);
 
     useEffect(() => {
-        axios.get(`studentperformancetrackingbackend-production.up.railway.app/subjects/${selectedSubjectId}/skills`)
+        axios.get(`https://studentperformancetrackingbackend-production.up.railway.app/subjects/${selectedSubjectId}/skills`)
             .then(response => {
                 const skillsData = response.data._embedded?.skills || [];
                 setSkillIndicator(skillsData.filter(skill => skill.childrenSkill === false));
@@ -188,7 +188,7 @@ export const SubjectImpl = ({ onSuccessCreate }) => {
 
     useEffect(() => {
         if (skillIndicator.length > 0) {
-            Promise.all(skillIndicator.map(skill => axios.get(`studentperformancetrackingbackend-production.up.railway.app/indicators/skillId=${skill.id}`)))
+            Promise.all(skillIndicator.map(skill => axios.get(`https://studentperformancetrackingbackend-production.up.railway.app/indicators/skillId=${skill.id}`)))
                 .then(responses => setIndicators(responses.map(res => res.data)))
                 .catch(error => console.error("Fetch error:", error));
         }

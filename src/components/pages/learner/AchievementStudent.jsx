@@ -38,7 +38,7 @@ export const AchievementStudent = () => {
     useEffect(() => {
         const fetchData = async () => {
             if (userInfo.id != 0) {
-                axios.get(`studentperformancetrackingbackend-production.up.railway.app/students/userId=${userInfo.id}`)
+                axios.get(`https://studentperformancetrackingbackend-production.up.railway.app/students/userId=${userInfo.id}`)
                     .then(response => {
                         {
                             console.log(response.data);
@@ -56,7 +56,7 @@ export const AchievementStudent = () => {
 
     useEffect(() => {
         {
-            axios.get(`studentperformancetrackingbackend-production.up.railway.app/objectives/studentId=${student.id}`)
+            axios.get(`https://studentperformancetrackingbackend-production.up.railway.app/objectives/studentId=${student.id}`)
                 .then(response => setObjectives(response.data || []))
                 .catch(error => console.error("Error fetching objectives:", error));
         }

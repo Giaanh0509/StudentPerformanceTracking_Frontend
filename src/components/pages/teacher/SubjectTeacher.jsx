@@ -68,7 +68,7 @@ export const SubjectTeacher = () => {
             if (userInfo.id != 0) {
                 setLoading(true);
 
-                axios.get(`studentperformancetrackingbackend-production.up.railway.app/subjects/all`)
+                axios.get(`https://studentperformancetrackingbackend-production.up.railway.app/subjects/all`)
                     .then(response => {
                         {
                             const fetchedSubjects = response.data || [];

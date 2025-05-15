@@ -37,7 +37,7 @@ export const LearnerGroup = () => {
     useEffect(() => {
         const fetchData = async () => {
             if (userInfo.id != 0) {
-                axios.get(`studentperformancetrackingbackend-production.up.railway.app/students/userId=${userInfo.id}`)
+                axios.get(`https://studentperformancetrackingbackend-production.up.railway.app/students/userId=${userInfo.id}`)
                     .then(response => {
                         {
                             setStudent(response.data);
@@ -55,7 +55,7 @@ export const LearnerGroup = () => {
     useEffect(() => {
         const fetchData = async () => {
 
-            axios.get(`studentperformancetrackingbackend-production.up.railway.app/groups/all`)
+            axios.get(`https://studentperformancetrackingbackend-production.up.railway.app/groups/all`)
                 .then(response => {
                     {
                         const fetchedSubjects = response.data || [];
@@ -79,7 +79,7 @@ export const LearnerGroup = () => {
 
                 for (let group of updatedGroups) {
                     try {
-                        const response = await axios.get(`studentperformancetrackingbackend-production.up.railway.app/groupsStudents/studentId=${student.id}/groupId=${group.id}`);
+                        const response = await axios.get(`https://studentperformancetrackingbackend-production.up.railway.app/groupsStudents/studentId=${student.id}/groupId=${group.id}`);
                         group.status = response.data;
                     } catch (error) {
                         console.error('Error fetching group status:', error);
@@ -98,7 +98,7 @@ export const LearnerGroup = () => {
         const updatedGroups = groups.map(group => {
             if (group.id === groupId && group.status === "") {
                 group.status = 'PENDING'; 
-                axios.post(`studentperformancetrackingbackend-production.up.railway.app/groupsStudents/updateStatus`, {
+                axios.post(`https://studentperformancetrackingbackend-production.up.railway.app/groupsStudents/updateStatus`, {
                     studentId: student.id,
                     groupId: group.id,
                     status: 'PENDING'

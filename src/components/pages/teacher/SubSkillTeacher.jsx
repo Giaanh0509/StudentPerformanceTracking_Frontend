@@ -60,7 +60,7 @@ export const SubSkillTeacher = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            axios.get(`studentperformancetrackingbackend-production.up.railway.app/subjects`)
+            axios.get(`https://studentperformancetrackingbackend-production.up.railway.app/subjects`)
                 .then(response => {
                     {
                         response.data._embedded.subjects.map(subject => {
@@ -81,7 +81,7 @@ export const SubSkillTeacher = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            axios.get(`studentperformancetrackingbackend-production.up.railway.app/subjects/${subjectId}/skills/${skillId}`)
+            axios.get(`https://studentperformancetrackingbackend-production.up.railway.app/subjects/${subjectId}/skills/${skillId}`)
                 .then(response => {
                     setSubSkillName(response.data.name);
                 })
@@ -97,7 +97,7 @@ export const SubSkillTeacher = () => {
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true);
-            axios.get(`studentperformancetrackingbackend-production.up.railway.app/subjects/${subjectId}/skills`)
+            axios.get(`https://studentperformancetrackingbackend-production.up.railway.app/subjects/${subjectId}/skills`)
                 .then(response => {
                     const skillsData = response.data._embedded?.skills || [];
                     const filteredSubSkills = skillsData.filter((sk) => sk.parentSkill && sk.parentSkill.id == skillId);

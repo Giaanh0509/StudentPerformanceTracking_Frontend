@@ -13,7 +13,7 @@ export const DeleteSkill = ({ onSuccessDelete }) => {
     }
 
     const deleteSkill = () => {
-        axios.get(`studentperformancetrackingbackend-production.up.railway.app/skills/delete/id=${selectedEditSkillId}`)
+        axios.get(`https://studentperformancetrackingbackend-production.up.railway.app/skills/delete/id=${selectedEditSkillId}`)
             .then(response => { 
                 setDeleteSkillPopup(false);
                 setRender(render+1);

@@ -85,7 +85,7 @@ export const SubjectDetail = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            axios.get(`studentperformancetrackingbackend-production.up.railway.app/subjects`)
+            axios.get(`https://studentperformancetrackingbackend-production.up.railway.app/subjects`)
                 .then(response => {
                     {
                         response.data._embedded.subjects.map(subject => {
@@ -117,7 +117,7 @@ export const SubjectDetail = () => {
             setCheck(false);
 
             try {
-                const response = await axios.get(`studentperformancetrackingbackend-production.up.railway.app/skills/subjectId=${subjectId}`);
+                const response = await axios.get(`https://studentperformancetrackingbackend-production.up.railway.app/skills/subjectId=${subjectId}`);
                 setSkills(response.data);
             } catch (error) {
                 console.log(error);

@@ -22,7 +22,7 @@ export const AddInformationStudent = () => {
 
     const handleSave = async () => {
         try {
-            await axios.put(`studentperformancetrackingbackend-production.up.railway.app/students/update/${student.id}`, student);
+            await axios.put(`https://studentperformancetrackingbackend-production.up.railway.app/students/update/${student.id}`, student);
             setPopup(false);
         } catch (error) {
             console.error("Error updating subject:", error);

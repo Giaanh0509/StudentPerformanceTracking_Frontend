@@ -125,7 +125,7 @@ export const TeacherDashboard = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            axios.get(`studentperformancetrackingbackend-production.up.railway.app/subjects/all`)
+            axios.get(`https://studentperformancetrackingbackend-production.up.railway.app/subjects/all`)
                 .then(response => {
                     {
                         const fetchedSubjects = response.data || [];
@@ -161,7 +161,7 @@ export const TeacherDashboard = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`studentperformancetrackingbackend-production.up.railway.app/trackings/all`);
+                const response = await axios.get(`https://studentperformancetrackingbackend-production.up.railway.app/trackings/all`);
                 const fetchedTrackings = response.data || [];
 
                 // Chuyển đổi dữ liệu tracking thành định dạng sự kiện của Calendar
@@ -183,7 +183,7 @@ export const TeacherDashboard = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            axios.get(`studentperformancetrackingbackend-production.up.railway.app/groups/userId=${userInfo.id}`)
+            axios.get(`https://studentperformancetrackingbackend-production.up.railway.app/groups/userId=${userInfo.id}`)
                 .then(response => {
                     {
                         const fetchedSubjects = response.data || [];
@@ -199,7 +199,7 @@ export const TeacherDashboard = () => {
     })
 
     useEffect(() => {
-        axios.get(`studentperformancetrackingbackend-production.up.railway.app/objectives/userId=${userInfo.id}`)
+        axios.get(`https://studentperformancetrackingbackend-production.up.railway.app/objectives/userId=${userInfo.id}`)
             .then(response => setObjectives(response.data || []))
             .catch(error => console.error("Error fetching objectives:", error));
     });

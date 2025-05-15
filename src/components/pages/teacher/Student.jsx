@@ -90,7 +90,7 @@ export const Student = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            axios.get(`studentperformancetrackingbackend-production.up.railway.app/groups`)
+            axios.get(`https://studentperformancetrackingbackend-production.up.railway.app/groups`)
                 .then(response => {
                     {
                         console.log(response);
@@ -117,7 +117,7 @@ export const Student = () => {
             if (userInfo.id != 0) {
                 setLoading(true);
 
-                axios.get(`studentperformancetrackingbackend-production.up.railway.app/groupsStudents/groupId=${id}`)
+                axios.get(`https://studentperformancetrackingbackend-production.up.railway.app/groupsStudents/groupId=${id}`)
                     .then(response => {
                         {
                             console.log(response.data);

@@ -12,7 +12,7 @@ export const EditSkill = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            axios.get(`studentperformancetrackingbackend-production.up.railway.app/skills/id=${selectedEditSkillId}`)
+            axios.get(`https://studentperformancetrackingbackend-production.up.railway.app/skills/id=${selectedEditSkillId}`)
                 .then(response => {
                     {
                         setSkill(response.data)
@@ -36,7 +36,7 @@ export const EditSkill = () => {
     };
 
     const handleSave = async () => {
-        axios.put(`studentperformancetrackingbackend-production.up.railway.app/skills/update/id=${selectedEditSkillId}`, skill)
+        axios.put(`https://studentperformancetrackingbackend-production.up.railway.app/skills/update/id=${selectedEditSkillId}`, skill)
             .then(response => {
                 {
                     setSkill(response.data)

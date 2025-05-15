@@ -69,7 +69,7 @@ export const Subject = () => {
             if (userInfo.id !== 0) {
                 setLoading(true);
 
-                axios.get(`studentperformancetrackingbackend-production.up.railway.app/subjects/userId=${userInfo.id}`)
+                axios.get(`https://studentperformancetrackingbackend-production.up.railway.app/subjects/userId=${userInfo.id}`)
                     .then(response => {
                         const fetchedSubjects = response.data || [];
                         setSubjects(response.data);

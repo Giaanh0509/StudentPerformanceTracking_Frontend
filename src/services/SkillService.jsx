@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const CREATE_SKILL_API_URL = "studentperformancetrackingbackend-production.up.railway.app/skills/new";
+const CREATE_SKILL_API_URL = "https://studentperformancetrackingbackend-production.up.railway.app/skills/new";
 
 class SkillService {
     saveSkill(skill) {
